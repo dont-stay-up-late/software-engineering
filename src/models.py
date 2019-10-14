@@ -47,6 +47,7 @@ class CharacterModel(Sprite, metaclass=abc.ABCMeta):
 
     def getCoordinate(self):
         coord = int(self.position[0] / 100), int(self.position[1] / 100)
+        return coord
         # 100 is used for spacefilling; the true value should be the length of a tile on the map
         # Returns a tuple for the coordinate of the character
 
@@ -481,7 +482,7 @@ class BombAttacker(Attacker):
     def attacked(self, loss):
         pass
 
-class Bullet(Sprite, CharacterModel):
+class Bullet(Sprite):
     '''
     Class for bullets.
     '''
