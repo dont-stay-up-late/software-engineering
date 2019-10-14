@@ -2,7 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 import abc # Use the Abstract Base Classes module to implement inheritances of abstract classes
 
-class Model(Sprite, metaclass=abc.ABCMeta):
+class CharacterModel(Sprite, metaclass=abc.ABCMeta):
     '''
     The parent class for all the attackers and defenders in the game. Basic attributes and abstract methods are defined in this class.
     '''
@@ -50,7 +50,7 @@ class Model(Sprite, metaclass=abc.ABCMeta):
         # 100 is used for spacefilling; the true value should be the length of a tile on the map
         # Returns a tuple for the coordinate of the character
 
-class Defender(Model):
+class Defender(CharacterModel):
     '''
     The parent class for all the defenders in the game. Attributes and methods unique to defenders are defined in this class. This class also maintains a list of references of defender objects.
     '''
@@ -67,7 +67,7 @@ class Defender(Model):
         pass
     
 
-class Attacker(Model):
+class Attacker(CharacterModel):
     '''
     The parent class for all the attackers in the game. Attributes and methods unique to attackers are defined in this class. This class also maintains a list of references of attacker objects.
     '''
@@ -83,8 +83,8 @@ class Attacker(Model):
 
     # All attackers may move
     def move(self):
-        self.position[0] += Model.MOVEMENT[self.direction][0] * self.speed
-        self.position[1] += Model.MOVEMENT[self.direction][1] * self.speed
+        self.position[0] += CharacterModel.MOVEMENT[self.direction][0] * self.speed
+        self.position[1] += CharacterModel.MOVEMENT[self.direction][1] * self.speed
 
 
 # The following are defenders.
@@ -479,4 +479,24 @@ class BombAttacker(Attacker):
         pass
 
     def attacked(self, loss):
+        pass
+
+class Bullet(Sprite, CharacterModel):
+    '''
+    Class for bullets.
+    '''
+    def __init__(self, character):
+        self.position = character.position
+        self.direction = character.direction
+        self.attack_power = character.attack_power
+        self.speed = 4 # Spacefiller; actual speed depend on tile size
+        self.init_image()
+
+    def init_image(self):
+        pass
+
+    def update(self):
+        pass
+
+    def hit(self):
         pass
