@@ -35,8 +35,9 @@ class GameController(object):
     Game controller class. Contains some global variables.
     '''
     def __init__(self, level, map):
-        # Volume System
+        # Volume and display System
         self.volume = 30
+        self.full_screen = False
         # Game mode (single w/o network connection, or multiplayer w/ network connection)
         self.game_mode = 'Single'
         self.player_side = 'Attack'
@@ -52,7 +53,7 @@ class GameController(object):
         self.cooldown_time = {'CivilianAttacker': 0, 'FattyAttacker': 0, 'KamikazeAttacker': 0, 'PharmacistAttacker': 0, 'AuraAttacker': 0, 'BombAttacker': 0,
                               'CivilianDefender': 0, 'FattyDefender': 0, 'KamikazeDefender': 0, 'PharmacistDefender': 0, 'AuraDefender': 0, 'BombDefender': 0}
 
-    def attackerSelected(self, attacker):
+    def attackerAdded(self, attacker):
         if self.attacker_money >= attacker.cost:
             self.attacker_money -= attacker.cost
             self.cooldown_time[attacker.type] = attacker.cool_down_time
@@ -62,7 +63,7 @@ class GameController(object):
             # To be implemented in the UI module
             pass
 
-    def defenderSelected(self, defender):
+    def defenderAdded(self, defender):
         if self.attacker_money >= defender.cost:
             self.defender_money -= defender.cost
             self.cooldown_time[defender.type] = defender.cool_down_time
@@ -79,8 +80,16 @@ class GameController(object):
     def addCharacter(self, character):
         if isinstance(character, models.Attacker):
             models.Attacker.attackers.append(character)
+            # ...
         elif isinstance(character, models.Defender):
             models.Defender.defenders.append(character)
+            # ...
+
+    def setVolume(self, vol):
+        '''
+        Set system volume; music and sound system to be implemented
+        '''
+        self.volume = vol
 
     def initCharaDex(self):
         '''
@@ -105,9 +114,3 @@ class GameController(object):
                           True, False, False, False, False, False]
             np.save('item_dex.npz', exist_list)
         self.item_dex_unlocked = dict(zip(GameController.ITEM_NAMES, exist_list))
-
-    def setVolume(self, vol):
-        '''
-        Set system volume; music and sound system to be implemented
-        '''
-        self.volume = vol
