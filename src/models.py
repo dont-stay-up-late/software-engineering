@@ -37,6 +37,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         self.position = position
         self.direction = direction
         self.active = True
+        self.last_created_time = time.time()
 
     def init_image(self):
         # TODO: to be implemented
@@ -117,6 +118,10 @@ class Defender(CharacterModel, ABC):
         Defender.defenders.append(self)
         # All defenders cannot move
         self.speed = 0
+    
+    def die(self):
+        Defender.defenders.remove(self)
+        super().die()
 
 
 class Attacker(CharacterModel, ABC):
@@ -135,6 +140,10 @@ class Attacker(CharacterModel, ABC):
     def move(self):
         self.position[0] += CharacterModel.MOVEMENT[self.direction][0] * self.speed
         self.position[1] += CharacterModel.MOVEMENT[self.direction][1] * self.speed
+    
+    def die(self):
+        Attacker.attackers.remove(self)
+        super().die()
 
 
 # The following are defenders.
@@ -428,7 +437,7 @@ class PharmacistAttacker(Attacker):
 
 class AuraAttacker(Attacker):
     """
-    Aura defender class who provides buffs.
+    Aura attacker class who provides buffs.
     """
     last_created_time = 0
     HP = 240
@@ -472,7 +481,7 @@ class AuraAttacker(Attacker):
 
 class BombAttacker(Attacker):
     """
-    Bomb defender class.
+    Bomb attacker class.
     """
     last_created_time = 0
     HP = 210
