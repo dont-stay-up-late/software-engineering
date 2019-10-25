@@ -36,6 +36,10 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         self.cool_down_time = 0
         self.position = position
         self.direction = direction
+<<<<<<< HEAD
+        self.active = True
+=======
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
 
     def init_image(self):
         # TODO: to be implemented
@@ -63,6 +67,10 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
             self.die()
 
     def die(self):
+<<<<<<< HEAD
+        self.active = False
+=======
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
         # TODO: to be implemented
         pass
 
@@ -73,7 +81,11 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         pass
 
     def get_coordinate(self):
+<<<<<<< HEAD
+        coord = int(self.position[0] / 50), int(self.position[1] / 50)
+=======
         coord = int(self.position[0] / 100), int(self.position[1] / 100)
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
         return coord
         # 100 is used for spacefilling; the true value should be the length of a tile on the map
         # Returns a tuple for the coordinate of the character
@@ -225,7 +237,11 @@ class PharmacistDefender(Defender):
     def update(self):
         if time.time() - self.last_special_time >= self.SPECIAL_INTERVAL:
             for defender in Defender.defenders:
+<<<<<<< HEAD
+                if CharacterModel.reachable(self, defender, self.reach_model) and defender.active:
+=======
                 if CharacterModel.reachable(self, defender, self.reach_model):
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
                     self.special(defender)
         super().update()
 
@@ -307,7 +323,11 @@ class BombDefender(Defender):
         if time.time() - self.created_time >= self.SPECIAL_INTERVAL:
             # Iterate through neighbors and apply special
             for attacker in Attacker.attackers:
+<<<<<<< HEAD
+                if CharacterModel.reachable(self, attacker, self.reach_model) and attacker.active:
+=======
                 if CharacterModel.reachable(self, attacker, self.reach_model):
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
                     self.special(attacker)
             self.die()
         super().update()
@@ -348,7 +368,11 @@ class CivilianAttacker(Attacker):
 
 class FattyAttacker(Attacker):
     """
+<<<<<<< HEAD
+    Fatty attacker class.
+=======
     Fatty defender class.
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
     """
     last_created_time = 0
     HP = 400
@@ -370,7 +394,11 @@ class FattyAttacker(Attacker):
 
 class KamikazeAttacker(Attacker):
     """
+<<<<<<< HEAD
+    Kamikaze attacker class.
+=======
     Kamikaze defender class.
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
     """
     last_created_time = 0
     HP = 40
@@ -392,7 +420,11 @@ class KamikazeAttacker(Attacker):
 
 class PharmacistAttacker(Attacker):
     """
+<<<<<<< HEAD
+    Pharmacist attacker class.
+=======
     Pharmacist defender class.
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
     """
     last_created_time = 0
     SPECIAL_INTERVAL = 60
@@ -426,7 +458,11 @@ class PharmacistAttacker(Attacker):
 
 class AuraAttacker(Attacker):
     """
+<<<<<<< HEAD
+    Aura attacker class who provides buffs.
+=======
     Aura defender class who provides buffs.
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
     """
     last_created_time = 0
     HP = 240
@@ -470,7 +506,11 @@ class AuraAttacker(Attacker):
 
 class BombAttacker(Attacker):
     """
+<<<<<<< HEAD
+    Bomb attacker class.
+=======
     Bomb defender class.
+>>>>>>> b7269823259783ebb7d02474680074aefb0edbef
     """
     last_created_time = 0
     HP = 210
