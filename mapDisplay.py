@@ -10,7 +10,6 @@ def mapDisplay(x1,y1,map,screen):
 	oneImageFile = r"image/4.jpg"
 	twoImageFile = r"image/1.jpg"
 	threeImageFile = r"image/2.jpg"
-	#backGroundFile = r"image/background.jpg"
 
 	#加载并转换图像
 	homeImage_init = pygame.image.load(homeImageFile).convert()
