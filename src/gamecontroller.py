@@ -31,9 +31,8 @@ class GameController(object):
         # Variables related to the game process
         self.level = level
         self.map = map
-        self.attacker_money = 400
-        self.defender_money = 400
-        self.money_restore_rate = 0.1
+        self.money = {'Attack': 400, 'Defend': 400}
+        self.money_restore_rate = {'Attack': 0.1, 'Defend': 0.1}
         self.fortress_HP = map.fortress_HP
         self.item_used_total_count = {'Attack': 0, 'Defend': 0}
         # Cooldown time for different kinds of characters; in turn, for civilian, fatty, kamikaze, pharmacist, aura and bomb characters
@@ -50,11 +49,10 @@ class GameController(object):
         for i in self.cooldown_time:
             if self.cooldown_time[i] > 0: self.cooldown_time[i] -= 1
         if self.game_mode == 'Single':
-            if self.player_side == 'Attack': self.attacker_money += self.money_restore_rate
-            else: self.defender_money += self.money_restore_rate
+            self.money[self.player_side] += self.money_restore_rate
         else:
-            self.attacker_money += self.money_restore_rate
-            self.defender_money += self.money_restore_rate
+            self.money['Attack'] += self.money_restore_rate['Attack']
+            self.money['Defend'] += self.money_restore_rate['Defend']
         if self.checkResult() is not None:
             # Game ends; show respective message
             # To be implemented in the UI module
@@ -121,6 +119,9 @@ class GameController(object):
                           True, False, False, False, False, False]
             np.save('item_dex.npz', exist_list)
         self.item_dex_unlocked = dict(zip(GameController.ITEM_NAMES, exist_list))
+
+    def characterSelectable(self, character):
+        return self.cooldown_time[character] <= 0 and self.mo
 
     def gameTime(self):
         return self.frames_passed / self.FPS
