@@ -38,7 +38,7 @@ class CanonEquipment(DefenderEquipment):
     def __init__(self, game_controller):
         chosen = choices(models.Attacker.attackers, k=2)
         for attacker in chosen:
-            chosen.attacked(110, None)
+            attacker.attacked(110, None)
 
 
 class IndifferentEquipment(AttackerEquipment):
@@ -53,9 +53,9 @@ class DopingEquipment(AttackerEquipment):
     doped = set()
     def __init__(self, game_controller):
         for attacker in models.Attacker.attackers:
-            if attacker not in doped:
+            if attacker not in self.doped:
                 attacker.speed = int(attacker.speed * 1.25)
-                doped.add(attacker)
+                self.doped.add(attacker)
 
 
 class SignalEquipment(AttackerEquipment):
