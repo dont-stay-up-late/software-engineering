@@ -56,4 +56,3 @@ def mapDisplay(x1,y1,map,screen):
 				screen.blit(threeImage,(x,y))
 	
 	
-	

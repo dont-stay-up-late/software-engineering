@@ -115,6 +115,3 @@ class GameController(object):
         if self._gameTime() <= self.level_time_limit and self.fortress_HP > 0: return None
         elif self.fortress_HP <= 0: return 'Attack'
         else: return 'Defend'
-
-
-

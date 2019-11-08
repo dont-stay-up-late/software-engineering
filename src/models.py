@@ -108,7 +108,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         if isinstance(self, Defender):
             # I'm a defender. I'll attack attackers.
             for attacker in Attacker.attackers:
-                if CharacterModel.reachable(self, attacker):
+                if CharacterModel.reachable(self, attacker, self.reach_model):
                     attacker.attacked(self.attack_power, self)
         else:
             # I'm an attacker. I'll attack defenders.
@@ -183,7 +183,7 @@ class Defender(CharacterModel, ABC):
         Defender.defenders.append(self)
         # All defenders cannot move
         self.speed = 0
-    
+
     def die(self):
         Defender.defenders.remove(self)
         super().die()
@@ -205,7 +205,7 @@ class Attacker(CharacterModel, ABC):
     def move(self):
         self.position[0] += CharacterModel.MOVEMENT[self.direction][0] * self.speed
         self.position[1] += CharacterModel.MOVEMENT[self.direction][1] * self.speed
-    
+
     def die(self):
         Attacker.attackers.remove(self)
         super().die()
