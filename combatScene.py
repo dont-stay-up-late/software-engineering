@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 
-from mapDisplay import mapDisplay
+from mapDisplay import *
 from levelLoad import levelLoad
 from map import *
 		
@@ -22,7 +22,9 @@ def combatScene(map,selectedRoleList,toolsList,screen):
 	mapButtom = 420
 	mapRight = 700
 	
-	mapAreaDraw(mapLeft,mapTop,map,screen)
+	setMapUI(map,mapLeft,mapTop,50)
+
+	mapAreaDraw(map,screen)
 	
 	roleInfoAreaDraw(0,mapTop,mapLeft,200)
 	
@@ -33,8 +35,8 @@ def combatScene(map,selectedRoleList,toolsList,screen):
 	toolAreaDraw(mapRight,mapTop,750,mapButtom,toolsList)
 	
 #绘制地图区，包括基本地图和各种角色
-def mapAreaDraw(x1,y1,map,screen):
-	mapDisplay(x1,y1,map,screen)
+def mapAreaDraw(map,screen):
+    mapDisplay( map , screen )
 	#attackersDisplay()
 	#defendersDiaplay()
 
