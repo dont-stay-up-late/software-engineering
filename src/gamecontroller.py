@@ -36,8 +36,9 @@ class GameController(object):
         self.fortress_HP = map.fortress_HP
         self.item_used_total_count = {'Attack': 0, 'Defend': 0}
         # Cooldown time for different kinds of characters; in turn, for civilian, fatty, kamikaze, pharmacist, aura and bomb characters
-        self.cooldown_time = {'CivilianAttacker': 0, 'FattyAttacker': 0, 'KamikazeAttacker': 0, 'PharmacistAttacker': 0, 'AuraAttacker': 0, 'BombAttacker': 0,
+        self.chara_cooldown_time = {'CivilianAttacker': 0, 'FattyAttacker': 0, 'KamikazeAttacker': 0, 'PharmacistAttacker': 0, 'AuraAttacker': 0, 'BombAttacker': 0,
                               'CivilianDefender': 0, 'FattyDefender': 0, 'KamikazeDefender': 0, 'PharmacistDefender': 0, 'AuraDefender': 0, 'BombDefender': 0}
+        self.item_cooldown_time = {}
         # Network related variables
         if self.game_mode == 'Network':
             # To be implemented
@@ -46,35 +47,17 @@ class GameController(object):
     def update(self):
         # Executed per frame
         self.frames_passed += 1
-        for i in self.cooldown_time:
-            if self.cooldown_time[i] > 0: self.cooldown_time[i] -= 1
+        for i in self.chara_cooldown_time:
+            if self.chara_cooldown_time[i] > 0: self.chara_cooldown_time[i] -= 1
+        for i in self.item_cooldown_time:
+            if self.chara_cooldown_time[i] > 0: self.chara_cooldown_time[i] -= 1
         if self.game_mode == 'Single':
             self.money[self.player_side] += self.money_restore_rate
         else:
             self.money['Attack'] += self.money_restore_rate['Attack']
             self.money['Defend'] += self.money_restore_rate['Defend']
-        if self.checkResult() is not None:
+        if self._checkResult() is not None:
             # Game ends; show respective message
-            # To be implemented in the UI module
-            pass
-
-    def attackerAdded(self, attacker):
-        if self.attacker_money >= attacker.cost:
-            self.attacker_money -= attacker.cost
-            self.cooldown_time[attacker.type] = attacker.cool_down_time
-            # Cool UI stuff - to be implemented in the UI module
-        else:
-            # Show a message that says not enough money
-            # To be implemented in the UI module
-            pass
-
-    def defenderAdded(self, defender):
-        if self.attacker_money >= defender.cost:
-            self.defender_money -= defender.cost
-            self.cooldown_time[defender.type] = defender.cool_down_time
-            # Cool UI stuff - to be implemented in the UI module
-        else:
-            # Show a message that says not enough money
             # To be implemented in the UI module
             pass
 
@@ -82,13 +65,14 @@ class GameController(object):
         self.level = level
         self.map = levelLoad(self.level)
 
-    def addCharacter(self, character):
+    def addCharacter(self, character_type, position, direction):
+        character = eval(character_type)(self, position, direction)
         if isinstance(character, models.Attacker):
             models.Attacker.attackers.append(character)
-            # ...
         elif isinstance(character, models.Defender):
             models.Defender.defenders.append(character)
-            # ...
+        self.money[self.player_side] -= character.cost
+        self.chara_cooldown_time[character.type] = character.cool_down_time
 
     def setVolume(self, vol):
         '''
@@ -120,14 +104,15 @@ class GameController(object):
             np.save('item_dex.npz', exist_list)
         self.item_dex_unlocked = dict(zip(GameController.ITEM_NAMES, exist_list))
 
-    def characterSelectable(self, character):
-        return self.cooldown_time[character] <= 0 and self.mo
+    def _characterSelectable(self, character, coord):
+        return self.chara_cooldown_time[character.type] <= 0 and self.money[self.player_side] >= character.cost \
+               and (self.player_side == 'Attack' and self.map[coord].canZombieOn or self.player_side == 'Defend' and (self.map[coord].canPlantOn and not self.map[coord].isPlantOn))
 
-    def gameTime(self):
+    def _gameTime(self):
         return self.frames_passed / self.FPS
 
-    def checkResult(self):
-        if self.gameTime() <= self.level_time_limit and self.fortress_HP > 0: return None
+    def _checkResult(self):
+        if self._gameTime() <= self.level_time_limit and self.fortress_HP > 0: return None
         elif self.fortress_HP <= 0: return 'Attack'
         else: return 'Defend'
 

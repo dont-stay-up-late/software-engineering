@@ -23,9 +23,10 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
     ATTACK_POWER = 0
     reach_model = None
 
-    def __init__(self, position, direction):
+    def __init__(self, controller, position, direction):
         pygame.sprite.Sprite.__init__(self)
-        self.init_image()
+        self.init_image(None, None, None, None)
+        self.controller = controller
         self.type = ''
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 0
@@ -37,15 +38,71 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         self.position = position
         self.direction = direction
         self.active = True
+        self.attacked_flag = False
+        self.attacking_flag = False
         self.last_created_time = time.time()
 
-    def init_image(self):
-        # TODO: to be implemented
-        pass
+    def init_image(self, filename, width, height, columns):
+        # https://www.cnblogs.com/msxh/p/5013555.html
+        self.master_image = pygame.image.load(filename).convert_alpha()
+        self.frame_width = width
+        self.frame_height = height
+        self.rect = 0, 0, width, height
+        self.columns = columns
+        self.rate = self.controller.FPS / 2
+        rect = self.master_image.get_rect()
+        self.first_frame = 0
+        self.last_frame = (rect.width // width) * (rect.height // height) - 1
+        self.old_frame = -1
+        self.frame = 0
+        self.last_time = self.controller.frames_passed
 
     def update(self):
-        # TODO: to be implemented
-        pass
+        # https://www.cnblogs.com/msxh/p/5013555.html
+        self.position += CharacterModel.MOVEMENT[self.direction] * self.speed
+        if self.attcking_flag:
+            pass
+        elif self.attacked_flag:
+            if self.direction == 0:
+                # self.init_image(self, ATTACKED_IMAGE_0, width, height, columns)
+                pass
+            elif self.direction == 1:
+                # self.init_image(self, ATTACKED_IMAGE_1, width, height, columns)
+                pass
+            elif self.direction == 2:
+                # self.init_image(self, ATTACKED_IMAGE_2, width, height, columns)
+                pass
+            else:
+                # self.init_image(self, ATTACKED_IMAGE_3, width, height, columns)
+                pass
+        else:
+            if self.direction == 0:
+                # self.init_image(self, WALK_IMAGE_0, width, height, columns)
+                pass
+            elif self.direction == 1:
+                # self.init_image(self, WALK_IMAGE_1, width, height, columns)
+                pass
+            elif self.direction == 2:
+                # self.init_image(self, WALK_IMAGE_2, width, height, columns)
+                pass
+            else:
+                # self.init_image(self, WALK_IMAGE_3, width, height, columns)
+                pass
+        self.attacked_flag = False
+        self.attacking_flag = False
+
+        # Animation Effect
+        if self.controller.frames_passed > self.last_time + self.rate:
+            self.frame += 1
+            if self.frame > self.last_frame:
+                self.frame = self.first_frame
+            self.last_time = self.controller.frames_passed
+        if self.frame != self.old_frame:
+            frame_x = (self.frame % self.columns) * self.frame_width
+            frame_y = (self.frame // self.columns) * self.frame_height
+            rect = (frame_x, frame_y, self.frame_width, self.frame_height)
+            self.image = self.master_image.subsurface(rect)
+            self.old_frame = self.frame
 
     def attack(self):
         if isinstance(self, Defender):
@@ -60,14 +117,23 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
                     defender.attacked(self.attack_power, self)
 
     def attacked(self, loss, attacker):
+        self.attacked_flag = True
         self.hp -= loss
         if self.hp <= 0:
             self.die()
 
     def die(self):
         self.active = False
-        # TODO: to be implemented
-        pass
+        # All targets in range are no longer attacked
+        if isinstance(self, Defender):
+            for attacker in Attacker.attackers:
+                if CharacterModel.reachable(self, attacker):
+                    attacker.attacked_flag = False
+        else:
+            for defender in Defender.defenders:
+                if CharacterModel.reachable(self, defender, self.reach_model):
+                    defender.attacked_flag = False
+        self.kill()
 
     def special(self, character):
         """
@@ -76,10 +142,9 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         pass
 
     def get_coordinate(self):
+        # Returns a tuple for the coordinate of the character
         coord = int(self.position[0] / 50), int(self.position[1] / 50)
         return coord
-        # 100 is used for spacefilling; the true value should be the length of a tile on the map
-        # Returns a tuple for the coordinate of the character
 
     @staticmethod
     def reachable(reaching_char, reached_char, reach_model):
@@ -113,8 +178,8 @@ class Defender(CharacterModel, ABC):
     defenders = []
     HP = 0
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         Defender.defenders.append(self)
         # All defenders cannot move
         self.speed = 0
@@ -132,8 +197,8 @@ class Attacker(CharacterModel, ABC):
     attackers = []
     HP = 0
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         Attacker.attackers.append(self)
 
     # All attackers may move
@@ -157,8 +222,8 @@ class CivilianDefender(Defender):
     ATTACK_POWER = 10
     reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 4), (1, 0), (1, 1)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'CivilianDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 2
@@ -178,8 +243,8 @@ class FattyDefender(Defender):
     ATTACK_POWER = 5
     reach_model = []
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'FattyDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 2
@@ -199,8 +264,8 @@ class KamikazeDefender(Defender):
     ATTACK_POWER = 20
     reach_model = [(0, 1), (0, 2)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'KamikazeDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1
@@ -221,8 +286,8 @@ class PharmacistDefender(Defender):
     ATTACK_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'PharmacistDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = None
@@ -258,8 +323,8 @@ class AuraDefender(Defender):
     ATTACK_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'AuraDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = None
@@ -302,8 +367,8 @@ class BombDefender(Defender):
     ATTACK_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'BombDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = None
@@ -344,8 +409,8 @@ class CivilianAttacker(Attacker):
     ATTACK_POWER = 40
     reach_model = []
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'CivilianAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1
@@ -366,8 +431,8 @@ class FattyAttacker(Attacker):
     ATTACK_POWER = 25
     reach_model = []
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'FattyAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 4
@@ -388,8 +453,8 @@ class KamikazeAttacker(Attacker):
     ATTACK_POWER = 50
     reach_model = [(0, 1)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'KamikazeAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 0.5
@@ -411,8 +476,8 @@ class PharmacistAttacker(Attacker):
     ATTACK_POWER = 10
     reach_model = [(0, 1)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'PharmacistAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1
@@ -444,8 +509,8 @@ class AuraAttacker(Attacker):
     ATTACK_POWER = 30
     reach_model = [(-1, 0), (0, -1), (0, 1), (1, 0)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'AuraAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1.5
@@ -490,8 +555,8 @@ class BombAttacker(Attacker):
     reach_model = [(1, 0)]
     special_reach_model = [(-1, 0), (0, -1), (0, 1), (1, 0)]
 
-    def __init__(self, position, direction):
-        super().__init__(position, direction)
+    def __init__(self, controller, position, direction):
+        super().__init__(controller, position, direction)
         self.type = 'BombAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1
