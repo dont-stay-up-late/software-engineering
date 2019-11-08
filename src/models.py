@@ -51,7 +51,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         if isinstance(self, Defender):
             # I'm a defender. I'll attack attackers.
             for attacker in Attacker.attackers:
-                if CharacterModel.reachable(self, attacker, self.reach_model):
+                if CharacterModel.reachable(self, attacker):
                     attacker.attacked(self.attack_power, self)
         else:
             # I'm an attacker. I'll attack defenders.
