@@ -5,53 +5,58 @@ from levelLoad import levelLoad
 
 class GameController(object):
 
-    '''
-    Game state codes. Written according to the use case diagram.
-    May be modified or deleted in future versions.
-    '''
-    START_GAME_STATE = 1
-    DEX_STATE = 2
-    GAME_HELP_STATE = 3
-    GAME_SETTINGS_STATE = 4
-    EXIT_STATE = 5
-    GAME_MODE_SELECT_STATE = 6
-    SINGLE_MODE_PREPARE_STATE = 7
-    MULTI_MODE_PREPARE_STATE = 8
-    GAME_END_STATE = 10
-    DEFENDER_SET_STATE = 11
-    ATTACKER_SET_STATE = 12
-    TRAIL_CHANGE_STATE = 13
-    CHARA_SPECIAL_STATE = 14
-    ITEM_USE_STATE = 15
-    ATTACK_HIT_STATE = 16
-    '''
-    Constant names
-    '''
+    # Constant names
     CHARA_NAMES = ['CivilianAttacker', 'FattyAttacker', 'KamikazeAttacker', 'PharmacistAttacker', 'AuraAttacker', 'BombAttacker',
                    'CivilianDefender', 'FattyDefender', 'KamikazeDefender', 'PharmacistDefender', 'AuraDefender', 'BombDefender']
     ITEM_NAMES = []
 
-    '''
-    Game controller class. Contains some global variables.
-    '''
-    def __init__(self, level, map):
+    # Game controller class. Contains some global variables.
+    def __init__(self, level, map, mode = 'Single', player = 'Attack'):
         # Volume and display System
         self.volume = 30
         self.full_screen = False
+        self.paused = False
+        # Game time
+        self.level_time_limit = map.time_limit
+        self.FPS = 30
+        self.frames_passed = 0
         # Game mode (single w/o network connection, or multiplayer w/ network connection)
-        self.game_mode = 'Single'
-        self.player_side = 'Attack'
+        self.game_mode = mode
+        self.player_side = player
+        # Levels unlocked
+        # ...
         # Dex
-        self.chara_dex_unlocked = {}
-        self.item_dex_unlocked = {}
+        self.initCharaDex()
+        self.initItemDex()
         # Variables related to the game process
         self.level = level
         self.map = map
-        self.attacker_money = 400
-        self.defender_money = 400
+        self.money = {'Attack': 400, 'Defend': 400}
+        self.money_restore_rate = {'Attack': 0.1, 'Defend': 0.1}
+        self.fortress_HP = map.fortress_HP
+        self.item_used_total_count = {'Attack': 0, 'Defend': 0}
         # Cooldown time for different kinds of characters; in turn, for civilian, fatty, kamikaze, pharmacist, aura and bomb characters
         self.cooldown_time = {'CivilianAttacker': 0, 'FattyAttacker': 0, 'KamikazeAttacker': 0, 'PharmacistAttacker': 0, 'AuraAttacker': 0, 'BombAttacker': 0,
                               'CivilianDefender': 0, 'FattyDefender': 0, 'KamikazeDefender': 0, 'PharmacistDefender': 0, 'AuraDefender': 0, 'BombDefender': 0}
+        # Network related variables
+        if self.game_mode == 'Network':
+            # To be implemented
+            pass
+
+    def update(self):
+        # Executed per frame
+        self.frames_passed += 1
+        for i in self.cooldown_time:
+            if self.cooldown_time[i] > 0: self.cooldown_time[i] -= 1
+        if self.game_mode == 'Single':
+            self.money[self.player_side] += self.money_restore_rate
+        else:
+            self.money['Attack'] += self.money_restore_rate['Attack']
+            self.money['Defend'] += self.money_restore_rate['Defend']
+        if self.checkResult() is not None:
+            # Game ends; show respective message
+            # To be implemented in the UI module
+            pass
 
     def attackerAdded(self, attacker):
         if self.attacker_money >= attacker.cost:
@@ -114,3 +119,14 @@ class GameController(object):
                           True, False, False, False, False, False]
             np.save('item_dex.npz', exist_list)
         self.item_dex_unlocked = dict(zip(GameController.ITEM_NAMES, exist_list))
+
+    def characterSelectable(self, character):
+        return self.cooldown_time[character] <= 0 and self.mo
+
+    def gameTime(self):
+        return self.frames_passed / self.FPS
+
+    def checkResult(self):
+        if self.gameTime() <= self.level_time_limit and self.fortress_HP > 0: return None
+        elif self.fortress_HP <= 0: return 'Attack'
+        else: return 'Defend'
