@@ -2,29 +2,35 @@ import pygame
 import sys
 from pygame.locals import *
 from selectMap import *
+from pathlib import Path
+
 # 模式选择
 def modeSelect(screen, clock):
     bg = (255, 255, 255)
 
     # 图片及位置
-    bg = pygame.image.load("res/menu_bg.png").convert()
-    title = pygame.image.load("res/title.png").convert_alpha()
+    path = Path.cwd()
+    if path.parts[len(path.parts) - 1] == 'src':
+        path = path.parent
+    path = path.joinpath('res').joinpath('UIimage')
+    bg = pygame.image.load(str(path.joinpath("menu_bg.png"))).convert()
+    title = pygame.image.load(str(path.joinpath("title.png"))).convert_alpha()
     titlePos = (150, 40)
-    modePic = pygame.image.load("res/modeselect.png").convert_alpha()
+    modePic = pygame.image.load(str(path.joinpath("modeselect.png"))).convert_alpha()
     modePos = (275, 180)
-    singleAttackButton = pygame.image.load("res/single_attack.png").convert_alpha()
+    singleAttackButton = pygame.image.load(str(path.joinpath("single_attack.png"))).convert_alpha()
     single_attackPos0 = (155, 265)
     single_attackPos1 = (155, 260)
-    singleDefendButton = pygame.image.load("res/single_defend.png").convert_alpha()
+    singleDefendButton = pygame.image.load(str(path.joinpath("single_defend.png"))).convert_alpha()
     single_defendPos0 = (395, 265)
     single_defendPos1 = (395, 260)
-    onlineAttackButton = pygame.image.load("res/online_attack.png").convert_alpha()
+    onlineAttackButton = pygame.image.load(str(path.joinpath("online_attack.png"))).convert_alpha()
     online_attackPos0 = (155, 350)
     online_attackPos1 = (155, 345)
-    onlineDefendButton = pygame.image.load("res/online_defend.png").convert_alpha()
+    onlineDefendButton = pygame.image.load(str(path.joinpath("online_defend.png"))).convert_alpha()
     online_defendPos0 = (395, 350)
     online_defendPos1 = (395, 345)
-    backMenuButton = pygame.image.load("res/backmenu.png").convert_alpha()
+    backMenuButton = pygame.image.load(str(path.joinpath("backmenu.png"))).convert_alpha()
     backmenuPos0 = (275, 435)
     backmenuPos1 = (275, 430)
     single_attackPos = single_attackPos0

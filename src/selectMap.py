@@ -1,36 +1,41 @@
 import pygame
 import sys
 from pygame.locals import *
+from pathlib import Path
 
 # 选择地图
 # modeID为游戏模式编号
 def selectMap(screen, clock, modeID):
     bg = (255, 255, 255)
     # 地图编号
+    path = Path.cwd()
+    if path.parts[len(path.parts) - 1] == 'src':
+        path = path.parent
+    path = path.joinpath('res').joinpath('UIimage')
     flag_mapinfo = 0
-    modeintroadd = "res/modeintro" + str(modeID) + ".png"
+    modeintroadd = str(path.joinpath("modeintro" + str(modeID) + ".png"))
 
     # 图片及位置
-    bg = pygame.image.load("res/Map_Select.png").convert()
-    backButton = pygame.image.load("res/back.png").convert_alpha()
+    bg = pygame.image.load(str(path.joinpath("Map_Select.png"))).convert()
+    backButton = pygame.image.load(str(path.joinpath("back.png"))).convert_alpha()
     backPos = (0, 0)
-    homeButton = pygame.image.load("res/home.png").convert_alpha()
+    homeButton = pygame.image.load(str(path.joinpath("home.png"))).convert_alpha()
     homePos = (100, 0)
-    mapTitle = pygame.image.load("res/mapselecttitle.png").convert_alpha()
+    mapTitle = pygame.image.load(str(path.joinpath("mapselecttitle.png"))).convert_alpha()
     mapTitlePos = (275, 0)
     modeIntro = pygame.image.load(modeintroadd).convert_alpha()
     modeintroPos = (550, 0)
-    mapnum1Button = pygame.image.load("res/Mapnum1_0.png").convert_alpha()
+    mapnum1Button = pygame.image.load(str(path.joinpath("Mapnum1_0.png"))).convert_alpha()
     mapnum1Pos = (275, 275)
-    mapnum2Button = pygame.image.load("res/Mapnum2_0.png").convert_alpha()
+    mapnum2Button = pygame.image.load(str(path.joinpath("Mapnum2_0.png"))).convert_alpha()
     mapnum2Pos = (335, 275)
-    mapnum3Button = pygame.image.load("res/Mapnum3_0.png").convert_alpha()
+    mapnum3Button = pygame.image.load(str(path.joinpath("Mapnum3_0.png"))).convert_alpha()
     mapnum3Pos = (395, 275)
-    mapnum4Button = pygame.image.load("res/Mapnum4_0.png").convert_alpha()
+    mapnum4Button = pygame.image.load(str(path.joinpath("Mapnum4_0.png"))).convert_alpha()
     mapnum4Pos = (455, 275)
-    mapnum5Button = pygame.image.load("res/Mapnum5_0.png").convert_alpha()
+    mapnum5Button = pygame.image.load(str(path.joinpath("Mapnum5_0.png"))).convert_alpha()
     mapnum5Pos = (515, 275)
-    sureButton = pygame.image.load("res/sure.png").convert_alpha()
+    sureButton = pygame.image.load(str(path.joinpath("sure.png"))).convert_alpha()
     surePos = (550, 433)
     while True:
 
@@ -42,16 +47,16 @@ def selectMap(screen, clock, modeID):
             if event.type == MOUSEBUTTONDOWN:
                 if x > mapnum1Pos[0] and x < mapnum1Pos[0] + mapnum1Button.get_width() \
                         and y > mapnum1Pos[1] and y < mapnum1Pos[1] + mapnum1Button.get_height():
-                    mapnum1Button = pygame.image.load("res/Mapnum1_1.png").convert_alpha()
-                    mapnum2Button = pygame.image.load("res/Mapnum2_0.png").convert_alpha()
-                    mapnum3Button = pygame.image.load("res/Mapnum3_0.png").convert_alpha()
-                    mapnum4Button = pygame.image.load("res/Mapnum4_0.png").convert_alpha()
-                    mapnum5Button = pygame.image.load("res/Mapnum5_0.png").convert_alpha()
+                    mapnum1Button = pygame.image.load(str(path.joinpath("Mapnum1_1.png"))).convert_alpha()
+                    mapnum2Button = pygame.image.load(str(path.joinpath("Mapnum2_0.png"))).convert_alpha()
+                    mapnum3Button = pygame.image.load(str(path.joinpath("Mapnum3_0.png"))).convert_alpha()
+                    mapnum4Button = pygame.image.load(str(path.joinpath("Mapnum4_0.png"))).convert_alpha()
+                    mapnum5Button = pygame.image.load(str(path.joinpath("Mapnum5_0.png"))).convert_alpha()
                     # 地图信息
                     if modeID == 2:
-                        mapinfoID = "res/Map" + str(modeID) + "_1info.png"
+                        mapinfoID = str(path.joinpath("Map" + str(modeID) + "_1info.png"))
                     else:
-                        mapinfoID = "res/Mapunfinished.png"
+                        mapinfoID = str(path.joinpath("Mapunfinished.png"))
                     mapinfo = pygame.image.load(mapinfoID).convert_alpha()
                     mapinfoPos = (0,50)
                     flag_mapinfo = 1
@@ -59,12 +64,12 @@ def selectMap(screen, clock, modeID):
 
                 if x > mapnum2Pos[0] and x < mapnum2Pos[0] + mapnum2Button.get_width() \
                         and y > mapnum2Pos[1] and y < mapnum2Pos[1] + mapnum2Button.get_height():
-                    mapnum1Button = pygame.image.load("res/Mapnum1_0.png").convert_alpha()
-                    mapnum2Button = pygame.image.load("res/Mapnum2_1.png").convert_alpha()
-                    mapnum3Button = pygame.image.load("res/Mapnum3_0.png").convert_alpha()
-                    mapnum4Button = pygame.image.load("res/Mapnum4_0.png").convert_alpha()
-                    mapnum5Button = pygame.image.load("res/Mapnum5_0.png").convert_alpha()
-                    mapinfoID = "res/Mapunfinished.png"
+                    mapnum1Button = pygame.image.load(str(path.joinpath("Mapnum1_0.png"))).convert_alpha()
+                    mapnum2Button = pygame.image.load(str(path.joinpath("Mapnum2_1.png"))).convert_alpha()
+                    mapnum3Button = pygame.image.load(str(path.joinpath("Mapnum3_0.png"))).convert_alpha()
+                    mapnum4Button = pygame.image.load(str(path.joinpath("Mapnum4_0.png"))).convert_alpha()
+                    mapnum5Button = pygame.image.load(str(path.joinpath("Mapnum5_0.png"))).convert_alpha()
+                    mapinfoID = str(path.joinpath("Mapunfinished.png"))
                     mapinfo = pygame.image.load(mapinfoID).convert_alpha()
                     mapinfoPos = (0,50)
                     flag_mapinfo = 2
@@ -72,12 +77,12 @@ def selectMap(screen, clock, modeID):
 
                 if x > mapnum3Pos[0] and x < mapnum3Pos[0] + mapnum3Button.get_width() \
                         and y > mapnum3Pos[1] and y < mapnum3Pos[1] + mapnum3Button.get_height():
-                    mapnum1Button = pygame.image.load("res/Mapnum1_0.png").convert_alpha()
-                    mapnum2Button = pygame.image.load("res/Mapnum2_0.png").convert_alpha()
-                    mapnum3Button = pygame.image.load("res/Mapnum3_1.png").convert_alpha()
-                    mapnum4Button = pygame.image.load("res/Mapnum4_0.png").convert_alpha()
-                    mapnum5Button = pygame.image.load("res/Mapnum5_0.png").convert_alpha()
-                    mapinfoID = "res/Mapunfinished.png"
+                    mapnum1Button = pygame.image.load(str(path.joinpath("Mapnum1_0.png"))).convert_alpha()
+                    mapnum2Button = pygame.image.load(str(path.joinpath("Mapnum2_0.png"))).convert_alpha()
+                    mapnum3Button = pygame.image.load(str(path.joinpath("Mapnum3_1.png"))).convert_alpha()
+                    mapnum4Button = pygame.image.load(str(path.joinpath("Mapnum4_0.png"))).convert_alpha()
+                    mapnum5Button = pygame.image.load(str(path.joinpath("Mapnum5_0.png"))).convert_alpha()
+                    mapinfoID = str(path.joinpath("Mapunfinished.png"))
                     mapinfo = pygame.image.load(mapinfoID).convert_alpha()
                     mapinfoPos = (0,50)
                     flag_mapinfo = 3
@@ -85,12 +90,12 @@ def selectMap(screen, clock, modeID):
 
                 if x > mapnum4Pos[0] and x < mapnum4Pos[0] + mapnum4Button.get_width() \
                         and y > mapnum4Pos[1] and y < mapnum4Pos[1] + mapnum4Button.get_height():
-                    mapnum1Button = pygame.image.load("res/Mapnum1_0.png").convert_alpha()
-                    mapnum2Button = pygame.image.load("res/Mapnum2_0.png").convert_alpha()
-                    mapnum3Button = pygame.image.load("res/Mapnum3_0.png").convert_alpha()
-                    mapnum4Button = pygame.image.load("res/Mapnum4_1.png").convert_alpha()
-                    mapnum5Button = pygame.image.load("res/Mapnum5_0.png").convert_alpha()
-                    mapinfoID = "res/Mapunfinished.png"
+                    mapnum1Button = pygame.image.load(str(path.joinpath("Mapnum1_0.png"))).convert_alpha()
+                    mapnum2Button = pygame.image.load(str(path.joinpath("Mapnum2_0.png"))).convert_alpha()
+                    mapnum3Button = pygame.image.load(str(path.joinpath("Mapnum3_0.png"))).convert_alpha()
+                    mapnum4Button = pygame.image.load(str(path.joinpath("Mapnum4_1.png"))).convert_alpha()
+                    mapnum5Button = pygame.image.load(str(path.joinpath("Mapnum5_0.png"))).convert_alpha()
+                    mapinfoID = str(path.joinpath("Mapunfinished.png"))
                     mapinfo = pygame.image.load(mapinfoID).convert_alpha()
                     mapinfoPos = (0,50)
                     flag_mapinfo = 4
@@ -98,12 +103,12 @@ def selectMap(screen, clock, modeID):
 
                 if x > mapnum5Pos[0] and x < mapnum5Pos[0] + mapnum5Button.get_width() \
                         and y > mapnum5Pos[1] and y < mapnum5Pos[1] + mapnum5Button.get_height():
-                    mapnum1Button = pygame.image.load("res/Mapnum1_0.png").convert_alpha()
-                    mapnum2Button = pygame.image.load("res/Mapnum2_0.png").convert_alpha()
-                    mapnum3Button = pygame.image.load("res/Mapnum3_0.png").convert_alpha()
-                    mapnum4Button = pygame.image.load("res/Mapnum4_0.png").convert_alpha()
-                    mapnum5Button = pygame.image.load("res/Mapnum5_1.png").convert_alpha()
-                    mapinfoID = "res/Mapunfinished.png"
+                    mapnum1Button = pygame.image.load(str(path.joinpath("Mapnum1_0.png"))).convert_alpha()
+                    mapnum2Button = pygame.image.load(str(path.joinpath("Mapnum2_0.png"))).convert_alpha()
+                    mapnum3Button = pygame.image.load(str(path.joinpath("Mapnum3_0.png"))).convert_alpha()
+                    mapnum4Button = pygame.image.load(str(path.joinpath("Mapnum4_0.png"))).convert_alpha()
+                    mapnum5Button = pygame.image.load(str(path.joinpath("Mapnum5_1.png"))).convert_alpha()
+                    mapinfoID = str(path.joinpath("Mapunfinished.png"))
                     mapinfo = pygame.image.load(mapinfoID).convert_alpha()
                     mapinfoPos = (0,50)
                     flag_mapinfo = 5
