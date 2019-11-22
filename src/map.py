@@ -35,6 +35,8 @@ class Map:
     def __init__(self, m, n):  # 构造一个m*n(m行n列)的空地图
         self.rowNumber = n      # 列数
         self.columnNumber = m   # 行数
+        self.fortress_HP = 10   #初始生命，先设成10
+        self.time_limit = 200   #时间限制，以秒为单位
 
         self.maps = []  # 二维列表，里面放格子
         self.homes = []  # 元组列表，里面放所有的家
@@ -75,18 +77,18 @@ class Map:
         # 若该格子能变化方向：就加三个变量：blockDirections记录元组,directionNum记录方向数，directionOrder记录现在是哪个方向
 
     def positionToBlock(self, position):  # 将position这个位置元组（像素为单位）变成格子元组(方便点击时等情况调用)
-        x = int((position[0]-self.xBegin)/self.blockSize)
-        y = int((position[1]-self.yBegin)/self.blockSize)
+        x = int((position[1]-self.xBegin)/self.blockSize)
+        y = int((position[0]-self.yBegin)/self.blockSize)
         if x < 0 or y < 0 or y >= self.columnNumber or x >= self.rowNumber:
             # 如果位置出界，则返回(-1,-1)
-            return (-1, -1)
+            return [-1, -1]
         else:
-            return(x, y)
+            return[x,y]
 
     def blockToPosition(self, blockPosition):  # 将blockPosition中心的像素位置输出
-        x=int((blockPosition[0]+0.5)*self.blockSize+self.xBegin)
-        y=int((blockPosition[1]+0.5)*self.blockSize/2+self.yBegin)
-        return (x,y)
+        x=int((blockPosition[1]+0.5)*self.blockSize+self.xBegin)
+        y=int((blockPosition[0]+0.5)*self.blockSize+self.yBegin)
+        return [x,y]
 
 #攻击者每次刷新都调用这个函数，重新确定移动方向
 def update_direction(attacker,map):
@@ -105,3 +107,4 @@ def update_direction(attacker,map):
 		if map.maps[i][j].blockDirection!=-1:
 			attacker.direction=map.maps[i][j].blockDirection
 	#更新攻击者方向
+
