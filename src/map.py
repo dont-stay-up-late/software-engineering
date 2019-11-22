@@ -98,9 +98,14 @@ def update_direction(attacker,map):
 	j=int(x)
 
 	if i<0 or j<0 or i>=map.columnNumber or j>=map.rowNumber:
-		#如果某个进攻者跑出了地图，需要一些机制来报错
-		pass
-	
+		#如果某个进攻者跑出了地图，需要一些机制来报错，现在让它直接消失好了
+		attacker.die()
+		return
+	if map.maps[i][j].isHome==True:
+		attacker.die()
+		map.fortress_HP-=1
+		#这里再加一些进家时的代码
+		return
 	map.maps[i][j].isZombieOn=True
 	d=attacker.direction
 	if (d==0 and y-i<=0.5) or (d==1 and x-j<=0.5) or (d==2 and y-i>=0.5) or (d==3 and x-j>=0.5): 

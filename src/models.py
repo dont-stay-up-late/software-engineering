@@ -60,7 +60,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
     def update(self):
         # https://www.cnblogs.com/msxh/p/5013555.html
         self.position += CharacterModel.MOVEMENT[self.direction] * self.speed
-        if self.attcking_flag:
+        if self.attacking_flag:
             pass
         elif self.attacked_flag:
             if self.direction == 0:
