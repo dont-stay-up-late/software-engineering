@@ -25,7 +25,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
 
     def __init__(self, controller, position, direction):
         pygame.sprite.Sprite.__init__(self)
-        self.init_image(None, None, None, None)
+        self.init_image(self.filename, 50, 50, 1)
         self.controller = controller
         self.type = ''
         self.attack_power = self.ATTACK_POWER
@@ -196,6 +196,7 @@ class Attacker(CharacterModel, ABC):
     """
     attackers = []
     HP = 0
+    speed_rate = 10
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -203,8 +204,8 @@ class Attacker(CharacterModel, ABC):
 
     # All attackers may move
     def move(self):
-        self.position[0] += CharacterModel.MOVEMENT[self.direction][0] * self.speed
-        self.position[1] += CharacterModel.MOVEMENT[self.direction][1] * self.speed
+        self.position[0] += CharacterModel.MOVEMENT[self.direction][0] * self.speed * self.speed_rate
+        self.position[1] += CharacterModel.MOVEMENT[self.direction][1] * self.speed * self.speed_rate
 
     def die(self):
         Attacker.attackers.remove(self)
@@ -221,8 +222,10 @@ class CivilianDefender(Defender):
     HP = 100
     ATTACK_POWER = 10
     reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 4), (1, 0), (1, 1)]
+    filename = 'res/mapnum/Mapnum1_0.png'
 
     def __init__(self, controller, position, direction):
+        self.controller = controller
         super().__init__(controller, position, direction)
         self.type = 'CivilianDefender'
         self.attack_power = self.ATTACK_POWER
@@ -231,7 +234,7 @@ class CivilianDefender(Defender):
         self.hp = self.HP
         self.cost = 10
         self.cool_down_time = 15
-        self.init_image()
+        self.init_image(self.filename, 50, 50, 1)
 
 
 class FattyDefender(Defender):
@@ -408,8 +411,10 @@ class CivilianAttacker(Attacker):
     HP = 120
     ATTACK_POWER = 40
     reach_model = []
+    filename = 'res/mapnum/Mapnum1_0.png'
 
     def __init__(self, controller, position, direction):
+        self.controller = controller
         super().__init__(controller, position, direction)
         self.type = 'CivilianAttacker'
         self.attack_power = self.ATTACK_POWER
@@ -419,7 +424,7 @@ class CivilianAttacker(Attacker):
         self.speed = 0.2
         self.cost = 10
         self.cool_down_time = 10
-        self.init_image()
+        self.init_image(self.filename, 50, 50, 1)
 
 
 class FattyAttacker(Attacker):

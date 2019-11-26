@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from src import models
+import models
 from levelLoad import levelLoad
 
 class GameController(object):
