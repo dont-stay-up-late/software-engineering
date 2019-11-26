@@ -22,7 +22,7 @@ controller = GameController(level,map_test)
 attackers = []
 deffenders = []
 for i in range(3):
-	attackers.append(CivilianAttacker(controller,[(9+0.5)*map_test.blockSize+map_test.xBegin,(1+0.5)*map_test.blockSize+map_test.yBegin],0))
+	attackers.append(AuraAttacker(controller,[(9+0.5)*map_test.blockSize+map_test.xBegin,(1+0.5)*map_test.blockSize+map_test.yBegin],0))
 	deffenders.append(CivilianDefender(controller,[(i+1+0.5)*map_test.blockSize+map_test.xBegin,(1+0.5)*map_test.blockSize+map_test.yBegin],0))
 attackerFile = r"image/CvilianAttacker.jpg"
 deffenderFile = r"image/CivilianDeffender.jpg"
@@ -45,26 +45,27 @@ while True:
 		if event.type == COUNT:
 			counts = counts + 1
 			#防守方攻击，攻击方死亡判定
-			for i in range(len(deffenders)):
-				deffenders[i].attack()
-			for i in range(len(attackers)):
-				if attackers[i].HP < 0:
-					attackers[i].die()
-					attackers.remove(attackers[i])
+			if counts % 10 == 0:
+				for i in range(len(deffenders)):
+					deffenders[i].attack()
+			for attacker in attackers:
+				if attacker.hp <= 0:
+					attackers.remove(attacker)
 			#攻击方移动，攻击，防守方死亡判定
-			for i in range(len(attackers)):
+			for i, attacker in enumerate(attackers):
 				if i == 1 and counts < 200:
 					break
 				if i == 2 and counts < 400:
 					break
 				#print("attackers[%d].position:%f,%f"%(1,attackers[1].position[0],attackers[1].position[1]))
-				attackers[i].move()
-				update_direction(attackers[i],map_test)
-				attackers[i].attack()
-			for i in range(len(deffenders)):
-				if deffenders[i].HP < 0:
-					deffenders[i].die()
-					deffenders.remove(deffenders[i])
+				attacker.move()
+				if update_direction(attacker,map_test):
+					attackers.remove(attacker)
+				if counts % 10 == 0:
+					attacker.attack()
+			for deffender in deffenders:
+				if deffender.hp <= 0:
+					deffenders.remove(deffender)
 
 			#绘制变化后的场景
 			#screen.fill((255,255,0))
@@ -80,6 +81,6 @@ while True:
 					y = attackers[i].position[1] - 0.5*map_test.blockSize
 					screen.blit(attackerImage,(x,y))
 					#print("The image location is : %f,%f"%(x,y))
-					print("The attacks[%d]'s HP is : %d"%(i,attackers[i].HP))
+					print("The attacks[%d]'s HP is : %d"%(i,attackers[i].hp))
 	#print("attackers[%d].position:%f,%f" % (1, attackers[1].position[0], attackers[1].position[1]))
 	pygame.display.update()

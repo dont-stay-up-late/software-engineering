@@ -105,6 +105,8 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
             self.old_frame = self.frame
 
     def attack(self):
+        if self.controller.frames_passed % 10 != 0:
+            return
         if isinstance(self, Defender):
             # I'm a defender. I'll attack attackers.
             for attacker in Attacker.attackers:
@@ -127,7 +129,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         # All targets in range are no longer attacked
         if isinstance(self, Defender):
             for attacker in Attacker.attackers:
-                if CharacterModel.reachable(self, attacker):
+                if CharacterModel.reachable(self, attacker, self.reach_model):
                     attacker.attacked_flag = False
         else:
             for defender in Defender.defenders:
@@ -152,22 +154,24 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         for delta_x, delta_y in reach_model:
             if reaching_char.direction == 0:
                 # Up
-                x = reaching_char.position[0] + delta_y
-                y = reaching_char.position[1] - delta_x
+                x = (reaching_char.position[0] - 100) // 50 + delta_y
+                y = (reaching_char.position[1] - 70) // 50 - delta_x
             elif reaching_char.direction == 1:
                 # Left
-                x = reaching_char.position[0] - delta_x
-                y = reaching_char.position[1] - delta_y
+                x = (reaching_char.position[0] - 100) // 50 - delta_x
+                y = (reaching_char.position[1] - 70) // 50 - delta_y
             elif reaching_char.direction == 2:
                 # Down
-                x = reaching_char.position[0] - delta_y
-                y = reaching_char.position[1] + delta_x
+                x = (reaching_char.position[0] - 100) // 50 - delta_y
+                y = (reaching_char.position[1] - 70) // 50 + delta_x
             else:
                 # Right
-                x = reaching_char.position[0] + delta_x
-                y = reaching_char.position[1] + delta_y
+                x = (reaching_char.position[0] - 100) // 50 + delta_x
+                y = (reaching_char.position[1] - 70) // 50 + delta_y
             reach.append((x, y))
-        return reached_char in reach
+        x = (reached_char.position[0] - 100) // 50
+        y = (reached_char.position[1] - 70) // 50
+        return (x, y) in reach
 
 
 class Defender(CharacterModel, ABC):
@@ -513,8 +517,10 @@ class AuraAttacker(Attacker):
     HP = 240
     ATTACK_POWER = 30
     reach_model = [(-1, 0), (0, -1), (0, 1), (1, 0)]
+    filename = 'image/CvilianAttacker.jpg'
 
     def __init__(self, controller, position, direction):
+        self.controller = controller
         super().__init__(controller, position, direction)
         self.type = 'AuraAttacker'
         self.attack_power = self.ATTACK_POWER
@@ -524,7 +530,7 @@ class AuraAttacker(Attacker):
         self.speed = 0.25
         self.cost = 20
         self.cool_down_time = 30
-        self.init_image()
+        self.init_image(self.filename, 50, 50, 1)
 
     def update(self):
         for attacker in Attacker.attackers:

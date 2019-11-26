@@ -92,24 +92,26 @@ class Map:
 
 #攻击者每次刷新都调用这个函数，重新确定移动方向
 def update_direction(attacker,map):
-	x=(attacker.position[0]-map.xBegin)/map.blockSize
-	y=(attacker.position[1]-map.yBegin)/map.blockSize
-	i=int(y)
-	j=int(x)
+    # Return True if attacker die in this method.
+    x=(attacker.position[0]-map.xBegin)/map.blockSize
+    y=(attacker.position[1]-map.yBegin)/map.blockSize
+    i=int(y)
+    j=int(x)
 
-	if i<0 or j<0 or i>=map.columnNumber or j>=map.rowNumber:
-		#如果某个进攻者跑出了地图，需要一些机制来报错，现在让它直接消失好了
-		attacker.die()
-		return
-	if map.maps[i][j].isHome==True:
-		attacker.die()
-		map.fortress_HP-=1
-		#这里再加一些进家时的代码
-		return
-	map.maps[i][j].isZombieOn=True
-	d=attacker.direction
-	if (d==0 and y-i<=0.5) or (d==1 and x-j<=0.5) or (d==2 and y-i>=0.5) or (d==3 and x-j>=0.5): 
-		if map.maps[i][j].blockDirection!=-1:
-			attacker.direction=map.maps[i][j].blockDirection
-	#更新攻击者方向
+    if i<0 or j<0 or i>=map.columnNumber or j>=map.rowNumber:
+        #如果某个进攻者跑出了地图，需要一些机制来报错，现在让它直接消失好了
+        attacker.die()
+        return True
+    if map.maps[i][j].isHome==True:
+        attacker.die()
+        map.fortress_HP-=1
+        #这里再加一些进家时的代码
+        return True
+    map.maps[i][j].isZombieOn=True
+    d=attacker.direction
+    if (d==0 and y-i<=0.5) or (d==1 and x-j<=0.5) or (d==2 and y-i>=0.5) or (d==3 and x-j>=0.5): 
+        if map.maps[i][j].blockDirection!=-1:
+            attacker.direction=map.maps[i][j].blockDirection
+    #更新攻击者方向
 
+    return False
