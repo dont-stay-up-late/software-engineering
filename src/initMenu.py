@@ -2,36 +2,32 @@ import pygame
 import sys
 from pygame.locals import *
 from modeSelect import *
-from pathlib import Path
 
 
 # 主菜单初始化
 def initialMenu(screen, clock):
     bg = (255, 255, 255)
+    breakflag = 0
 
     # 图片及位置
-    path = Path.cwd()
-    if path.parts[len(path.parts) - 1] == 'src':
-        path = path.parent
-    path = path.joinpath('res').joinpath('UIimage')
-    bg = pygame.image.load(str(path.joinpath("menu_bg.png"))).convert()
-    title = pygame.image.load(str(path.joinpath("title.png"))).convert_alpha()
-    titlePos = (150, 40)
-    startButton = pygame.image.load(str(path.joinpath("start.png"))).convert_alpha()
-    startPos0 = (275, 275)
-    startPos1 = (275, 270)
-    handbookButton = pygame.image.load(str(path.joinpath("handbook.png"))).convert_alpha()
-    handbookPos0 = (25, 275)
-    handbookPos1 = (25, 270)
-    helpButton = pygame.image.load(str(path.joinpath("help.png"))).convert_alpha()
-    helpPos0 = (25, 400)
-    helpPos1 = (25, 395)
-    settingButton = pygame.image.load(str(path.joinpath("setting.png"))).convert_alpha()
-    settingPos0 = (525, 275)
-    settingPos1 = (525, 270)
-    quitButton = pygame.image.load(str(path.joinpath("quit.png"))).convert_alpha()
-    quitPos0 = (525, 400)
-    quitPos1 = (525, 395)
+    bg = pygame.image.load("res/bg/bg_main.png").convert()
+    title = pygame.image.load("res/pic/title.png").convert_alpha()
+    titlePos = (340, 100)
+    startButton = pygame.image.load("res/button/start.png").convert_alpha()
+    startPos0 = (540, 345)
+    startPos1 = (540, 340)
+    handbookButton = pygame.image.load("res/button/handbook.png").convert_alpha()
+    handbookPos0 = (400, 445)
+    handbookPos1 = (400, 440)
+    helpButton = pygame.image.load("res/button/help.png").convert_alpha()
+    helpPos0 = (400, 545)
+    helpPos1 = (400, 540)
+    settingButton = pygame.image.load("res/button/setting.png").convert_alpha()
+    settingPos0 = (680, 445)
+    settingPos1 = (680, 440)
+    quitButton = pygame.image.load("res/button/quit.png").convert_alpha()
+    quitPos0 = (680, 545)
+    quitPos1 = (680, 540)
     startPos = startPos0
     handbookPos = handbookPos0
     helpPos = helpPos0
@@ -74,11 +70,13 @@ def initialMenu(screen, clock):
 
             if event.type == pygame.QUIT:
                 sys.exit()
+                breakflag = 1
 
             if event.type == MOUSEBUTTONDOWN:
                 if x > startPos0[0] and x < startPos0[0] + startButton.get_width() \
                         and y > startPos0[1] and y < startPos0[1] + startButton.get_height():
                     modeSelect(screen,clock)
+                    breakflag = 1
                     # here to start the game function
 
                 if x > handbookPos0[0] and x < handbookPos0[0] + handbookButton.get_width() \
@@ -100,7 +98,6 @@ def initialMenu(screen, clock):
                         and y > quitPos0[1] and y < quitPos0[1] + quitButton.get_height():
                     print('game ended!')
                     sys.exit()
-
         # 填充背景和内容
         screen.blit(bg, (0, 0))
         screen.blit(title, titlePos)
@@ -115,5 +112,7 @@ def initialMenu(screen, clock):
         pygame.display.flip()
         # 帧率
         clock.tick(30)
+        if breakflag == 1:
+            break
 
 

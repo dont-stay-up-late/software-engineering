@@ -7,7 +7,7 @@ from initMenu import *
 def initialSystem():
     pygame.init()
     global screen,clock
-    size = (width, height) = (750, 500)
+    size = (width, height) = (1280, 720)
 
     font = pygame.font.Font("C:/Windows/Fonts/simsun.ttc", 30)
     fullscreen = False
