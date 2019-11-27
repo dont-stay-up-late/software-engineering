@@ -1,5 +1,6 @@
 import pygame
 from levelLoad import *
+from path import path
 
 #在生成游戏时，根据窗口的大小对map中的格子、左上角坐标进行计算和更新
 def setMapUI(map,x1,y1,imageSize):
@@ -11,13 +12,13 @@ def setMapUI(map,x1,y1,imageSize):
 #地图在初始化之后进行显示，传入的参数为Map类对象和窗口句柄
 def mapDisplay(map,screen):
 	#图像的名称转换，包含6种不同的状态
-	homeImageFile = r"image/home.png"
-	bornPointImageFile = r"image/born.png"
-	zeroImageFile = r"image/3.jpg"
-	oneImageFile = r"image/4.jpg"
-	twoImageFile = r"image/1.jpg"
-	threeImageFile = r"image/2.jpg"
-	arrowImageFile = [r"image/arrow0.png",r"image/arrow1.png",r"image/arrow2.png",r"image/arrow3.png"]
+	homeImageFile = path("image/home.png")
+	bornPointImageFile = path("image/born.png")
+	zeroImageFile = path("image/3.jpg")
+	oneImageFile = path("image/4.jpg")
+	twoImageFile = path("image/1.jpg")
+	threeImageFile = path("image/2.jpg")
+	arrowImageFile = [path("image/arrow0.png"),path("image/arrow1.png"),path("image/arrow2.png"),path("image/arrow3.png")]
 
 	#加载并转换图像
 	homeImage_init = pygame.image.load(homeImageFile).convert_alpha()

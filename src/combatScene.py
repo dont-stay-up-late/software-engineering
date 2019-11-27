@@ -5,13 +5,14 @@ from sys import exit
 from mapDisplay import *
 from levelLoad import levelLoad
 from map import *
+from path import path
 		
 		
 #进行战斗画面绘制的函数，传入的函数为Map类对象，选定的角色列表，道具列表，窗口句柄
 #根据需要，还需要传入攻击方和防守方角色的列表等，可修改
 def combatScene(map,selectedRoleList,toolsList,screen):
 	#战斗界面时整体的背景图，大小为750×500
-	bgImageFile = r'image/combatSceneBg.jpg'
+	bgImageFile = path('image/combatSceneBg.jpg')
 	bgImage_init = pygame.image.load(bgImageFile).convert()
 	bgImage = pygame.transform.scale(bgImage_init,(750,500))
 	screen.blit(bgImage,(0,0))
@@ -43,14 +44,14 @@ def mapAreaDraw(map,screen):
 #绘制战斗界面左侧的角色消息区域	
 def roleInfoAreaDraw(x1,y1,x2,y2):
 	#绘制背景图部分，其余部分有待填充，下同
-	RoleInfoFile = r'image/roleInfoBg.jpg'
+	RoleInfoFile = path('image/roleInfoBg.jpg')
 	RoleInfoImage_init = pygame.image.load(RoleInfoFile).convert()
 	RoleInfoImage = pygame.transform.scale(RoleInfoImage_init,(x2-x1,y2-y1))
 	screen.blit(RoleInfoImage,(x1,y1))
 
 #绘制费用区域
 def costAreaDraw(x1,y1,x2,y2):
-	costFrameFile = r'image/costFrameBg.jpg'
+	costFrameFile = path('image/costFrameBg.jpg')
 	costFrame_init = pygame.image.load(costFrameFile).convert()
 	costFrameImage = pygame.transform.scale(costFrame_init,(x2-x1,y2-y1))
 	screen.blit(costFrameImage,(x1,y1))
@@ -58,7 +59,7 @@ def costAreaDraw(x1,y1,x2,y2):
 #绘制选定的角色区域，含背景和角色卡片
 #传入的参数为卡牌区的左上和右下角坐标，以及卡牌列表
 def cardAreaDraw(x1,y1,x2,y2,selectedRolesList):
-	cardBgFile = r'image/cardBg.jpg'
+	cardBgFile = path('image/cardBg.jpg')
 	cardBg_init = pygame.image.load(cardBgFile).convert()
 	cardBg = pygame.transform.scale(cardBg_init,(x2-x1,y2-y1))
 	screen.blit(cardBg,(x1,y1))
@@ -66,7 +67,7 @@ def cardAreaDraw(x1,y1,x2,y2,selectedRolesList):
 #绘制道具区域，包含背景和道具
 #传入的参数为工具区的左上和右下角坐标，以及工具列表
 def toolAreaDraw(x1,y1,x2,y2,toolsList):
-	toolBgFile = r'image/toolBg.jpg'
+	toolBgFile = path('image/toolBg.jpg')
 	toolBg_init = pygame.image.load(toolBgFile).convert()
 	toolBg = pygame.transform.scale(toolBg_init,(x2-x1,y2-y1))
 	screen.blit(toolBg,(x1,y1))	

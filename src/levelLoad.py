@@ -1,11 +1,12 @@
 from map import *
+from path import path
 
 #这是从文件中加载关卡信息
 
 #加载关卡i的数据(int值)，从文件读取到一个元祖中
 #元组第一项为地图的行和列数，第二项为地图中的block信息
 def dataLoad(i):
-	level = "res/levelData/level" + str(i) + ".txt"
+	level = path("res/levelData/level" + str(i) + ".txt")
 	fileP = open(level,mode = 'r')
 	columnAndRow = []		#加载地图的行和列
 	blockData = []			#加载地图中的方块信息

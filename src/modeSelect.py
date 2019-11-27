@@ -2,31 +2,32 @@ import pygame
 import sys
 from pygame.locals import *
 from selectMap import *
+from path import path
 # 模式选择
 def modeSelect(screen, clock):
     bg = (255, 255, 255)
     breakflag = 0
     # 图片及位置
-    bg = pygame.image.load("res/bg/bg_mode.png").convert()
-    title = pygame.image.load("res/pic/title.png").convert_alpha()
+    bg = pygame.image.load(path("res/bg/bg_mode.png")).convert()
+    title = pygame.image.load(path("res/pic/title.png")).convert_alpha()
     titlePos = titlePos = (340, 100)
-    modePic = pygame.image.load("res/pic/modeselect.png").convert_alpha()
+    modePic = pygame.image.load(path("res/pic/modeselect.png")).convert_alpha()
     modePos = (540, 345)
-    singleAttackButton = pygame.image.load("res/button/single_attack.png").convert_alpha()
+    singleAttackButton = pygame.image.load(path("res/button/single_attack.png")).convert_alpha()
     single_attackPos0 = (400, 445)
     single_attackPos1 = (400, 440)
-    singleDefendButton = pygame.image.load("res/button/single_defend.png").convert_alpha()
+    singleDefendButton = pygame.image.load(path("res/button/single_defend.png")).convert_alpha()
     single_defendPos0 = (400, 545)
     single_defendPos1 = (400, 540)
-    onlineAttackButton = pygame.image.load("res/button/online_attack.png").convert_alpha()
+    onlineAttackButton = pygame.image.load(path("res/button/online_attack.png")).convert_alpha()
     online_attackPos0 = (680, 445)
     online_attackPos1 = (680, 440)
-    onlineDefendButton = pygame.image.load("res/button/online_defend.png").convert_alpha()
+    onlineDefendButton = pygame.image.load(path("res/button/online_defend.png")).convert_alpha()
     online_defendPos0 = (680, 545)
     online_defendPos1 = (680, 540)
-    backButton = pygame.image.load("res/button/back.png").convert_alpha()
+    backButton = pygame.image.load(path("res/button/back.png")).convert_alpha()
     backPos = (0, 0)
-    homeButton = pygame.image.load("res/button/home.png").convert_alpha()
+    homeButton = pygame.image.load(path("res/button/home.png")).convert_alpha()
     homePos = (150, 0)
     single_attackPos = single_attackPos0
     single_defendPos = single_defendPos0

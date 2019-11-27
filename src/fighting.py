@@ -1,40 +1,41 @@
 import pygame
 import sys
 from pygame.locals import *
+from path import path
 
 # modeID为游戏模式编号，mapID为地图编号, characters为选用的角色的列表
 def startFight(screen, clock, modeID, mapID, CharID):
-    bg = pygame.image.load("res/bg/bg_fighting.png").convert_alpha()
+    bg = pygame.image.load(path("res/bg/bg_fighting.png")).convert_alpha()
     breakflag = 0
     cost = 0
 
-    infoPic = pygame.image.load("res/battle/information.png").convert_alpha()
+    infoPic = pygame.image.load(path("res/battle/information.png")).convert_alpha()
     infoPos = (0,0)
-    timePic = pygame.image.load("res/battle/time.png").convert_alpha()
+    timePic = pygame.image.load(path("res/battle/time.png")).convert_alpha()
     timePos = (265,0)
-    lifePic = pygame.image.load("res/battle/life.png").convert_alpha()
+    lifePic = pygame.image.load(path("res/battle/life.png")).convert_alpha()
     lifePos = (515,0)
-    costPic = pygame.image.load("res/battle/Cost.png").convert_alpha()
+    costPic = pygame.image.load(path("res/battle/Cost.png")).convert_alpha()
     costPos = (765,0)
-    Toolflame = pygame.image.load("res/battle/tools.png").convert_alpha()
+    Toolflame = pygame.image.load(path("res/battle/tools.png")).convert_alpha()
     ToolflamePos = (1015, 0)
-    BattleMap = pygame.image.load("res/battle/mapdisplay.png").convert_alpha()
+    BattleMap = pygame.image.load(path("res/battle/mapdisplay.png")).convert_alpha()
     BattleMapPos = (265, 70)
-    Giveup = pygame.image.load("res/battle/giveup.png").convert_alpha()
+    Giveup = pygame.image.load(path("res/battle/giveup.png")).convert_alpha()
     GiveupPos = (1015, 570)
     loadpathb = []
     loadpathbs = []
-    loadpathb.append("res/battle/pingminb.png")
-    loadpathb.append("res/battle/gongtoub.png")
-    loadpathb.append("res/battle/gansiduib.png")
-    loadpathb.append("res/battle/pangdunb.png")
-    loadpathb.append("res/battle/yaojishib.png")
-    loadpathbs.append("res/battle/pingminbs.png")
-    loadpathbs.append("res/battle/gongtoubs.png")
-    loadpathbs.append("res/battle/gansiduibs.png")
-    loadpathbs.append("res/battle/pangdunbs.png")
-    loadpathbs.append("res/battle/yaojishibs.png")
-    Charflame = pygame.image.load("res/battle/charflame.png").convert_alpha()
+    loadpathb.append(path("res/battle/pingminb.png"))
+    loadpathb.append(path("res/battle/gongtoub.png"))
+    loadpathb.append(path("res/battle/gansiduib.png"))
+    loadpathb.append(path("res/battle/pangdunb.png"))
+    loadpathb.append(path("res/battle/yaojishib.png"))
+    loadpathbs.append(path("res/battle/pingminbs.png"))
+    loadpathbs.append(path("res/battle/gongtoubs.png"))
+    loadpathbs.append(path("res/battle/gansiduibs.png"))
+    loadpathbs.append(path("res/battle/pangdunbs.png"))
+    loadpathbs.append(path("res/battle/yaojishibs.png"))
+    Charflame = pygame.image.load(path("res/battle/charflame.png")).convert_alpha()
     Charnum = len(CharID)
     CharPos = []
     CharPic = []

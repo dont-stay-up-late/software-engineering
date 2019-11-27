@@ -1,6 +1,7 @@
 import pygame
 import sys
 from pygame.locals import *
+from path import path
 
 # 选择角色
 # modeID为游戏模式编号，mapID为地图编号
@@ -18,40 +19,40 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathb = []
     loadpathbs = []
     Charstatus = [1, 1, 1, 1, 1]
-    modeintroadd = "res/pic/modeintro" + str(modeID) + ".png"
+    modeintroadd = path("res/pic/modeintro" + str(modeID) + ".png")
 
     # 图片及位置
     if modeID == 1 or modeID == 3:
-        bg = pygame.image.load("res/bg/bg_character_att.png").convert()
+        bg = pygame.image.load(path("res/bg/bg_character_att.png")).convert()
         stringc = "r"
     else:
-        bg = pygame.image.load("res/bg/bg_character_def.png").convert()
+        bg = pygame.image.load(path("res/bg/bg_character_def.png")).convert()
         stringc = "b"
 
-    backButton = pygame.image.load("res/button/back.png").convert_alpha()
+    backButton = pygame.image.load(path("res/button/back.png")).convert_alpha()
     backPos = (0, 0)
-    homeButton = pygame.image.load("res/button/home.png").convert_alpha()
+    homeButton = pygame.image.load(path("res/button/home.png")).convert_alpha()
     homePos = (150, 0)
-    startButton = pygame.image.load("res/button/sure.png").convert_alpha()
+    startButton = pygame.image.load(path("res/button/sure.png")).convert_alpha()
     startPos = (1080, 653)
-    CharTitle = pygame.image.load("res/pic/chartitle.png").convert_alpha()
+    CharTitle = pygame.image.load(path("res/pic/chartitle.png")).convert_alpha()
     CharTitlePos = (340, 0)
     modeIntro = pygame.image.load(modeintroadd).convert_alpha()
     modeintroPos = (980, 0)
-    Charflame = pygame.image.load("res/character/charflame.png").convert_alpha()
-    Teamflame = pygame.image.load("res/character/teamflame.png").convert_alpha()
+    Charflame = pygame.image.load(path("res/character/charflame.png")).convert_alpha()
+    Teamflame = pygame.image.load(path("res/character/teamflame.png")).convert_alpha()
     TeamflamePos = (255, 520)
     CharinfoPos = (0,150)
-    loadpathb.append("res/character/pingminb.png")
-    loadpathb.append("res/character/gongtoub.png")
-    loadpathb.append("res/character/gansiduib.png")
-    loadpathb.append("res/character/pangdunb.png")
-    loadpathb.append("res/character/yaojishib.png")
-    loadpathbs.append("res/character/pingminbs.png")
-    loadpathbs.append("res/character/gongtoubs.png")
-    loadpathbs.append("res/character/gansiduibs.png")
-    loadpathbs.append("res/character/pangdunbs.png")
-    loadpathbs.append("res/character/yaojishibs.png")
+    loadpathb.append(path("res/character/pingminb.png"))
+    loadpathb.append(path("res/character/gongtoub.png"))
+    loadpathb.append(path("res/character/gansiduib.png"))
+    loadpathb.append(path("res/character/pangdunb.png"))
+    loadpathb.append(path("res/character/yaojishib.png"))
+    loadpathbs.append(path("res/character/pingminbs.png"))
+    loadpathbs.append(path("res/character/gongtoubs.png"))
+    loadpathbs.append(path("res/character/gansiduibs.png"))
+    loadpathbs.append(path("res/character/pangdunbs.png"))
+    loadpathbs.append(path("res/character/yaojishibs.png"))
     for i in range (0, Totalnum):
         CharPic0.append(pygame.image.load(loadpathb[i]).convert_alpha())
         CharPic.append(pygame.image.load(loadpathb[i]).convert_alpha())
@@ -89,7 +90,7 @@ def selectCharacters(screen, clock, modeID, mapID):
                     if x > CharflamePos[i][0] and x < CharflamePos[i][0] + Charflame.get_width() \
                             and y > CharflamePos[i][1] and y < CharflamePos[i][1] + Charflame.get_height():
                         Charstatus[i] = -Charstatus[i]
-                        Charinfo = pygame.image.load("res/charinfo/Charinfo.png").convert_alpha()
+                        Charinfo = pygame.image.load(path("res/charinfo/Charinfo.png")).convert_alpha()
                         infoflag = 1
                         if Charstatus[i] == 1:
                             CharPic[i] = pygame.image.load(loadpathb[i]).convert_alpha()
@@ -104,7 +105,7 @@ def selectCharacters(screen, clock, modeID, mapID):
                     if x > 255 + 100 * i and x < 255 + 100 * i + Charflame.get_width() \
                             and y > 520 and y < 520 + Charflame.get_height():
                         Charstatus[CharID[i]] = - Charstatus[CharID[i]]
-                        Charinfo = pygame.image.load("res/charinfo/Charinfo.png").convert_alpha()
+                        Charinfo = pygame.image.load(path("res/charinfo/Charinfo.png")).convert_alpha()
                         if Charstatus[CharID[i]] == 1:
                             CharPic[CharID[i]] = pygame.image.load(loadpathb[CharID[i]]).convert_alpha()
                             del CharID[i]

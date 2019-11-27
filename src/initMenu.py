@@ -2,6 +2,7 @@ import pygame
 import sys
 from pygame.locals import *
 from modeSelect import *
+from path import path
 
 
 # 主菜单初始化
@@ -10,22 +11,22 @@ def initialMenu(screen, clock):
     breakflag = 0
 
     # 图片及位置
-    bg = pygame.image.load("res/bg/bg_main.png").convert()
-    title = pygame.image.load("res/pic/title.png").convert_alpha()
+    bg = pygame.image.load(path("res/bg/bg_main.png")).convert()
+    title = pygame.image.load(path("res/pic/title.png")).convert_alpha()
     titlePos = (340, 100)
-    startButton = pygame.image.load("res/button/start.png").convert_alpha()
+    startButton = pygame.image.load(path("res/button/start.png")).convert_alpha()
     startPos0 = (540, 345)
     startPos1 = (540, 340)
-    handbookButton = pygame.image.load("res/button/handbook.png").convert_alpha()
+    handbookButton = pygame.image.load(path("res/button/handbook.png")).convert_alpha()
     handbookPos0 = (400, 445)
     handbookPos1 = (400, 440)
-    helpButton = pygame.image.load("res/button/help.png").convert_alpha()
+    helpButton = pygame.image.load(path("res/button/help.png")).convert_alpha()
     helpPos0 = (400, 545)
     helpPos1 = (400, 540)
-    settingButton = pygame.image.load("res/button/setting.png").convert_alpha()
+    settingButton = pygame.image.load(path("res/button/setting.png")).convert_alpha()
     settingPos0 = (680, 445)
     settingPos1 = (680, 440)
-    quitButton = pygame.image.load("res/button/quit.png").convert_alpha()
+    quitButton = pygame.image.load(path("res/button/quit.png")).convert_alpha()
     quitPos0 = (680, 545)
     quitPos1 = (680, 540)
     startPos = startPos0

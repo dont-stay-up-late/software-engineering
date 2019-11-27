@@ -4,6 +4,7 @@ from map import *
 from mapDisplay import *
 from models import *
 from gamecontroller import *
+from path import path
 
 
 #战斗界面的UI，实现角色移动、防守方攻击、伤害判定、死亡等，测试版本
@@ -24,8 +25,8 @@ deffenders = []
 for i in range(3):
 	attackers.append(AuraAttacker(controller,[(9+0.5)*map_test.blockSize+map_test.xBegin,(1+0.5)*map_test.blockSize+map_test.yBegin],0))
 	deffenders.append(CivilianDefender(controller,[(i+1+0.5)*map_test.blockSize+map_test.xBegin,(1+0.5)*map_test.blockSize+map_test.yBegin],0))
-attackerFile = r"image/CvilianAttacker.jpg"
-deffenderFile = r"image/CivilianDeffender.jpg"
+attackerFile = path("image/CvilianAttacker.jpg")
+deffenderFile = path("image/CivilianDeffender.jpg")
 attackerImage = pygame.image.load(attackerFile).convert()
 deffenderImage = pygame.image.load(deffenderFile).convert()
 attackerImage = pygame.transform.scale(attackerImage,(50,50))

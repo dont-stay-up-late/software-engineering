@@ -5,6 +5,7 @@ import time
 import pygame
 from pygame.sprite import Sprite
 
+from path import path
 
 class CharacterModel(Sprite, metaclass=ABCMeta):
     """
@@ -235,7 +236,7 @@ class CivilianDefender(Defender):
     HP = 100
     ATTACK_POWER = 10
     reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 4), (1, 0), (1, 1)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         self.controller = controller
@@ -258,7 +259,7 @@ class FattyDefender(Defender):
     HP = 400
     ATTACK_POWER = 5
     reach_model = []
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -280,7 +281,7 @@ class KamikazeDefender(Defender):
     HP = 40
     ATTACK_POWER = 20
     reach_model = [(0, 1), (0, 2)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -303,7 +304,7 @@ class PharmacistDefender(Defender):
     HP = 50
     ATTACK_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -341,7 +342,7 @@ class AuraDefender(Defender):
     HP = 90
     ATTACK_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -386,7 +387,7 @@ class BombDefender(Defender):
     HP = 200
     ATTACK_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -429,7 +430,7 @@ class CivilianAttacker(Attacker):
     HP = 120
     ATTACK_POWER = 40
     reach_model = []
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         self.controller = controller
@@ -453,7 +454,7 @@ class FattyAttacker(Attacker):
     HP = 400
     ATTACK_POWER = 25
     reach_model = []
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -476,7 +477,7 @@ class KamikazeAttacker(Attacker):
     HP = 40
     ATTACK_POWER = 50
     reach_model = [(0, 1)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -500,7 +501,7 @@ class PharmacistAttacker(Attacker):
     HP = 150
     ATTACK_POWER = 10
     reach_model = [(0, 1)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
@@ -534,7 +535,7 @@ class AuraAttacker(Attacker):
     HP = 240
     ATTACK_POWER = 30
     reach_model = [(-1, 0), (0, -1), (0, 1), (1, 0)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         self.controller = controller
@@ -582,7 +583,7 @@ class BombAttacker(Attacker):
     SPECIAL_ATTACK_POWER = 380
     reach_model = [(1, 0)]
     special_reach_model = [(-1, 0), (0, -1), (0, 1), (1, 0)]
-    filename = 'res/mapnum/Mapnum1_0.png'
+    filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)
