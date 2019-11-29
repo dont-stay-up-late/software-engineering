@@ -99,7 +99,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 timeLeft = mapload.time_limit - int(timePast)
                 # 记录上一帧时间
                 lastTime = curTime
-                life = map.fortress_HP
+                life = mapload.fortress_HP
 
 
                 while attackerplan[0][attackerorder] <= timePast:
@@ -137,7 +137,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     attacker.move()
                     if update_direction(attacker, mapload):
                         attackers.remove(attacker)
-                        if map.fortress_HP <= 0:
+                        if mapload.fortress_HP <= 0:
                             # defeated(screen, clock, modeID, mapID)
                             breakflag = 1
 
