@@ -35,16 +35,16 @@ class Map:
     def __init__(self, m, n):  # 构造一个m*n(m行n列)的空地图
         self.rowNumber = n      # 列数
         self.columnNumber = m   # 行数
-        self.fortress_HP = 10   #初始生命，先设成10
-        self.time_limit = 200   #时间限制，以秒为单位
+        self.fortress_HP = 3   #初始生命，先设成3
+        self.time_limit = 180   #时间限制，以秒为单位
 
         self.maps = []  # 二维列表，里面放格子
         self.homes = []  # 元组列表，里面放所有的家
         self.bornPoints = []  # 元组列表，里面放所有的出生点
 
         # 下面是UI所需的一些变量，都是像素为单位
-        self.blockSize = 50  # 每个格子为正方形，这个是边长
-        self.xBegin = 100  # 左上角横坐标
+        self.blockSize = 75  # 每个格子为正方形，这个是边长
+        self.xBegin = 265  # 左上角横坐标
         self.yBegin = 70  # 左上角纵坐标
 
         for i in range(m):

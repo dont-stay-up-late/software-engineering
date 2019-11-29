@@ -115,7 +115,8 @@ def selectCharacters(screen, clock, modeID, mapID):
         screen.blit(bg, (0, 0))
         screen.blit(backButton, backPos)
         screen.blit(homeButton, homePos)
-        screen.blit(startButton, startPos)
+        if Choosenum > 0:
+            screen.blit(startButton, startPos)
         screen.blit(CharTitle, CharTitlePos)
         screen.blit(modeIntro, modeintroPos)
         screen.blit(Teamflame, TeamflamePos)
@@ -129,9 +130,9 @@ def selectCharacters(screen, clock, modeID, mapID):
         # 说明文字
         # screen.blit(font.render("用上下左右键来控制", True, (166, 100, 30)), (300, 50))
         # 更新画面
-        pygame.display.flip()
+        pygame.display.update()
         # 帧率
-        clock.tick(30)
+        clock.tick(40)
         if breakflag == 1:
             break
 

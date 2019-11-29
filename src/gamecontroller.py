@@ -31,7 +31,7 @@ class GameController(object):
         # Variables related to the game process
         self.level = level
         self.map = map
-        self.money = {'Attack': 400, 'Defend': 400}
+        self.money = {'Attack': 30, 'Defend': 30}
         self.money_restore_rate = {'Attack': 0.1, 'Defend': 0.1}
         self.fortress_HP = map.fortress_HP
         self.item_used_total_count = {'Attack': 0, 'Defend': 0}
@@ -52,7 +52,7 @@ class GameController(object):
         for i in self.item_cooldown_time:
             if self.chara_cooldown_time[i] > 0: self.chara_cooldown_time[i] -= 1
         if self.game_mode == 'Single':
-            self.money[self.player_side] += self.money_restore_rate
+            self.money[self.player_side] += self.money_restore_rate[self.player_side]
         else:
             self.money['Attack'] += self.money_restore_rate['Attack']
             self.money['Defend'] += self.money_restore_rate['Defend']

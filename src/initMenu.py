@@ -110,9 +110,9 @@ def initialMenu(screen, clock):
         # 说明文字
         # screen.blit(font.render("用上下左右键来控制", True, (166, 100, 30)), (300, 50))
         # 更新画面
-        pygame.display.flip()
+        pygame.display.update()
         # 帧率
-        clock.tick(30)
+        clock.tick(40)
         if breakflag == 1:
             break
 
