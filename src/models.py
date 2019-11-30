@@ -262,6 +262,7 @@ class FattyDefender(Defender):
     filename = path('res/character/pangdunb0.png')
 
     def __init__(self, controller, position, direction):
+        self.controller = controller
         super().__init__(controller, position, direction)
         self.type = 'FattyDefender'
         self.attack_power = self.ATTACK_POWER
@@ -284,6 +285,7 @@ class KamikazeDefender(Defender):
     filename = path('res/character/gansiduib0.png')
 
     def __init__(self, controller, position, direction):
+        self.controller = controller
         super().__init__(controller, position, direction)
         self.type = 'KamikazeDefender'
         self.attack_power = self.ATTACK_POWER
@@ -307,6 +309,7 @@ class PharmacistDefender(Defender):
     filename = path('res//character/yaojishib0.png')
 
     def __init__(self, controller, position, direction):
+        self.controller = controller
         super().__init__(controller, position, direction)
         self.type = 'PharmacistDefender'
         self.attack_power = self.ATTACK_POWER
@@ -345,6 +348,7 @@ class AuraDefender(Defender):
     filename = path('res/character/gongtoub0.png')
 
     def __init__(self, controller, position, direction):
+        self.controller = controller
         super().__init__(controller, position, direction)
         self.type = 'AuraDefender'
         self.attack_power = self.ATTACK_POWER
@@ -390,6 +394,7 @@ class BombDefender(Defender):
     filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
+        self.controller = controller
         super().__init__(controller, position, direction)
         self.type = 'BombDefender'
         self.attack_power = self.ATTACK_POWER

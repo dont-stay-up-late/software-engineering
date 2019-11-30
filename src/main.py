@@ -23,4 +23,5 @@ def initialSystem():
 # main exe
 if __name__ == '__main__':
     initialSystem()
+    #初始化菜单
     initialMenu(screen, clock)

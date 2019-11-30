@@ -20,8 +20,10 @@ def selectMap(screen, clock, modeID):
     homePos = (150, 0)
     mapTitle = pygame.image.load(path("res/pic/mapselecttitle.png")).convert_alpha()
     mapTitlePos = (340, 0)
+    #   地图信息
     modeIntro = pygame.image.load(modeintroadd).convert_alpha()
     modeintroPos = (980, 0)
+    #   地图编号
     mapnum1Button = pygame.image.load(path("res/mapnum/Mapnum1_0.png")).convert_alpha()
     mapnum1Pos = (365, 250)
     mapnum2Button = pygame.image.load(path("res/mapnum/Mapnum2_0.png")).convert_alpha()
@@ -48,6 +50,8 @@ def selectMap(screen, clock, modeID):
             if event.type == MOUSEBUTTONDOWN:
                 if x > mapnum1Pos[0] and x < mapnum1Pos[0] + mapnum1Button.get_width() \
                         and y > mapnum1Pos[1] and y < mapnum1Pos[1] + mapnum1Button.get_height():
+
+                    #   地图选中特效
                     mapnum1Button = pygame.image.load(path("res/mapnum/Mapnum1_1.png")).convert_alpha()
                     mapnum2Button = pygame.image.load(path("res/mapnum/Mapnum2_0.png")).convert_alpha()
                     mapnum3Button = pygame.image.load(path("res/mapnum/Mapnum3_0.png")).convert_alpha()

@@ -13,6 +13,7 @@ def modeSelect(screen, clock):
     titlePos = titlePos = (340, 100)
     modePic = pygame.image.load(path("res/pic/modeselect.png")).convert_alpha()
     modePos = (540, 345)
+    #   四种模式
     singleAttackButton = pygame.image.load(path("res/button/single_attack.png")).convert_alpha()
     single_attackPos0 = (400, 445)
     single_attackPos1 = (400, 440)
@@ -25,8 +26,11 @@ def modeSelect(screen, clock):
     onlineDefendButton = pygame.image.load(path("res/button/online_defend.png")).convert_alpha()
     online_defendPos0 = (680, 545)
     online_defendPos1 = (680, 540)
+
+    # 返回
     backButton = pygame.image.load(path("res/button/back.png")).convert_alpha()
     backPos = (0, 0)
+    #返回主菜单
     homeButton = pygame.image.load(path("res/button/home.png")).convert_alpha()
     homePos = (150, 0)
     single_attackPos = single_attackPos0

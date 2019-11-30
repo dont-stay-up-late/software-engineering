@@ -16,6 +16,7 @@ def attackerload(i):
     count = 0
     while True:
         a = fileP.readline()
+        a = a.strip()
         if a == "*":
             break
         a_array = a.split(" ")

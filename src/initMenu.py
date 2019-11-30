@@ -11,22 +11,22 @@ def initialMenu(screen, clock):
     breakflag = 0
 
     # 图片及位置
-    bg = pygame.image.load(path("res/bg/bg_main.png")).convert()
-    title = pygame.image.load(path("res/pic/title.png")).convert_alpha()
+    bg = pygame.image.load(path("res/bg/bg_main.png")).convert()    #背景图
+    title = pygame.image.load(path("res/pic/title.png")).convert_alpha()    #标题
     titlePos = (340, 100)
-    startButton = pygame.image.load(path("res/button/start.png")).convert_alpha()
+    startButton = pygame.image.load(path("res/button/start.png")).convert_alpha()   #开始游戏
     startPos0 = (540, 345)
     startPos1 = (540, 340)
-    handbookButton = pygame.image.load(path("res/button/handbook.png")).convert_alpha()
+    handbookButton = pygame.image.load(path("res/button/handbook.png")).convert_alpha()     #图鉴
     handbookPos0 = (400, 445)
     handbookPos1 = (400, 440)
-    helpButton = pygame.image.load(path("res/button/help.png")).convert_alpha()
+    helpButton = pygame.image.load(path("res/button/help.png")).convert_alpha()         #帮助文档
     helpPos0 = (400, 545)
     helpPos1 = (400, 540)
-    settingButton = pygame.image.load(path("res/button/setting.png")).convert_alpha()
+    settingButton = pygame.image.load(path("res/button/setting.png")).convert_alpha()       #设置
     settingPos0 = (680, 445)
     settingPos1 = (680, 440)
-    quitButton = pygame.image.load(path("res/button/quit.png")).convert_alpha()
+    quitButton = pygame.image.load(path("res/button/quit.png")).convert_alpha()         #退出游戏
     quitPos0 = (680, 545)
     quitPos1 = (680, 540)
     startPos = startPos0
@@ -39,6 +39,7 @@ def initialMenu(screen, clock):
 
         for event in pygame.event.get():
             x, y = pygame.mouse.get_pos()
+            #   按键位置移动
             if x > startPos0[0] and x < startPos0[0] + startButton.get_width() \
                     and y > startPos0[1] and y < startPos0[1] + startButton.get_height():
                 startPos = startPos1
@@ -69,6 +70,7 @@ def initialMenu(screen, clock):
             else:
                 quitPos = quitPos0
 
+            #   退出游戏
             if event.type == pygame.QUIT:
                 sys.exit()
                 breakflag = 1

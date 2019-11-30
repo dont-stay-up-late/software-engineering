@@ -10,15 +10,15 @@ def selectCharacters(screen, clock, modeID, mapID):
     breakflag = 0
     infoflag = 0
     # 编队
-    CharID = []
-    Totalnum = 5
-    Choosenum = 0
-    CharflamePos = []
-    CharPic0 = []
-    CharPic = []
-    loadpathb = []
-    loadpathbs = []
-    Charstatus = [1, 1, 1, 1, 1]
+    CharID = []     #存储选中的角色编号，传入到战斗界面
+    Totalnum = 5    #可选中角色总数
+    Choosenum = 0   #选中的角色数量
+    CharflamePos = []   #人物框的位置
+    CharPic0 = []   #未上锁的人物图片
+    CharPic = []    #当前人物栏的人物状态图
+    loadpathb = []  #未上锁人物图路径
+    loadpathbs = [] #上锁人物图路径
+    Charstatus = [1, 1, 1, 1, 1]    #人物状态，是否编入队伍，是为0,否为1
     modeintroadd = path("res/pic/modeintro" + str(modeID) + ".png")
 
     # 图片及位置
@@ -39,10 +39,13 @@ def selectCharacters(screen, clock, modeID, mapID):
     CharTitlePos = (340, 0)
     modeIntro = pygame.image.load(modeintroadd).convert_alpha()
     modeintroPos = (980, 0)
+    #   人物框
     Charflame = pygame.image.load(path("res/character/charflame.png")).convert_alpha()
+    #   编队框
     Teamflame = pygame.image.load(path("res/character/teamflame.png")).convert_alpha()
     TeamflamePos = (255, 520)
     CharinfoPos = (0,150)
+    # 人物框加载路径
     loadpathb.append(path("res/character/pingminb.png"))
     loadpathb.append(path("res/character/gongtoub.png"))
     loadpathb.append(path("res/character/gansiduib.png"))
@@ -53,7 +56,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathbs.append(path("res/character/gansiduibs.png"))
     loadpathbs.append(path("res/character/pangdunbs.png"))
     loadpathbs.append(path("res/character/yaojishibs.png"))
-    for i in range (0, Totalnum):
+    for i in range(0, Totalnum):
         CharPic0.append(pygame.image.load(loadpathb[i]).convert_alpha())
         CharPic.append(pygame.image.load(loadpathb[i]).convert_alpha())
         CharflamePos.append((255 + i * 100, 250))
