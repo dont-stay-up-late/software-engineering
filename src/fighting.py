@@ -7,7 +7,7 @@ from models import *
 from gamecontroller import *
 from levelDefend import *
 from defeated import *
-
+from fightResult import endFight
 
 # modeID为游戏模式编号，mapID为地图编号, charID为选用的角色的列表编号
 def startFight(screen, clock, modeID, mapID, CharID):
@@ -125,10 +125,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 #   放弃，失败
                 if x > GiveupPos[0] and x < GiveupPos[0] + Giveup.get_width() \
                     and y > GiveupPos[1] and y < GiveupPos[1] + Giveup.get_height():
-                    # defeated(screen, clock, modeID, mapID)
-                    #breakflag = 1
-                    pass
-                # here to come back home
+                    endFight(screen, clock, modeID, mapID, False)
+                    breakflag = 1
 
                 for i in range(Charnum):
                     #   选取人物，或者切换选取人物，都需要对坐标朝向等重置
@@ -195,6 +193,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 lastTime = curTime
                 life = mapload.fortress_HP      #家的生命值
 
+                #   时间耗尽即可获胜
+                if timeLeft <= 0:
+                    endFight(screen, clock, modeID, mapID, True)
+                    breakflag = 1
+
                 if attackerorder < len(attackerplan[0]):
                     # 根据时间依次出怪
                     while attackerplan[0][attackerorder] <= timePast:
@@ -243,12 +246,12 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         attackers.remove(attacker)
                         del attackersID[k]
                         if mapload.fortress_HP <= 0:
-                            # defeated(screen, clock, modeID, mapID)
-                            #breakflag = 1
-                            pass
+                            endFight(screen, clock, modeID, mapID, False)
+                            breakflag = 1
 
                     if counts % 10 == 0:
                         attacker.attack()
+                # 防守方死亡
                 for deffender in deffenders:
                     if deffender.hp <= 0:
                         k = deffenders.index(deffender)
