@@ -61,7 +61,6 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
 
     def update(self):
         # https://www.cnblogs.com/msxh/p/5013555.html
-        self.position += CharacterModel.MOVEMENT[self.direction] * self.speed
         if self.attacking_flag:
             pass
         elif self.attacked_flag:
@@ -173,14 +172,14 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
             elif reaching_char.direction == 2:
                 # Down
                 x = (reaching_char.position[0] - 265) // 75 - delta_y
-                y = (reaching_char.position[1] - 265) // 75 + delta_x
+                y = (reaching_char.position[1] - 70) // 75 + delta_x
             else:
                 # Right
                 x = (reaching_char.position[0] - 265) // 75 + delta_x
                 y = (reaching_char.position[1] - 70) // 75 + delta_y
             reach.append((x, y))
         x = (reached_char.position[0] - 265) // 75
-        y = (reached_char.position[1] - 265) // 75
+        y = (reached_char.position[1] - 70) // 75
         return (x, y) in reach
 
 
