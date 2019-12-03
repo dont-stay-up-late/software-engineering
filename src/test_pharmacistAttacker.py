@@ -19,7 +19,7 @@ class TestPharmacistAttacker(TestCase):
         return super().tearDown()
     
     def test_update(self):
-        # When friends' hp within reach model is 0 or negative, a pharmacist recovers it to it's full HP.
+        # Kill attacker when attacked.
         pharmacist = PharmacistAttacker(self.controller, [100, 100], 3)
         opponent = KamikazeDefender(self.controller, [100, 175], 1)
         opponent.attack()
