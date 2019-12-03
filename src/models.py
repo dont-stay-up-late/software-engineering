@@ -518,7 +518,7 @@ class PharmacistAttacker(Attacker):
         self.init_image(self.filename, 75, 75, 1)
 
     def attacked(self, loss, attacker):
-        if self.last_special_time - time.time() >= self.SPECIAL_INTERVAL:
+        if time.time() - self.last_special_time >= self.SPECIAL_INTERVAL:
             # Kill attacker
             self.special(attacker)
             self.last_special_time = time.time()
