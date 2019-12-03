@@ -98,12 +98,12 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
             if self.frame > self.last_frame:
                 self.frame = self.first_frame
             self.last_time = self.controller.frames_passed
-        if self.frame != self.old_frame:
-            frame_x = (self.frame % self.columns) * self.frame_width
-            frame_y = (self.frame // self.columns) * self.frame_height
-            rect = (frame_x, frame_y, self.frame_width, self.frame_height)
-            self.image = self.master_image.subsurface(rect)
-            self.old_frame = self.frame
+        # if self.frame != self.old_frame:
+        #     frame_x = (self.frame % self.columns) * self.frame_width
+        #     frame_y = (self.frame // self.columns) * self.frame_height
+        #     rect = (frame_x, frame_y, self.frame_width, self.frame_height)
+        #     self.image = self.master_image.subsurface(rect)
+        #     self.old_frame = self.frame
 
     def attack(self):
         if self.controller.frames_passed % 10 != 0:
@@ -122,8 +122,6 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
     def attacked(self, loss, attacker):
         self.attacked_flag = True
         self.hp -= loss
-        if self.hp <= 0:
-            self.die()
 
     def die(self):
         self.active = False
