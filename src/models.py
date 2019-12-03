@@ -405,16 +405,12 @@ class BombDefender(Defender):
 
     def update(self):
         if time.time() - self.created_time >= self.SPECIAL_INTERVAL:
-            # Iterate through neighbors and apply special
-            for attacker in Attacker.attackers:
-                if CharacterModel.reachable(self, attacker, self.reach_model) and attacker.active:
-                    self.special(attacker)
             self.die()
         super().update()
 
     def die(self):
         for attacker in Attacker.attackers:
-            if CharacterModel.reachable(self, attacker, self.reach_model):
+            if CharacterModel.reachable(self, attacker, self.reach_model) and attacker.active:
                 self.special(attacker)
         super().die()
 
