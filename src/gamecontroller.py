@@ -18,7 +18,7 @@ class GameController(object):
         self.paused = False
         # Game time
         self.level_time_limit = map.time_limit
-        self.FPS = 30
+        self.FPS = 40
         self.frames_passed = 0
         # Game mode (single w/o network connection, or multiplayer w/ network connection)
         self.game_mode = mode

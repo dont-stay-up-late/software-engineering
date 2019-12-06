@@ -296,7 +296,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         k = attackers.index(attacker)
                         screen.blit(attackerPic[attackersID[k]], (x, y))
                         # print("The image location is : %f,%f"%(x,y))
-                        # print("The attacks[%d]'s HP is : %d" % (i, attackers[i].hp))
+                        print("The attackers's HP is : %d" % (attacker.hp))
 
                 # 更新朝向按键
                 if characterSelectedID >= 0 and coordinateSelected[0] >= 0 and coordinateSelected[1]>=0:

@@ -106,8 +106,8 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         #     self.old_frame = self.frame
 
     def attack(self):
-        if self.controller.frames_passed % 10 != 0:
-            return
+        #if self.controller.frames_passed % 10 != 0:
+        #    return
         if isinstance(self, Defender):
             # I'm a defender. I'll attack attackers.
             for attacker in Attacker.attackers:
@@ -230,9 +230,9 @@ class CivilianDefender(Defender):
     The civilian defender class.
     """
     last_created_time = 0
-    HP = 100
+    HP = 10
     ATTACK_POWER = 10
-    reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 4), (1, 0), (1, 1)]
+    reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 0), (1, 0), (1, 1)]
     filename = path('res/character/pingminb0.png')
 
     def __init__(self, controller, position, direction):
@@ -255,7 +255,7 @@ class FattyDefender(Defender):
     last_created_time = 0
     HP = 400
     ATTACK_POWER = 5
-    reach_model = []
+    reach_model = [(0, 0)]
     filename = path('res/character/pangdunb0.png')
 
     def __init__(self, controller, position, direction):
@@ -278,7 +278,7 @@ class KamikazeDefender(Defender):
     last_created_time = 0
     HP = 40
     ATTACK_POWER = 20
-    reach_model = [(0, 1), (0, 2)]
+    reach_model = [(0, 1), (0, 0),(0, 2)]
     filename = path('res/character/gansiduib0.png')
 
     def __init__(self, controller, position, direction):
@@ -302,7 +302,7 @@ class PharmacistDefender(Defender):
     SPECIAL_INTERVAL = 120
     HP = 50
     ATTACK_POWER = 0
-    reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, 0), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
     filename = path('res//character/yaojishib0.png')
 
     def __init__(self, controller, position, direction):
@@ -341,7 +341,7 @@ class AuraDefender(Defender):
     last_created_time = 0
     HP = 90
     ATTACK_POWER = 0
-    reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
+    reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, 0), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
     filename = path('res/character/gongtoub0.png')
 
     def __init__(self, controller, position, direction):
@@ -387,7 +387,7 @@ class BombDefender(Defender):
     SPECIAL_INTERVAL = 1.5  # seconds
     HP = 200
     ATTACK_POWER = 0
-    reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
     filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
@@ -425,9 +425,9 @@ class CivilianAttacker(Attacker):
     The civilian attacker class.
     """
     last_created_time = 0
-    HP = 120
+    HP = 10
     ATTACK_POWER = 40
-    reach_model = []
+    reach_model = [(0, 0), (0, 1)]
     filename = path('res/character/pingminr0.png')
 
     def __init__(self, controller, position, direction):
@@ -451,7 +451,7 @@ class FattyAttacker(Attacker):
     last_created_time = 0
     HP = 400
     ATTACK_POWER = 25
-    reach_model = []
+    reach_model = [(0, 0), (0, 1)]
     filename = path('res/character/pangdunr0.png')
 
     def __init__(self, controller, position, direction):
@@ -475,7 +475,7 @@ class KamikazeAttacker(Attacker):
     last_created_time = 0
     HP = 40
     ATTACK_POWER = 50
-    reach_model = [(0, 1)]
+    reach_model = [(0, 1), (0, 0), (0, 2)]
     filename = path('res/character/gansiduir0.png')
 
     def __init__(self, controller, position, direction):
@@ -500,7 +500,7 @@ class PharmacistAttacker(Attacker):
     SPECIAL_INTERVAL = 60
     HP = 150
     ATTACK_POWER = 10
-    reach_model = [(0, 1)]
+    reach_model = [(0, 1), (0, 0), (0, 2)]
     filename = path('res/character/yaojishir0.png')
 
     def __init__(self, controller, position, direction):
@@ -535,7 +535,7 @@ class AuraAttacker(Attacker):
     last_created_time = 0
     HP = 240
     ATTACK_POWER = 30
-    reach_model = [(-1, 0), (0, -1), (0, 1), (1, 0)]
+    reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
     filename = path('res/character/gongtour0.png')
 
     def __init__(self, controller, position, direction):
@@ -582,8 +582,8 @@ class BombAttacker(Attacker):
     HP = 210
     ATTACK_POWER = 0
     SPECIAL_ATTACK_POWER = 380
-    reach_model = [(1, 0)]
-    special_reach_model = [(-1, 0), (0, -1), (0, 1), (1, 0)]
+    reach_model = [(0, 0), (0, 1), (0, 2)]
+    special_reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
     filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
