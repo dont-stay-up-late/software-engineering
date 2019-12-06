@@ -17,6 +17,8 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin):
     tryAgainButtonPos1 = (540, 425)
     returnHomeButtonPos0 = (540, 510)
     returnHomeButtonPos1 = (540, 505)
+    tryAgainButtonPos = tryAgainButtonPos0
+    returnHomeButtonPos = returnHomeButtonPos0
 
     breakflag = 0
 
@@ -50,7 +52,7 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin):
 
                 if x > returnHomeButtonPos0[0] and x < returnHomeButtonPos0[0] + returnHomeButton.get_width() \
                         and y > returnHomeButtonPos0[1] and y < returnHomeButtonPos0[1] + returnHomeButton.get_height():
-                    from initMenu import initialMenu
+                    from initialMenu import initialMenu
                     initialMenu(screen, clock)
                     # here to get back to home
 

@@ -1,17 +1,17 @@
 import pygame
 import sys
 from pygame.locals import *
-from modeSelect import *
+from selectMode import *
 from path import path
 
 
 # 主菜单初始化
 def initialMenu(screen, clock):
-    bg = (255, 255, 255)
+    background = (255, 255, 255)
     breakflag = 0
 
     # 图片及位置
-    bg = pygame.image.load(path("res/bg/bg_main.png")).convert()    #背景图
+    background = pygame.image.load(path("res/bg/bg_main.png")).convert()    #背景图
     title = pygame.image.load(path("res/pic/title.png")).convert_alpha()    #标题
     titlePos = (340, 100)
     startButton = pygame.image.load(path("res/button/start.png")).convert_alpha()   #开始游戏
@@ -78,7 +78,7 @@ def initialMenu(screen, clock):
             if event.type == MOUSEBUTTONDOWN:
                 if x > startPos0[0] and x < startPos0[0] + startButton.get_width() \
                         and y > startPos0[1] and y < startPos0[1] + startButton.get_height():
-                    modeSelect(screen,clock)
+                    selectMode(screen,clock)
                     breakflag = 1
                     # here to start the game function
 
@@ -102,7 +102,7 @@ def initialMenu(screen, clock):
                     print('game ended!')
                     sys.exit()
         # 填充背景和内容
-        screen.blit(bg, (0, 0))
+        screen.blit(background, (0, 0))
         screen.blit(title, titlePos)
         screen.blit(startButton, startPos)
         screen.blit(handbookButton, handbookPos)

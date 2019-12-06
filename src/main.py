@@ -1,12 +1,12 @@
 import pygame
 import sys
 from pygame.locals import *
-from initMenu import *
+from initialMenu import *
 
 # 系统初始化
 def initialSystem():
     pygame.init()
-    global screen,clock
+    global screen, clock
     size = (width, height) = (1280, 720)
 
     font = pygame.font.Font("C:/Windows/Fonts/simsun.ttc", 30)
