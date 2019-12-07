@@ -230,12 +230,6 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 if counts % 10 == 0:
                     for i in range(len(defenders)):
                         defenders[i].attack()
-                for attacker in attackers:
-                    if attacker.hp <= 0:
-                        # 角色死亡，将角色及对应编号移出列表
-                        k = attackers.index(attacker)
-                        attackers.remove(attacker)
-                        del attackersID[k]
                 # 攻击方移动，攻击，防守方死亡判定
                 for i, attacker in enumerate(attackers):
                     # print("attackers[%d].position:%f,%f"%(1,attackers[1].position[0],attackers[1].position[1]))
@@ -251,6 +245,18 @@ def startFight(screen, clock, modeID, mapID, CharID):
 
                     if counts % 10 == 0:
                         attacker.attack()
+                # 在判断死亡前，先update以发动技能
+                for attacker in attackers:
+                    attacker.update()
+                for defender in defenders:
+                    defender.update()
+                # 攻击方死亡
+                for attacker in attackers:
+                    if attacker.hp <= 0:
+                        # 角色死亡，将角色及对应编号移出列表
+                        k = attackers.index(attacker)
+                        attackers.remove(attacker)
+                        del attackersID[k]
                 # 防守方死亡
                 for deffender in defenders:
                     if deffender.hp <= 0:
