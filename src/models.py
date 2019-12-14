@@ -89,8 +89,8 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
             else:
                 # self.init_image(self, WALK_IMAGE_3, width, height, columns)
                 pass
-        self.attacked_flag = False
-        self.attacking_flag = False
+        # self.attacked_flag = False
+        # self.attacking_flag = False
 
         # Animation Effect
         if self.controller.frames_passed > self.last_time + self.rate:
@@ -110,18 +110,29 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         #    return
         if isinstance(self, Defender):
             # I'm a defender. I'll attack attackers.
+            attacking_num = 0
             for attacker in Attacker.attackers:
                 if CharacterModel.reachable(self, attacker, self.reach_model):
                     attacker.attacked(self.attack_power, self)
+                    self.attacking_flag = True
+                    attacking_num += 1
+            if attacking_num == 0:
+                self.attacking_flag = False
+
         else:
             # I'm an attacker. I'll attack defenders.
+            attacking_num = 0
             for defender in Defender.defenders:
                 if CharacterModel.reachable(self, defender, self.reach_model):
                     defender.attacked(self.attack_power, self)
+                    self.attacking_flag = True
+                    attacking_num += 1
+            if attacking_num == 0:
+                self.attacking_flag = False
 
     def attacked(self, loss, attacker):
         self.attacked_flag = True
-        self.hp -= loss
+        self.hp -= loss * 0.1
 
     def die(self):
         self.active = False
@@ -130,10 +141,12 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
             for attacker in Attacker.attackers:
                 if CharacterModel.reachable(self, attacker, self.reach_model):
                     attacker.attacked_flag = False
+                    attacker.attacking_flag = False
         else:
             for defender in Defender.defenders:
                 if CharacterModel.reachable(self, defender, self.reach_model):
                     defender.attacked_flag = False
+                    defender.attacking_flag = False
         if isinstance(self, Attacker):
             # Money reward for defender
             # Currently the amount is set to half of the cost of the character itself. This could be adjusted.
@@ -230,7 +243,7 @@ class CivilianDefender(Defender):
     The civilian defender class.
     """
     last_created_time = 0
-    HP = 10
+    HP = 100
     ATTACK_POWER = 10
     reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 0), (1, 0), (1, 1)]
     filename = path('res/character/pingminb0.png')
@@ -277,7 +290,7 @@ class KamikazeDefender(Defender):
     """
     last_created_time = 0
     HP = 40
-    ATTACK_POWER = 20
+    ATTACK_POWER = 10
     reach_model = [(0, 1), (0, 0),(0, 2)]
     filename = path('res/character/gansiduib0.png')
 
@@ -301,7 +314,7 @@ class PharmacistDefender(Defender):
     last_created_time = 0
     SPECIAL_INTERVAL = 120
     HP = 50
-    ATTACK_POWER = 0
+    ATTACK_POWER = 5
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, 0), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
     filename = path('res//character/yaojishib0.png')
 
@@ -340,7 +353,7 @@ class AuraDefender(Defender):
     """
     last_created_time = 0
     HP = 90
-    ATTACK_POWER = 0
+    ATTACK_POWER = 10
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, 0), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
     filename = path('res/character/gongtoub0.png')
 
@@ -386,7 +399,7 @@ class BombDefender(Defender):
     last_created_time = 0
     SPECIAL_INTERVAL = 1.5  # seconds
     HP = 200
-    ATTACK_POWER = 0
+    ATTACK_POWER = 10
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
     filename = path('res/mapnum/Mapnum1_0.png')
 
@@ -425,8 +438,8 @@ class CivilianAttacker(Attacker):
     The civilian attacker class.
     """
     last_created_time = 0
-    HP = 10
-    ATTACK_POWER = 40
+    HP = 100
+    ATTACK_POWER = 10
     reach_model = [(0, 0), (0, 1)]
     filename = path('res/character/pingminr0.png')
 
@@ -450,7 +463,7 @@ class FattyAttacker(Attacker):
     """
     last_created_time = 0
     HP = 400
-    ATTACK_POWER = 25
+    ATTACK_POWER = 20
     reach_model = [(0, 0), (0, 1)]
     filename = path('res/character/pangdunr0.png')
 
@@ -474,7 +487,7 @@ class KamikazeAttacker(Attacker):
     """
     last_created_time = 0
     HP = 40
-    ATTACK_POWER = 50
+    ATTACK_POWER = 5
     reach_model = [(0, 1), (0, 0), (0, 2)]
     filename = path('res/character/gansiduir0.png')
 
@@ -580,7 +593,7 @@ class BombAttacker(Attacker):
     """
     last_created_time = 0
     HP = 210
-    ATTACK_POWER = 0
+    ATTACK_POWER = 10
     SPECIAL_ATTACK_POWER = 380
     reach_model = [(0, 0), (0, 1), (0, 2)]
     special_reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
