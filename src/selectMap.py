@@ -141,14 +141,14 @@ def selectMap(screen, clock, modeID):
 
                 if x > backPos[0] and x < backPos[0] + backButton.get_width() \
                         and y > backPos[1] and y < backPos[1] + backButton.get_height():
-                    from modeSelect import modeSelect
+                    from selectMode import selectMode
                     selectMode(screen, clock)
                     breakflag = 1
                     # here to come back
 
                 elif x > homePos[0] and x < homePos[0] + homeButton.get_width() \
                         and y > homePos[1] and y < homePos[1] + homeButton.get_height():
-                    from initMenu import initialMenu
+                    from initialMenu import initialMenu
                     initialMenu(screen, clock)
                     breakflag = 1
                     # here to come back home

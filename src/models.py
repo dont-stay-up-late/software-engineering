@@ -174,20 +174,20 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         for delta_x, delta_y in reach_model:
             if reaching_char.direction == 0:
                 # Up
-                x = (reaching_char.position[0] - 265) // 75 + delta_y
-                y = (reaching_char.position[1] - 70) // 75 - delta_x
-            elif reaching_char.direction == 1:
-                # Left
                 x = (reaching_char.position[0] - 265) // 75 - delta_x
                 y = (reaching_char.position[1] - 70) // 75 - delta_y
-            elif reaching_char.direction == 2:
-                # Down
+            elif reaching_char.direction == 1:
+                # Left
                 x = (reaching_char.position[0] - 265) // 75 - delta_y
                 y = (reaching_char.position[1] - 70) // 75 + delta_x
-            else:
-                # Right
+            elif reaching_char.direction == 2:
+                # Down
                 x = (reaching_char.position[0] - 265) // 75 + delta_x
                 y = (reaching_char.position[1] - 70) // 75 + delta_y
+            else:
+                # Right
+                x = (reaching_char.position[0] - 265) // 75 + delta_y
+                y = (reaching_char.position[1] - 70) // 75 - delta_x
             reach.append((x, y))
         x = (reached_char.position[0] - 265) // 75
         y = (reached_char.position[1] - 70) // 75

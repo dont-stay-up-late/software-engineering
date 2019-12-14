@@ -46,16 +46,20 @@ def selectCharacters(screen, clock, modeID, mapID):
     teamFlamePos = (255, 520)
     characterInfoPos = (0,150)
     # 人物框加载路径
-    loadpathNotLocked.append(path("res/character/pingminb.png"))
-    loadpathNotLocked.append(path("res/character/gongtoub.png"))
-    loadpathNotLocked.append(path("res/character/gansiduib.png"))
-    loadpathNotLocked.append(path("res/character/pangdunb.png"))
-    loadpathNotLocked.append(path("res/character/yaojishib.png"))
-    loadpathLocked.append(path("res/character/pingminbs.png"))
-    loadpathLocked.append(path("res/character/gongtoubs.png"))
-    loadpathLocked.append(path("res/character/gansiduibs.png"))
-    loadpathLocked.append(path("res/character/pangdunbs.png"))
-    loadpathLocked.append(path("res/character/yaojishibs.png"))
+    if modeID == 2:
+        side = 'b' # single defend
+    elif modeID == 1:
+        side = 'r' # single attack
+    loadpathNotLocked.append(path("res/character/pingmin{}.png".format(side)))
+    loadpathNotLocked.append(path("res/character/gongtou{}.png".format(side)))
+    loadpathNotLocked.append(path("res/character/gansidui{}.png".format(side)))
+    loadpathNotLocked.append(path("res/character/pangdun{}.png".format(side)))
+    loadpathNotLocked.append(path("res/character/yaojishi{}.png".format(side)))
+    loadpathLocked.append(path("res/character/pingmin{}s.png".format(side)))
+    loadpathLocked.append(path("res/character/gongtou{}s.png".format(side)))
+    loadpathLocked.append(path("res/character/gansidui{}s.png".format(side)))
+    loadpathLocked.append(path("res/character/pangdun{}s.png".format(side)))
+    loadpathLocked.append(path("res/character/yaojishi{}s.png".format(side)))
     for i in range(0, totalNum):
         characterPic0.append(pygame.image.load(loadpathNotLocked[i]).convert_alpha())
         characterPic.append(pygame.image.load(loadpathNotLocked[i]).convert_alpha())

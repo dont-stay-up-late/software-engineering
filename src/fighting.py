@@ -259,6 +259,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     if update_direction(attacker, mapload):
                         k = attackers.index(attacker)
                         attackers.remove(attacker)
+                        attacker.die()
                         del attackersID[k]
                         if mapload.fortress_HP <= 0:
                             endFight(screen, clock, modeID, mapID, False)
@@ -276,12 +277,14 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         # 角色死亡，将角色及对应编号移出列表
                         k = attackers.index(attacker)
                         attackers.remove(attacker)
+                        attacker.die()
                         del attackersID[k]
                 # 防守方死亡
                 for defender in defenders:
                     if defender.hp <= 0:
                         k = defenders.index(defender)
                         defenders.remove(defender)
+                        defender.die()
                         del defendersID[k]
 
                 #   更新静态图

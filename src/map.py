@@ -103,7 +103,6 @@ def update_direction(attacker,map):
         attacker.die()
         return True
     if map.maps[i][j].isHome==True:
-        attacker.die()
         map.fortress_HP-=1
         #这里再加一些进家时的代码
         return True

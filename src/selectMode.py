@@ -104,7 +104,7 @@ def selectMode(screen, clock):
 
                 elif x > homePos[0] and x < homePos[0] + homeButton.get_width() \
                         and y > homePos[1] and y < homePos[1] + homeButton.get_height():
-                    from initMenu import initialMenu
+                    from initialMenu import initialMenu
                     initialMenu(screen, clock)
                     breakflag = 1
                     # here to come back home

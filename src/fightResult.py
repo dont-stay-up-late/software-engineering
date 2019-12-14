@@ -39,7 +39,10 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin):
                 returnHomeButtonPos = returnHomeButtonPos0
 
             if event.type == pygame.QUIT:
-                sys.exit()
+                try:
+                    sys.exit()
+                except:
+                    pass
                 breakflag = 1
 
             if event.type == MOUSEBUTTONDOWN:
