@@ -137,7 +137,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                try:
+                    sys.exit()
+                except:
+                    pass
                 breakflag = 1
 
             if event.type == MOUSEBUTTONDOWN:

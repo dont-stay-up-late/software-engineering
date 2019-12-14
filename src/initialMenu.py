@@ -72,7 +72,10 @@ def initialMenu(screen, clock):
 
             #   退出游戏
             if event.type == pygame.QUIT:
-                sys.exit()
+                try:
+                    sys.exit()
+                except:
+                    pass
                 breakflag = 1
 
             if event.type == MOUSEBUTTONDOWN:
@@ -100,7 +103,10 @@ def initialMenu(screen, clock):
                 elif x > quitPos0[0] and x < quitPos0[0] + quitButton.get_width() \
                         and y > quitPos0[1] and y < quitPos0[1] + quitButton.get_height():
                     print('game ended!')
-                    sys.exit()
+                    try:
+                        sys.exit()
+                    except:
+                        pass
         # 填充背景和内容
         screen.blit(background, (0, 0))
         screen.blit(title, titlePos)
