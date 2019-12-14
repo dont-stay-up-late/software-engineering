@@ -101,7 +101,7 @@ def selectMap(screen, clock, modeID):
                     mapNum4Button = pygame.image.load(path("res/mapnum/Mapnum4_1.png")).convert_alpha()
                     mapNum5Button = pygame.image.load(path("res/mapnum/Mapnum5_0.png")).convert_alpha()
                     mapNum6Button = pygame.image.load(path("res/mapnum/Mapnum6_0.png")).convert_alpha()
-                    mapinfoID = "res/mapinfo/Map" + str(modeID) + "_4info.png"
+                    mapinfoID = path("res/mapinfo/Map" + str(modeID) + "_4info.png")
                     mapinfo = pygame.image.load(mapinfoID).convert_alpha()
                     flagMapInfo = 4
                 # shift picture
