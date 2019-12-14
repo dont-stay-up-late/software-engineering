@@ -110,6 +110,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
         defenderPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b0.png")).convert_alpha())
         defenderDetectPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b1.png")).convert_alpha())
         defenderAttackPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b2.png")).convert_alpha())
+<<<<<<< HEAD
         defenderPic[i] = pygame.transform.scale(defenderPic[i], (55, 55))
         defenderDetectPic[i] = pygame.transform.scale(defenderDetectPic[i], (55, 55))
         defenderAttackPic[i] = pygame.transform.scale(defenderAttackPic[i], (55, 55))
@@ -119,6 +120,29 @@ def startFight(screen, clock, modeID, mapID, CharID):
         attackerPic[i] = pygame.transform.scale(attackerPic[i], (55, 55))
         attackerDetectPic[i] = pygame.transform.scale(attackerDetectPic[i], (55, 55))
         attackerAttackPic[i] = pygame.transform.scale(attackerAttackPic[i], (55, 55))
+=======
+<<<<<<< HEAD
+        defenderPic[i] = pygame.transform.scale(defenderPic[i], (55, 55))
+        defenderDetectPic[i] = pygame.transform.scale(defenderDetectPic[i], (55, 55))
+        defenderAttackPic[i] = pygame.transform.scale(defenderAttackPic[i], (55, 55))
+        attackerPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r0.png")).convert_alpha())
+        attackerDetectPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r1.png")).convert_alpha())
+        attackerAttackPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r2.png")).convert_alpha())
+        attackerPic[i] = pygame.transform.scale(attackerPic[i], (55, 55))
+        attackerDetectPic[i] = pygame.transform.scale(attackerDetectPic[i], (55, 55))
+        attackerAttackPic[i] = pygame.transform.scale(attackerAttackPic[i], (55, 55))
+=======
+        defenderPic[i] = pygame.transform.scale(defenderPic[i], (75, 75))
+        defenderDetectPic[i] = pygame.transform.scale(defenderDetectPic[i], (75, 75))
+        defenderAttackPic[i] = pygame.transform.scale(defenderAttackPic[i], (75, 75))
+        attackerPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r0.png")).convert_alpha())
+        attackerDetectPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r1.png")).convert_alpha())
+        attackerAttackPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r2.png")).convert_alpha())
+        attackerPic[i] = pygame.transform.scale(attackerPic[i], (75, 75))
+        attackerDetectPic[i] = pygame.transform.scale(attackerDetectPic[i], (75, 75))
+        attackerAttackPic[i] = pygame.transform.scale(attackerAttackPic[i], (75, 75))
+>>>>>>> 480cf49fe197e2a5bad4d80db8b0f5bbe2f77169
+>>>>>>> 5696753317665b3503053063110b23a7937438a7
 
     # 地图准备
     mapload = levelLoad(mapID)
@@ -314,6 +338,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         k = defenders.index(defender)
                         if defender.attacking_flag == False:
                             if counts % 20 <= 9:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5696753317665b3503053063110b23a7937438a7
                                 screen.blit(defenderPic[defendersID[k]], (x - 2 + 10, y + 10))
                                 screen.blit(hpPic[int((defender.hp - 1) // (defender.HP * 0.1))], (x + 1, y + 4))
                             else:
@@ -327,6 +355,19 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 screen.blit(defenderAttackPic[defendersID[k]], (x + 10, y + 10))
                                 screen.blit(hpPic[int((defender.hp - 1) // (defender.HP * 0.1))], (x + 3, y + 4))
 
+<<<<<<< HEAD
+=======
+=======
+                                screen.blit(defenderPic[defendersID[k]], (x - 2, y))
+                            else:
+                                screen.blit(defenderPic[defendersID[k]], (x + 2, y))
+                        else:
+                            if counts % 20 <= 9:
+                                screen.blit(defenderDetectPic[defendersID[k]], (x, y))
+                            else:
+                                screen.blit(defenderAttackPic[defendersID[k]], (x, y))
+>>>>>>> 480cf49fe197e2a5bad4d80db8b0f5bbe2f77169
+>>>>>>> 5696753317665b3503053063110b23a7937438a7
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attacks[%d]'s HP is : %d" % (i, attackers[i].hp))
                 # 更新进攻方图片
@@ -336,6 +377,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         k = attackers.index(attacker)
                         if attacker.attacking_flag == False:
                             if counts % 20 <= 12:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 5696753317665b3503053063110b23a7937438a7
                                 screen.blit(attackerPic[attackersID[k]], (x + 10, y + 10))
                                 screen.blit(hpPic[int((attacker.hp - 1) // (attacker.HP * 0.1))], (x + 3, y + 4))
                             else:
@@ -348,6 +393,19 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             else:
                                 screen.blit(attackerAttackPic[attackersID[k]], (x + 10, y + 10))
                                 screen.blit(hpPic[int((attacker.hp - 1) // (attacker.HP * 0.1))], (x + 3, y + 4))
+<<<<<<< HEAD
+=======
+=======
+                                screen.blit(attackerPic[attackersID[k]], (x, y))
+                            else:
+                                screen.blit(attackerPic[attackersID[k]], (x, y + 4))
+                        else:
+                            if counts % 20 <= 9:
+                                screen.blit(attackerDetectPic[attackersID[k]], (x, y))
+                            else:
+                                screen.blit(attackerAttackPic[attackersID[k]], (x, y))
+>>>>>>> 480cf49fe197e2a5bad4d80db8b0f5bbe2f77169
+>>>>>>> 5696753317665b3503053063110b23a7937438a7
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attackers's HP is : %d" % (attacker.hp))
 
