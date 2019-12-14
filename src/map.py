@@ -31,7 +31,7 @@ class Block:
 class Map:
     # '地图类'
 
-    # def __init__(self,m = 10,n = 15):
+    # def __init__(self,m = 6,n = 10):
     def __init__(self, m, n):  # 构造一个m*n(m行n列)的空地图
         self.rowNumber = n      # 列数
         self.columnNumber = m   # 行数
@@ -51,7 +51,7 @@ class Map:
             self.maps.append([])
             for j in range(n):
                 b = Block()
-                self.maps[i].append(b)
+                self.maps[i].append(b) # maps第一元素是行数，即y，第二元素是列数，即x
 
     def setSomeBlock(self, i, j, styleNumber):  # 将(i,j)位置的格子设置成某个状态
         self.maps[i][j].setBlock(styleNumber)
@@ -83,7 +83,7 @@ class Map:
             # 如果位置出界，则返回(-1,-1)
             return [-1, -1]
         else:
-            return[x,y]
+            return[x,y]  # 这里返回的x和y指的是坐标
 
     def blockToPosition(self, blockPosition):  # 将blockPosition中心的像素位置输出
         x=int((blockPosition[0]+0.5)*self.blockSize+self.xBegin)
@@ -95,7 +95,7 @@ def update_direction(attacker,map):
     # Return True if attacker die in this method.
     x=(attacker.position[0]-map.xBegin)/map.blockSize
     y=(attacker.position[1]-map.yBegin)/map.blockSize
-    i=int(y)
+    i=int(y)   # 因为maps的是行列，对应（y,x)，逻辑上有问题
     j=int(x)
 
     if i<0 or j<0 or i>=map.columnNumber or j>=map.rowNumber:

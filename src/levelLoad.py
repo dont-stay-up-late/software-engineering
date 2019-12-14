@@ -14,11 +14,11 @@ def dataLoad(i):
 	t = fileP.readline(4)
 	t = t.strip('\n')
 	#print(t)
-	columnAndRow.append(int(t))		#行
+	columnAndRow.append(int(t))		#行，6行
 	t = fileP.readline(4)
 	t = t.strip('\n')
 	#print(t)
-	columnAndRow.append(int(t))		#列
+	columnAndRow.append(int(t))		#列，10列
 	while (1):
 		a = fileP.read(1)
 		if a == "*":

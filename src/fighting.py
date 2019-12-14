@@ -167,8 +167,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     and y > mapload.yBegin and y < mapload.yBegin + mapload.columnNumber * mapload.blockSize \
                     and characterSelectedID >= 0:
                     coordinateSelected = mapload.positionToBlock([x,y])
-                    # if True:
-                    if mapload.maps[coordinateSelected[0]][coordinateSelected[1]].canPlantOn and mapload.maps[coordinateSelected[0]][coordinateSelected[1]].isPlantOn == False:
+                    #if True:
+                    if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canPlantOn and mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPlantOn == False:
                         coordinateSelectedOld = coordinateSelected
                     else:
                         coordinateSelected = coordinateSelectedOld
@@ -319,17 +319,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if defender.attacking_flag == False:
                             if counts % 20 <= 9:
                                 screen.blit(defenderPic[defendersID[k]], (x - 2 + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 1, y + 9))
+                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 1, y + 19))
                             else:
                                 screen.blit(defenderPic[defendersID[k]], (x + 2 + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 5, y + 9))
+                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 5, y + 19))
                         else:
                             if counts % 20 <= 9:
                                 screen.blit(defenderDetectPic[defendersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 3, y + 9))
+                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 3, y + 19))
                             else:
                                 screen.blit(defenderAttackPic[defendersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 3, y + 9))
+                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 3, y + 19))
 
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attacks[%d]'s HP is : %d" % (i, attackers[i].hp))
@@ -341,17 +341,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if attacker.attacking_flag == False:
                             if counts % 20 <= 12:
                                 screen.blit(attackerPic[attackersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 9))
+                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 19))
                             else:
                                 screen.blit(attackerPic[attackersID[k]], (x + 10, y + 4 + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 13))
+                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 23))
                         else:
                             if counts % 20 <= 9:
                                 screen.blit(attackerDetectPic[attackersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 9))
+                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 19))
                             else:
                                 screen.blit(attackerAttackPic[attackersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 9))
+                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 19))
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attackers's HP is : %d" % (attacker.hp))
 

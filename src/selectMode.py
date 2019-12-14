@@ -18,14 +18,14 @@ def selectMode(screen, clock):
     singleAttackPos0 = (400, 445)
     singleAttackPos1 = (400, 440)
     singleDefendButton = pygame.image.load(path("res/button/single_defend.png")).convert_alpha()
-    singleDefendPos0 = (400, 545)
-    singleDefendPos1 = (400, 540)
-    onlineAttackButton = pygame.image.load(path("res/button/online_attack.png")).convert_alpha()
-    onlineAttackPos0 = (680, 445)
-    onlineAttackPos1 = (680, 440)
-    onlineDefendButton = pygame.image.load(path("res/button/online_defend.png")).convert_alpha()
-    onlineDefendPos0 = (680, 545)
-    onlineDefendPos1 = (680, 540)
+    singleDefendPos0 = (680, 445)
+    singleDefendPos1 = (680, 440)
+    # onlineAttackButton = pygame.image.load(path("res/button/online_attack.png")).convert_alpha()
+    # onlineAttackPos0 = (680, 445)
+    # onlineAttackPos1 = (680, 440)
+    # onlineDefendButton = pygame.image.load(path("res/button/online_defend.png")).convert_alpha()
+    # onlineDefendPos0 = (680, 545)
+    # onlineDefendPos1 = (680, 540)
 
     # 返回
     backButton = pygame.image.load(path("res/button/back.png")).convert_alpha()
@@ -35,8 +35,8 @@ def selectMode(screen, clock):
     homePos = (150, 0)
     singleAttackPos = singleAttackPos0
     singleDefendPos = singleDefendPos0
-    onlineAttackPos = onlineAttackPos0
-    onlineDefendPos = onlineDefendPos0
+    # onlineAttackPos = onlineAttackPos0
+    # onlineDefendPos = onlineDefendPos0
 
     while True:
 
@@ -54,17 +54,17 @@ def selectMode(screen, clock):
             else:
                 singleDefendPos = singleDefendPos0
 
-            if x > onlineAttackPos[0] and x < onlineAttackPos[0] + onlineAttackButton.get_width() \
-                    and y > onlineAttackPos0[1] and y < onlineAttackPos0[1] + onlineAttackButton.get_height():
-                onlineAttackPos = onlineAttackPos1
-            else:
-                onlineAttackPos = onlineAttackPos0
+            # if x > onlineAttackPos[0] and x < onlineAttackPos[0] + onlineAttackButton.get_width() \
+                #         and y > onlineAttackPos0[1] and y < onlineAttackPos0[1] + onlineAttackButton.get_height():
+            #    onlineAttackPos = onlineAttackPos1
+            # else:
+            #     onlineAttackPos = onlineAttackPos0
 
-            if x > onlineDefendPos[0] and x < onlineDefendPos[0] + onlineDefendButton.get_width() \
-                    and y > onlineDefendPos0[1] and y < onlineDefendPos0[1] + onlineDefendButton.get_height():
-                onlineDefendPos = onlineDefendPos1
-            else:
-                onlineDefendPos = onlineDefendPos0
+            # if x > onlineDefendPos[0] and x < onlineDefendPos[0] + onlineDefendButton.get_width() \
+                #         and y > onlineDefendPos0[1] and y < onlineDefendPos0[1] + onlineDefendButton.get_height():
+            #     onlineDefendPos = onlineDefendPos1
+            # else:
+            #     onlineDefendPos = onlineDefendPos0
 
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -83,16 +83,16 @@ def selectMode(screen, clock):
                     breakflag = 1
                     # here to start the game single defend function
 
-                if x > onlineAttackPos0[0] and x < onlineAttackPos0[0] + onlineAttackButton.get_width() \
-                        and y > onlineAttackPos0[1] and y < onlineAttackPos0[1] + onlineAttackButton.get_height():
-                    selectMap(screen,clock,3)
-                    breakflag = 1
+                # if x > onlineAttackPos0[0] and x < onlineAttackPos0[0] + onlineAttackButton.get_width() \
+                    #        and y > onlineAttackPos0[1] and y < onlineAttackPos0[1] + onlineAttackButton.get_height():
+                    #     selectMap(screen,clock,3)
+                #     breakflag = 1
                     # here to start the game online attack function
 
-                if x > onlineDefendPos0[0] and x < onlineDefendPos0[0] + onlineDefendButton.get_width() \
-                        and y > onlineDefendPos0[1] and y < onlineDefendPos0[1] + onlineDefendButton.get_height():
-                    selectMap(screen,clock,4)
-                    breakflag = 1
+                # if x > onlineDefendPos0[0] and x < onlineDefendPos0[0] + onlineDefendButton.get_width() \
+                    #         and y > onlineDefendPos0[1] and y < onlineDefendPos0[1] + onlineDefendButton.get_height():
+                    #     selectMap(screen,clock,4)
+                #     breakflag = 1
                     # here to start the game online defend function
 
                 if x > backPos[0] and x < backPos[0] + backButton.get_width() \
@@ -116,8 +116,8 @@ def selectMode(screen, clock):
         screen.blit(modePic, modePos)
         screen.blit(singleAttackButton, singleAttackPos)
         screen.blit(singleDefendButton, singleDefendPos)
-        screen.blit(onlineAttackButton, onlineAttackPos)
-        screen.blit(onlineDefendButton, onlineDefendPos)
+        # screen.blit(onlineAttackButton, onlineAttackPos)
+        # screen.blit(onlineDefendButton, onlineDefendPos)
 
         # 说明文字
         # screen.blit(font.render("用上下左右键来控制", True, (166, 100, 30)), (300, 50))
