@@ -64,8 +64,16 @@ def startFight(screen, clock, modeID, mapID, CharID):
     characterLockedPic = []
     # 防守方人物在地图中的图片
     defenderPic = []
+    # 防守方人物准备攻击的图片
+    defenderDetectPic = []
+    # 防守方人物攻击的图片
+    defenderAttackPic = []
     # 进攻方人物在地图中的图片
     attackerPic = []
+    # 进攻方人物准备攻击的图片
+    attackerDetectPic = []
+    # 进攻方人物攻击的图片
+    attackerAttackPic = []
     # 对应防守方人物最后放置的时间，单位为ms，下标为已选择的人物的编号
     defenderLastCD = []
     # 防守方人物所需要的费用
@@ -84,6 +92,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 选取的方向，-1或者False表示未选取，0-3依次为上左下右
     directionSelected = [-1]
     directionSelectedStatus = False
+    # 血量条
+    hpPic = []
+    for i in range(10):
+        hpPic.append(pygame.image.load(path("res/hp/hp"+str(i)+".png")).convert_alpha())
+
     for i in range(0, characterNum):
         # 编队框人物解锁与未解锁图
         characterUnlockedPic.append(pygame.image.load(path("res/battle/"+stringOfCharacters[CharID[i]]+"b.png")).convert_alpha())
@@ -95,9 +108,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
     for i in range(5):
         # 进攻与防守方人物贴图
         defenderPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b0.png")).convert_alpha())
-        defenderPic[i] = pygame.transform.scale(defenderPic[i], (75, 75))
+        defenderDetectPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b1.png")).convert_alpha())
+        defenderAttackPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b2.png")).convert_alpha())
+        defenderPic[i] = pygame.transform.scale(defenderPic[i], (55, 55))
+        defenderDetectPic[i] = pygame.transform.scale(defenderDetectPic[i], (55, 55))
+        defenderAttackPic[i] = pygame.transform.scale(defenderAttackPic[i], (55, 55))
         attackerPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r0.png")).convert_alpha())
-        attackerPic[i] = pygame.transform.scale(attackerPic[i], (75, 75))
+        attackerDetectPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r1.png")).convert_alpha())
+        attackerAttackPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "r2.png")).convert_alpha())
+        attackerPic[i] = pygame.transform.scale(attackerPic[i], (55, 55))
+        attackerDetectPic[i] = pygame.transform.scale(attackerDetectPic[i], (55, 55))
+        attackerAttackPic[i] = pygame.transform.scale(attackerAttackPic[i], (55, 55))
 
     # 地图准备
     mapload = levelLoad(mapID)
@@ -227,9 +248,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         #if attackerorder >= len(attackerplan[0]):
 
                 # 防守方攻击，攻击方死亡判定，每10帧攻击一次
-                if counts % 10 == 0:
-                    for i in range(len(defenders)):
-                        defenders[i].attack()
+                for i in range(len(defenders)):
+                    defenders[i].attack()
+
                 # 攻击方移动，攻击，防守方死亡判定
                 for i, attacker in enumerate(attackers):
                     # print("attackers[%d].position:%f,%f"%(1,attackers[1].position[0],attackers[1].position[1]))
@@ -243,8 +264,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             endFight(screen, clock, modeID, mapID, False)
                             breakflag = 1
 
-                    if counts % 10 == 0:
-                        attacker.attack()
+                    attacker.attack()
                 # 在判断死亡前，先update以发动技能
                 for attacker in attackers:
                     attacker.update()
@@ -258,10 +278,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         attackers.remove(attacker)
                         del attackersID[k]
                 # 防守方死亡
-                for deffender in defenders:
-                    if deffender.hp <= 0:
-                        k = defenders.index(deffender)
-                        defenders.remove(deffender)
+                for defender in defenders:
+                    if defender.hp <= 0:
+                        k = defenders.index(defender)
+                        defenders.remove(defender)
                         del defendersID[k]
 
                 #   更新静态图
@@ -288,11 +308,25 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     else:
                         screen.blit(characterLockedPic[i], characterPos[i])
                 # 更新防守方图片
-                for deffender in defenders:
-                        x = deffender.position[0] - 0.5 * mapload.blockSize
-                        y = deffender.position[1] - 0.5 * mapload.blockSize
-                        k = defenders.index(deffender)
-                        screen.blit(defenderPic[defendersID[k]], (x, y))
+                for defender in defenders:
+                        x = defender.position[0] - 0.5 * mapload.blockSize
+                        y = defender.position[1] - 0.5 * mapload.blockSize
+                        k = defenders.index(defender)
+                        if defender.attacking_flag == False:
+                            if counts % 20 <= 9:
+                                screen.blit(defenderPic[defendersID[k]], (x - 2 + 10, y + 10))
+                                screen.blit(hpPic[int((defender.hp - 1) // (defender.HP * 0.1))], (x + 1, y + 4))
+                            else:
+                                screen.blit(defenderPic[defendersID[k]], (x + 2 + 10, y + 10))
+                                screen.blit(hpPic[int((defender.hp - 1) // (defender.HP * 0.1))], (x + 5, y + 4))
+                        else:
+                            if counts % 20 <= 9:
+                                screen.blit(defenderDetectPic[defendersID[k]], (x + 10, y + 10))
+                                screen.blit(hpPic[int((defender.hp - 1) // (defender.HP * 0.1))], (x + 3, y + 4))
+                            else:
+                                screen.blit(defenderAttackPic[defendersID[k]], (x + 10, y + 10))
+                                screen.blit(hpPic[int((defender.hp - 1) // (defender.HP * 0.1))], (x + 3, y + 4))
+
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attacks[%d]'s HP is : %d" % (i, attackers[i].hp))
                 # 更新进攻方图片
@@ -300,9 +334,22 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         x = attacker.position[0] - 0.5 * mapload.blockSize
                         y = attacker.position[1] - 0.5 * mapload.blockSize
                         k = attackers.index(attacker)
-                        screen.blit(attackerPic[attackersID[k]], (x, y))
+                        if attacker.attacking_flag == False:
+                            if counts % 20 <= 12:
+                                screen.blit(attackerPic[attackersID[k]], (x + 10, y + 10))
+                                screen.blit(hpPic[int((attacker.hp - 1) // (attacker.HP * 0.1))], (x + 3, y + 4))
+                            else:
+                                screen.blit(attackerPic[attackersID[k]], (x + 10, y + 4 + 10))
+                                screen.blit(hpPic[int((attacker.hp - 1) // (attacker.HP * 0.1))], (x + 3, y + 8))
+                        else:
+                            if counts % 20 <= 9:
+                                screen.blit(attackerDetectPic[attackersID[k]], (x + 10, y + 10))
+                                screen.blit(hpPic[int((attacker.hp - 1) // (attacker.HP * 0.1))], (x + 3, y + 4))
+                            else:
+                                screen.blit(attackerAttackPic[attackersID[k]], (x + 10, y + 10))
+                                screen.blit(hpPic[int((attacker.hp - 1) // (attacker.HP * 0.1))], (x + 3, y + 4))
                         # print("The image location is : %f,%f"%(x,y))
-                        print("The attackers's HP is : %d" % (attacker.hp))
+                        # print("The attackers's HP is : %d" % (attacker.hp))
 
                 # 更新朝向按键
                 if characterSelectedID >= 0 and coordinateSelected[0] >= 0 and coordinateSelected[1]>=0:
