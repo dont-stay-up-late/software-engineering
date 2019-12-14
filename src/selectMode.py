@@ -67,10 +67,7 @@ def selectMode(screen, clock):
                 onlineDefendPos = onlineDefendPos0
 
             if event.type == pygame.QUIT:
-                try:
-                    sys.exit()
-                except:
-                    pass
+                sys.exit()
                 breakflag = 1
 
             if event.type == MOUSEBUTTONDOWN:

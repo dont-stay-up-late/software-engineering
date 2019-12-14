@@ -137,10 +137,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                try:
-                    sys.exit()
-                except:
-                    pass
+                sys.exit()
                 breakflag = 1
 
             if event.type == MOUSEBUTTONDOWN:
@@ -166,10 +163,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         directionSelectedStatus = False
 
                 # 选取地图中的格子
-                if x > mapload.xBegin and x < mapload.xBegin + mapload.columnNumber * mapload.blockSize \
-                    and y > mapload.yBegin and y < mapload.yBegin + mapload.rowNumber * mapload.blockSize \
+                if x > mapload.xBegin and x < mapload.xBegin + mapload.rowNumber * mapload.blockSize \
+                    and y > mapload.yBegin and y < mapload.yBegin + mapload.columnNumber * mapload.blockSize \
                     and characterSelectedID >= 0:
                     coordinateSelected = mapload.positionToBlock([x,y])
+                    # if True:
                     if mapload.maps[coordinateSelected[0]][coordinateSelected[1]].canPlantOn and mapload.maps[coordinateSelected[0]][coordinateSelected[1]].isPlantOn == False:
                         coordinateSelectedOld = coordinateSelected
                     else:

@@ -68,10 +68,7 @@ def selectCharacters(screen, clock, modeID, mapID):
         for event in pygame.event.get():
             x, y = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
-                try:
-                    sys.exit()
-                except:
-                    pass
+                sys.exit()
                 breakflag = 1
 
             if event.type == MOUSEBUTTONDOWN:
