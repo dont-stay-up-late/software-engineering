@@ -119,6 +119,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
         attackerPic[i] = pygame.transform.scale(attackerPic[i], (55, 55))
         attackerDetectPic[i] = pygame.transform.scale(attackerDetectPic[i], (55, 55))
         attackerAttackPic[i] = pygame.transform.scale(attackerAttackPic[i], (55, 55))
+    # 为了逻辑的合理性，所有角色默认朝向为左，朝右则进行翻转
 
     # 地图准备
     mapload = levelLoad(mapID)
@@ -223,23 +224,23 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 if attackerOrder < len(attackerPlan[0]):
                     # 根据时间依次出怪
                     while attackerPlan[0][attackerOrder] <= timePast:
-                        if attackerPlan[1][attackerOrder] == 1:
+                        if attackerPlan[1][attackerOrder] == 0:
                             attackers.append(CivilianAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(0)
+                        if attackerPlan[1][attackerOrder] == 1:
+                            attackers.append(AuraAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
+                                                                           (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                            attackersID.append(1)
                         if attackerPlan[1][attackerOrder] == 2:
                             attackers.append(KamikazeAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(2)
                         if attackerPlan[1][attackerOrder] == 3:
-                            attackers.append(AuraAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
-                                                                           (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
-                            attackersID.append(1)
-                        if attackerPlan[1][attackerOrder] == 4:
                             attackers.append(FattyAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(3)
-                        elif attackerPlan[1][attackerOrder] == 5:
+                        elif attackerPlan[1][attackerOrder] == 4:
                             attackers.append(PharmacistAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(4)
@@ -319,17 +320,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if defender.attacking_flag == False:
                             if counts % 20 <= 9:
                                 screen.blit(defenderPic[defendersID[k]], (x - 2 + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 1, y + 19))
+                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 2, y - 6))
                             else:
                                 screen.blit(defenderPic[defendersID[k]], (x + 2 + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 5, y + 19))
+                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 6, y - 6))
                         else:
                             if counts % 20 <= 9:
                                 screen.blit(defenderDetectPic[defendersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 3, y + 19))
+                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 4, y - 6))
                             else:
                                 screen.blit(defenderAttackPic[defendersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 3, y + 19))
+                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 4, y - 6))
 
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attacks[%d]'s HP is : %d" % (i, attackers[i].hp))
@@ -341,17 +342,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if attacker.attacking_flag == False:
                             if counts % 20 <= 12:
                                 screen.blit(attackerPic[attackersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 19))
+                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 6))
                             else:
-                                screen.blit(attackerPic[attackersID[k]], (x + 10, y + 4 + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 23))
+                                screen.blit(attackerPic[attackersID[k]], (x + 10, y - 4 + 10))
+                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 9))
                         else:
                             if counts % 20 <= 9:
                                 screen.blit(attackerDetectPic[attackersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 19))
+                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 6))
                             else:
                                 screen.blit(attackerAttackPic[attackersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 3, y + 19))
+                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 6))
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attackers's HP is : %d" % (attacker.hp))
 

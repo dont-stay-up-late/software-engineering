@@ -220,7 +220,7 @@ class Attacker(CharacterModel, ABC):
     """
     attackers = []
     HP = 0
-    speed_rate = 10
+    speed_rate = 5
 
     def __init__(self, controller, position, direction):
         super().__init__(controller, position, direction)

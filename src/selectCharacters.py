@@ -60,6 +60,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathLocked.append(path("res/character/gansidui{}s.png".format(side)))
     loadpathLocked.append(path("res/character/pangdun{}s.png".format(side)))
     loadpathLocked.append(path("res/character/yaojishi{}s.png".format(side)))
+
     for i in range(0, totalNum):
         characterPic0.append(pygame.image.load(loadpathNotLocked[i]).convert_alpha())
         characterPic.append(pygame.image.load(loadpathNotLocked[i]).convert_alpha())
