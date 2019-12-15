@@ -6,6 +6,7 @@ from mapDisplay import *
 from models import *
 from gamecontroller import *
 from levelDefend import *
+from levelAttack import *
 from defeated import *
 from fightResult import endFight
 
@@ -24,6 +25,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 读取进攻计划文档并存储在对应的元组中
     attackerOrder = 0
     attackerPlan = attackerload(mapID)
+    # 读取防守计划文档并存储在对应的元组中
+    defenderOrder = 0
+    defenderPlan = defenderload(mapID)
     # 初始化界面
     infoPic = pygame.image.load(path("res/battle/information.png")).convert_alpha()     #信息
     infoPos = (0, 0)
@@ -81,8 +85,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 防守方人物所需要的冷却
     defenderNeededCD =[]
     # 按人物编号所依次需要的费用和冷却
-    costOfAll = [10,20,15,18,20]
-    cdOfAll = [15,80,15,25,60]
+    defenderCostOfAll = [10,20,15,18,20]
+    defenderCdOfAll = [15,80,15,25,60]
+    # 对应进攻方人物最后放置的时间，单位为ms，下标为已选择的人物的编号
+    attackerLastCD = []
+    # 进攻方人物所需要的费用
+    attackerCost =[]
+    # 进攻方人物所需要的冷却
+    attackerNeededCD =[]
+    # 按人物编号所依次需要的费用和冷却
+    attackerCostOfAll = [10,20,15,18,20]
+    attackerCdOfAll = [15,80,15,25,60]
     # 选取的角色编号（为CharID列表中的下标，如果为-1，表示未选取）
     characterSelectedID = -1
     # 选取的坐标编号（取整数），[-1，-1]为未选取
@@ -97,14 +110,20 @@ def startFight(screen, clock, modeID, mapID, CharID):
     for i in range(10):
         hpPic.append(pygame.image.load(path("res/hp/hp"+str(i)+".png")).convert_alpha())
 
+    modeIDChar = 'r' # Attack by default
+    if modeID == 2:
+        modeIDChar = 'b'
     for i in range(0, characterNum):
         # 编队框人物解锁与未解锁图
-        characterUnlockedPic.append(pygame.image.load(path("res/battle/"+stringOfCharacters[CharID[i]]+"b.png")).convert_alpha())
-        characterLockedPic.append(pygame.image.load(path("res/battle/"+stringOfCharacters[CharID[i]]+"bs.png")).convert_alpha())
+        characterUnlockedPic.append(pygame.image.load(path("res/battle/"+stringOfCharacters[CharID[i]]+"{}.png".format(modeIDChar))).convert_alpha())
+        characterLockedPic.append(pygame.image.load(path("res/battle/"+stringOfCharacters[CharID[i]]+"{}s.png".format(modeIDChar))).convert_alpha())
         characterPos.append((640 - 37.5 * characterNum + i * 75, 550))
-        defenderCost.append(costOfAll[CharID[i]])
-        defenderNeededCD.append(cdOfAll[CharID[i]])
+        defenderCost.append(defenderCostOfAll[CharID[i]])
+        defenderNeededCD.append(defenderCdOfAll[CharID[i]])
         defenderLastCD.append(startTime - defenderNeededCD[i] * 1000)
+        attackerCost.append(attackerCostOfAll[CharID[i]])
+        attackerNeededCD.append(attackerCdOfAll[CharID[i]])
+        attackerLastCD.append(startTime - attackerNeededCD[i] * 1000)
     for i in range(5):
         # 进攻与防守方人物贴图
         defenderPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b0.png")).convert_alpha())
@@ -169,42 +188,76 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     and characterSelectedID >= 0:
                     coordinateSelected = mapload.positionToBlock([x,y])
                     #if True:
-                    if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canPlantOn and mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPlantOn == False:
-                        coordinateSelectedOld = coordinateSelected
-                    else:
-                        coordinateSelected = coordinateSelectedOld
+                    if modeID == 2: # Defending
+                        if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canPlantOn and mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPlantOn == False:
+                            coordinateSelectedOld = coordinateSelected
+                        else:
+                            coordinateSelected = coordinateSelectedOld
+                    else: # Attacking
+                        if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isBornPoint:
+                            coordinateSelectedOld = coordinateSelected
+                        else:
+                            coordinateSelected = coordinateSelectedOld
 
-                # 选择朝向后放置防守角色
-                for i in range(4):
-                    if x > directionPos[i][0] and x < directionPos[i][0] + direction[i].get_width() \
-                            and y > directionPos[i][1] and y < directionPos[i][1] + direction[i].get_height() \
-                            and directionSelectedStatus:
-                        if CharID[characterSelectedID] == 0:
-                            defenders.append(CivilianDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
-                            defendersID.append(0)
-                        if CharID[characterSelectedID] == 1:
-                            defenders.append(AuraDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
-                            defendersID.append(1)
-                        if CharID[characterSelectedID] == 2:
-                            defenders.append(KamikazeDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
-                            defendersID.append(2)
-                        if CharID[characterSelectedID] == 3:
-                            defenders.append(FattyDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
-                            defendersID.append(3)
-                        if CharID[characterSelectedID] == 4:
-                            defenders.append(PharmacistDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
-                            defendersID.append(4)
-                        controller.money['Defend'] -= defenderCost[characterSelectedID];
-                        defenderLastCD[characterSelectedID] = curTime
-                        characterSelectedID = -1
-                        coordinateSelected = [-1, -1]
-                        coordinateSelectedOld = [-1, -1]
-                        directionSelectedStatus = False
+                # 在防守模式下，选择朝向后放置防守角色
+                if modeID == 2:
+                    for i in range(4):
+                        if x > directionPos[i][0] and x < directionPos[i][0] + direction[i].get_width() \
+                                and y > directionPos[i][1] and y < directionPos[i][1] + direction[i].get_height() \
+                                and directionSelectedStatus:
+                            if CharID[characterSelectedID] == 0:
+                                defenders.append(CivilianDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
+                                defendersID.append(0)
+                            if CharID[characterSelectedID] == 1:
+                                defenders.append(AuraDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
+                                defendersID.append(1)
+                            if CharID[characterSelectedID] == 2:
+                                defenders.append(KamikazeDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
+                                defendersID.append(2)
+                            if CharID[characterSelectedID] == 3:
+                                defenders.append(FattyDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
+                                defendersID.append(3)
+                            if CharID[characterSelectedID] == 4:
+                                defenders.append(PharmacistDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
+                                defendersID.append(4)
+                            controller.money['Defend'] -= defenderCost[characterSelectedID]
+                            defenderLastCD[characterSelectedID] = curTime
+                            characterSelectedID = -1
+                            coordinateSelected = [-1, -1]
+                            coordinateSelectedOld = [-1, -1]
+                            directionSelectedStatus = False
+                else:
+                    if CharID[characterSelectedID] == 0:
+                        attackers.append(CivilianAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                        attackersID.append(0)
+                    if CharID[characterSelectedID] == 1:
+                        attackers.append(AuraAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                        attackersID.append(1)
+                    if CharID[characterSelectedID] == 2:
+                        attackers.append(KamikazeAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                        attackersID.append(2)
+                    if CharID[characterSelectedID] == 3:
+                        attackers.append(FattyAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                        attackersID.append(3)
+                    if CharID[characterSelectedID] == 4:
+                        attackers.append(PharmacistAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                        attackersID.append(4)
+                    controller.money['Attack'] -= attackerCost[characterSelectedID]
+                    attackerLastCD[characterSelectedID] = curTime
+                    characterSelectedID = -1
+                    coordinateSelected = [-1, -1]
+                    coordinateSelectedOld = [-1, -1]
+                    directionSelectedStatus = False # This is actually unnecessary.
 
             if event.type == COUNT:
                 counts = counts + 1
@@ -216,27 +269,30 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 lastTime = curTime
                 life = mapload.fortress_HP      #家的生命值
 
-                #   时间耗尽即可获胜
+                #   对防守模式而言，时间耗尽即可获胜；对进攻方，则表示失败
                 if timeLeft <= 0:
-                    endFight(screen, clock, modeID, mapID, True)
+                    if modeID == 2:
+                        endFight(screen, clock, modeID, mapID, True)
+                    else:
+                        endFight(screen, clock, modeID, mapID, False)
                     breakflag = 1
 
-                if attackerOrder < len(attackerPlan[0]):
+                if modeID == 2 and attackerOrder < len(attackerPlan[0]):
                     # 根据时间依次出怪
                     while attackerPlan[0][attackerOrder] <= timePast:
                         if attackerPlan[1][attackerOrder] == 0:
                             attackers.append(CivilianAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(0)
-                        if attackerPlan[1][attackerOrder] == 1:
+                        elif attackerPlan[1][attackerOrder] == 1:
                             attackers.append(AuraAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(1)
-                        if attackerPlan[1][attackerOrder] == 2:
+                        elif attackerPlan[1][attackerOrder] == 2:
                             attackers.append(KamikazeAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(2)
-                        if attackerPlan[1][attackerOrder] == 3:
+                        elif attackerPlan[1][attackerOrder] == 3:
                             attackers.append(FattyAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(3)
@@ -248,6 +304,33 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if attackerOrder >= len(attackerPlan[0]):
                             break
                         #if attackerorder >= len(attackerplan[0]):
+                
+                if modeID == 1 and defenderOrder < len(defenderPlan[0]):
+                    # 根据时间依次出怪
+                    while defenderPlan[0][defenderOrder] <= timePast:
+                        if defenderPlan[1][defenderOrder] == 0:
+                            defenders.append(CivilianDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
+                                                                           (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
+                            defendersID.append(0)
+                        elif defenderPlan[1][defenderOrder] == 1:
+                            defenders.append(AuraDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
+                                                                           (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
+                            defendersID.append(1)
+                        elif defenderPlan[1][attackerOrder] == 2:
+                            defenders.append(KamikazeDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
+                                                                           (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
+                            defendersID.append(2)
+                        elif defenderPlan[1][attackerOrder] == 3:
+                            defenders.append(FattyDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
+                                                                           (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
+                            defendersID.append(3)
+                        elif defenderPlan[1][attackerOrder] == 4:
+                            defenders.append(PharmacistDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
+                                                                           (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
+                            defendersID.append(4)
+                        defenderOrder += 1
+                        if defenderOrder >= len(defenderPlan[0]):
+                            break
 
                 # 防守方攻击，攻击方死亡判定，每10帧攻击一次
                 for i in range(len(defenders)):
@@ -264,7 +347,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         attacker.die()
                         del attackersID[k]
                         if mapload.fortress_HP <= 0:
-                            endFight(screen, clock, modeID, mapID, False)
+                            if modeID == 2:
+                                endFight(screen, clock, modeID, mapID, False)
+                            else:
+                                endFight(screen, clock, modeID, mapID, True)
                             breakflag = 1
 
                     attacker.attack()
@@ -357,7 +443,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         # print("The attackers's HP is : %d" % (attacker.hp))
 
                 # 更新朝向按键
-                if characterSelectedID >= 0 and coordinateSelected[0] >= 0 and coordinateSelected[1]>=0:
+                if modeID == 2 and characterSelectedID >= 0 and coordinateSelected[0] >= 0 and coordinateSelected[1]>=0:
                     for i in range(4):
                         screen.blit(direction[i], directionPos[i])
                     screen.blit(cancelPic, cancelPos)
