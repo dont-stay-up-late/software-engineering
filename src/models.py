@@ -266,8 +266,8 @@ class FattyDefender(Defender):
     Fatty defender class.
     """
     last_created_time = 0
-    HP = 400
-    ATTACK_POWER = 5
+    HP = 300
+    ATTACK_POWER = 20
     reach_model = [(0, 0)]
     filename = path('res/character/pangdunb0.png')
 
@@ -289,8 +289,8 @@ class KamikazeDefender(Defender):
     Kamikaze defender class.
     """
     last_created_time = 0
-    HP = 40
-    ATTACK_POWER = 10
+    HP = 60
+    ATTACK_POWER = 5
     reach_model = [(0, 1), (0, 0),(0, 2)]
     filename = path('res/character/gansiduib0.png')
 
@@ -313,8 +313,8 @@ class PharmacistDefender(Defender):
     """
     last_created_time = 0
     SPECIAL_INTERVAL = 120
-    HP = 50
-    ATTACK_POWER = 5
+    HP = 100
+    ATTACK_POWER = 10
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, 0), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
     filename = path('res//character/yaojishib0.png')
 
@@ -352,8 +352,8 @@ class AuraDefender(Defender):
     Aura defender class who provides buffs.
     """
     last_created_time = 0
-    HP = 90
-    ATTACK_POWER = 10
+    HP = 150
+    ATTACK_POWER = 8
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, 0), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
     filename = path('res/character/gongtoub0.png')
 
@@ -378,7 +378,7 @@ class AuraDefender(Defender):
     @staticmethod
     def activate_special(character):
         character.attack_power = 1.2 * character.ATTACK_POWER
-        character.hp = 1.2 * character.HP
+        # character.hp = 1.2 * character.HP
 
     def die(self):
         for defender in Defender.defenders:
@@ -486,7 +486,7 @@ class KamikazeAttacker(Attacker):
     Kamikaze attacker class.
     """
     last_created_time = 0
-    HP = 40
+    HP = 60
     ATTACK_POWER = 5
     reach_model = [(0, 1), (0, 0), (0, 2)]
     filename = path('res/character/gansiduir0.png')
@@ -547,7 +547,7 @@ class AuraAttacker(Attacker):
     """
     last_created_time = 0
     HP = 240
-    ATTACK_POWER = 30
+    ATTACK_POWER = 8
     reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
     filename = path('res/character/gongtour0.png')
 
@@ -572,8 +572,8 @@ class AuraAttacker(Attacker):
 
     @staticmethod
     def activate_special(character):
-        character.attack_power = 3 * character.ATTACK_POWER
-        character.hp = 1.2 * character.HP
+        character.attack_power = 1.5 * character.ATTACK_POWER
+        # character.hp = 1.2 * character.HP
 
     def die(self):
         for attacker in Attacker.attackers:

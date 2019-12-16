@@ -49,6 +49,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
     giveupPos = (1080, 630)
     direction = []                                                                      #选择人物朝向
     directionPos = []
+    # 选择框
+    selectblock = pygame.image.load(path("res/battle/selectflameblock.png")).convert_alpha()
+    selectcharacter = pygame.image.load(path("res/battle/selectflamechar.png")).convert_alpha()
     # 依次为上左下右，点击按键确定朝向
     for i in range(4):
         direction.append(pygame.image.load(path("res/battle/arrow"+str(i)+".png")).convert_alpha())
@@ -454,6 +457,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     screen.blit(cancelPic, cancelPos)
                     directionSelectedStatus = True
 
+                # 选择框
+                if characterSelectedID >= 0:
+                    screen.blit(selectcharacter, characterPos[characterSelectedID])
+                if coordinateSelected[0] >= 0 and coordinateSelected[1] >= 0:
+                    screen.blit(selectblock, (mapload.blockToPosition([coordinateSelected[0],coordinateSelected[1]])[0]-37.5,mapload.blockToPosition([coordinateSelected[0],coordinateSelected[1]])[1]-37.5))
                 controller.update()
 
         # 更新画面
