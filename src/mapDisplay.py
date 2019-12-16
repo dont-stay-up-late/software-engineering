@@ -20,7 +20,8 @@ def mapDisplay(map,screen,mapImage):
 	oneImage = mapImage[3]
 	twoImage = mapImage[4]
 	threeImage = mapImage[5]
-	arrowImage = mapImage[6]
+	sixImage = mapImage[6]
+	arrowImage = mapImage[7]
 	m = map.columnNumber	#地图加载时的行数
 	n = map.rowNumber		#地图加载时的列数
 	xBegin = map.xBegin			#地图显示的左上角横坐标，可以根据地图的大小进行改变，取决于m,n的值
@@ -44,7 +45,10 @@ def mapDisplay(map,screen,mapImage):
 				screen.blit(homeImage,(x,y))
 			elif map.maps[i][j].isBornPoint:
 				screen.blit(bornPointImage,(x,y))
-			elif map.maps[i][j].blockDirection!=-1:
+			elif map.maps[i][j].isPathway:
+				screen.blit(sixImage,(x,y))
+
+			if map.maps[i][j].blockDirection!=-1:
 				screen.blit(arrowImage[map.maps[i][j].blockDirection],(x,y))
 
 

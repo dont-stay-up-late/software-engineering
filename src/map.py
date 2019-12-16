@@ -8,8 +8,9 @@ class Block:
         self.canZombieOn = True  # 感染的人能否站在这个格子上
         self.isPlantOn = False  # 是否有清醒的人站在这个格子上
         self.isZombieOn = False  # 是否有感染的人站在这个格子上
-        self.isHome = False  # 是否为家（感染者往这个地方走）
+        self.isHome = False  # 是否为家（感染者往这个地方走,不可放置防守方）
         self.isBornPoint = False  # 是否为出生点（感染者从这里出来）
+        self.isPathway = False  #是否为轨道（感染者可切换进攻路径，防守者不可放置，不可放置防守方）
 
         self.blockDirection = -1  # 僵尸走上格子时改变的方向，-1为不改变方向，0123为上左下右，若可变则该变量为元组
         self.blockDirections=[]
@@ -40,6 +41,7 @@ class Map:
 
         self.maps = []  # 二维列表，里面放格子
         self.homes = []  # 元组列表，里面放所有的家
+        self.Pathways = []  # 二维列表，里面放所有的轨道
         self.bornPoints = []  # 元组列表，里面放所有的出生点
 
         # 下面是UI所需的一些变量，都是像素为单位
@@ -65,6 +67,11 @@ class Map:
         self.maps[i][j].isBornPoint = True
         self.setSomeBlock(i, j, 1)
         self.bornPoints.append((i, j))
+
+    def setPathway(self, i, j):    # 将(i,j)位置的格子设成轨道
+        self.maps[i][j].isPathway = True
+        self.setSomeBlock(i, j, 1)
+        self.Pathways.append((i, j))
 
     # 将(i,j)位置的格子赋上方向,若能是多个方向，则多次输入即可，含着能变为的所有方向
     def setBlockDirection(self, i, j, k):

@@ -70,6 +70,8 @@ def levelLoad(i):
 			#如果为出生点，对应于数字5
 			elif k == 5:
 				map.setBornPoint(i,j)
+			elif k == 6:
+				map.setPathway(i,j)
 			else:
 				map.setSomeBlock(i,j,k)
 			
