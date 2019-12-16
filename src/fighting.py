@@ -3,6 +3,7 @@ from pygame.locals import *
 from path import path
 from map import *
 from mapDisplay import *
+from mapDisplayInitial import *
 from models import *
 from gamecontroller import *
 from levelDefend import *
@@ -142,6 +143,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
 
     # 地图准备
     mapload = levelLoad(mapID)
+    # 地图图片
+    mapImage = mapDisplayInitial(mapload, screen)
     if modeID == 2:
         controller = GameController(mapID, mapload, 'Single', 'Defend')
     else:
@@ -172,15 +175,16 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 for i in range(characterNum):
                     #   选取人物，或者切换选取人物，都需要对坐标朝向等重置
                     if x > characterPos[i][0] and x < characterPos[i][0] + characterUnlockedPic[i].get_width() \
-                        and y > characterPos[i][1] and y < characterPos[i][1] + characterUnlockedPic[i].get_height() \
-                        and controller.money['Defend'] >= defenderCost[i] and (curTime - defenderLastCD[i])/1000 >= defenderNeededCD[i]:
-                        if characterSelectedID == i:
-                            characterSelectedID = -1
-                        else:
-                            characterSelectedID = i
-                        coordinateSelected = [-1, -1]
-                        coordinateSelectedOld = [-1, -1]
-                        directionSelectedStatus = False
+                        and y > characterPos[i][1] and y < characterPos[i][1] + characterUnlockedPic[i].get_height():
+                        if (modeID == 2 and controller.money['Defend'] >= defenderCost[i] and (curTime - defenderLastCD[i])/1000 >= defenderNeededCD[i]) \
+                            or (modeID == 1 and controller.money['Attack'] >= attackerCost[i] and (curTime - attackerLastCD[i]) / 1000 >= attackerNeededCD[i]):
+                            if characterSelectedID == i:
+                                characterSelectedID = -1
+                            else:
+                                characterSelectedID = i
+                            coordinateSelected = [-1, -1]
+                            coordinateSelectedOld = [-1, -1]
+                            directionSelectedStatus = False
 
                 # 选取地图中的格子
                 if x > mapload.xBegin and x < mapload.xBegin + mapload.rowNumber * mapload.blockSize \
@@ -231,7 +235,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             coordinateSelected = [-1, -1]
                             coordinateSelectedOld = [-1, -1]
                             directionSelectedStatus = False
-                else:
+                elif modeID == 1 and coordinateSelected[0] != -1:
                     if CharID[characterSelectedID] == 0:
                         attackers.append(CivilianAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
                             (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
@@ -316,15 +320,15 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             defenders.append(AuraDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
                             defendersID.append(1)
-                        elif defenderPlan[1][attackerOrder] == 2:
+                        elif defenderPlan[1][defenderOrder] == 2:
                             defenders.append(KamikazeDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
                             defendersID.append(2)
-                        elif defenderPlan[1][attackerOrder] == 3:
+                        elif defenderPlan[1][defenderOrder] == 3:
                             defenders.append(FattyDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
                             defendersID.append(3)
-                        elif defenderPlan[1][attackerOrder] == 4:
+                        elif defenderPlan[1][defenderOrder] == 4:
                             defenders.append(PharmacistDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
                             defendersID.append(4)
@@ -384,7 +388,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 screen.blit(costPic, costPos)
                 screen.blit(toolFlame, toolFlamePos)
                 # screen.blit(BattleMap, BattleMapPos)
-                mapDisplay(mapload, screen)
+                mapDisplay(mapload, screen, mapImage)
                 screen.blit(giveupButton, giveupPos)
 
                 # the numbers
@@ -394,7 +398,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
 
                 for i in range(0, characterNum):
                     screen.blit(characterFlame, characterPos[i])
-                    if controller.money['Defend'] >= defenderCost[i] and (curTime - defenderLastCD[i])/1000 >= defenderNeededCD[i]:
+                    if (modeID == 2 and controller.money['Defend'] >= defenderCost[i] and (curTime - defenderLastCD[i])/1000 >= defenderNeededCD[i]) \
+                        or (modeID == 1 and controller.money['Attack'] >= attackerCost[i] and (curTime - attackerLastCD[i]) / 1000 >= attackerNeededCD[i]):
                         screen.blit(characterUnlockedPic[i], characterPos[i])
                     else:
                         screen.blit(characterLockedPic[i], characterPos[i])
