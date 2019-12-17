@@ -74,6 +74,7 @@ class GameController(object):
         self.money[self.player_side] -= character.cost
         self.chara_cooldown_time[character.type] = character.cool_down_time
 
+
     def setVolume(self, vol):
         '''
         Set system volume; music and sound system to be implemented
