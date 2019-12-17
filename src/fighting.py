@@ -388,6 +388,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     attacker.update()
                 for defender in defenders:
                     defender.update()
+                # 同步双方列表
+                for attacker in attackers:
+                    if attacker not in Attacker.attackers:
+                        k = attackers.index(attacker)
+                        attackers.remove(attacker)
+                        del attackersID[k]
+                for defender in defenders:
+                    if defender not in Defender.defenders:
+                        k = defenders.index(defender)
+                        defenders.remove(defender)
+                        del defendersID[k]
                 # 攻击方死亡
                 for attacker in attackers:
                     if attacker.hp <= 0:
