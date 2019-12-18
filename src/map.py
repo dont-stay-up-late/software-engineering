@@ -38,10 +38,12 @@ class Map:
         self.columnNumber = m   # 行数
         self.fortress_HP = 3   #初始生命，先设成3
         self.time_limit = 180   #时间限制，以秒为单位
+        self.PathwayCD = 5   #切换轨道的冷却时间
 
         self.maps = []  # 二维列表，里面放格子
         self.homes = []  # 元组列表，里面放所有的家
         self.Pathways = []  # 二维列表，里面放所有的轨道
+        self.PathwaysShiftTime = []  # 存储上次轨道切换的时间
         self.bornPoints = []  # 元组列表，里面放所有的出生点
 
         # 下面是UI所需的一些变量，都是像素为单位
@@ -72,6 +74,7 @@ class Map:
         self.maps[i][j].isPathway = True
         self.setSomeBlock(i, j, 1)
         self.Pathways.append((i, j))
+        self.PathwaysShiftTime.append(- self.PathwayCD)
 
     # 将(i,j)位置的格子赋上方向,若能是多个方向，则多次输入即可，含着能变为的所有方向
     def setBlockDirection(self, i, j, k):

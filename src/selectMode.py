@@ -97,7 +97,7 @@ def selectMode(screen, clock):
 
                 if x > backPos[0] and x < backPos[0] + backButton.get_width() \
                         and y > backPos[1] and y < backPos[1] + backButton.get_height():
-                    from initMenu import initialMenu
+                    from initialMenu import initialMenu
                     initialMenu(screen, clock)
                     breakflag = 1
                     # here to come back

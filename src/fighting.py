@@ -329,7 +329,18 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             # coordinateSelectedOld = [-1, -1]
                             directionSelectedStatus = False # This is actually necessary.
                         elif coordinateSelected[0] >= 0 and coordinateSelected[1]>=0 and mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPathway:
-                            mapload.update_Pathway(coordinateSelected, mapload.maps[coordinateSelected[1]][coordinateSelected[0]].blockDirection)
+                            kk = len(mapload.Pathways)
+                            for mm in range(kk):
+                                if mapload.Pathways[mm][0] == coordinateSelected[1] and  mapload.Pathways[mm][1] == coordinateSelected[0]:
+                                    if timePast - mapload.PathwaysShiftTime[mm] >= mapload.PathwayCD:
+                                        mapload.update_Pathway(coordinateSelected, mapload.maps[coordinateSelected[1]][coordinateSelected[0]].blockDirection)
+                                        mapload.PathwaysShiftTime[mm] = timePast
+                                        characterSelectedID = -1
+                                        coordinateSelected = [-1, -1]
+                                        # coordinateSelectedOld = [-1, -1]
+                                        directionSelectedStatus = False
+                                    break
+
                     if x > cancelPos[0] and x < cancelPos[0] + cancelPic.get_width() \
                         and y > cancelPos[1] and y < cancelPos[1] + cancelPic.get_height():
                         characterSelectedID = -1
