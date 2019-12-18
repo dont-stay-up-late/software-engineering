@@ -174,6 +174,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
     defenders = []
     defendersID = []
 
+    selectmode = 0  # 区分目前的选择模式
+    # 角色信息
+    charactersInfomation = []
+    
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
