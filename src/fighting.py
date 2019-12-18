@@ -459,7 +459,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     screen.blit(defenderPic[defendersID[k]], (x + 2 + 10, y + 10))
                                 screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 6, y - 6))
                         else:
-                            if counts % 20 <= 9:
+                            if counts % (defender.attack_time * 40)  < defender.attack_time * 40 / 2:
                                 if defender.direction == 1:
                                     screen.blit(defenderDetectPicLeft[defendersID[k]], (x + 10, y + 10))
                                 else:
@@ -501,7 +501,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     screen.blit(attackerPicOld[k], (x + 10, y - 4 + 10))
                                 screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 9))
                         else:
-                            if counts % 20 <= 9:
+                            if counts % (attacker.attack_time * 40) < attacker.attack_time * 40 / 2:
                                 if attacker.direction == 1:
                                     screen.blit(attackerDetectPicLeft[attackersID[k]], (x + 10, y + 10))
                                     attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
