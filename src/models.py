@@ -23,6 +23,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
     HP = 0
     ATTACK_POWER = 0
     reach_model = None
+    DEFEND_POWER = 0
     filename = ''
 
     def __init__(self, controller, position, direction):
@@ -32,7 +33,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         self.type = ''
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 0
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.speed = 0
         self.cost = 0
@@ -132,7 +133,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
 
     def attacked(self, loss, attacker):
         self.attacked_flag = True
-        self.hp -= loss * 0.1
+        self.hp -= (loss - self.defend_power) * 0.1
 
     def die(self):
         self.active = False
@@ -245,6 +246,7 @@ class CivilianDefender(Defender):
     last_created_time = 0
     HP = 100
     ATTACK_POWER = 10
+    DEFEND_POWER = 1
     reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 0), (1, 0), (1, 1)]
     filename = path('res/character/pingminb0.png')
 
@@ -254,7 +256,7 @@ class CivilianDefender(Defender):
         self.type = 'CivilianDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 2
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 10
         self.cool_down_time = 15
@@ -267,7 +269,8 @@ class FattyDefender(Defender):
     """
     last_created_time = 0
     HP = 300
-    ATTACK_POWER = 20
+    ATTACK_POWER = 2
+    DEFEND_POWER = 5
     reach_model = [(0, 0)]
     filename = path('res/character/pangdunb0.png')
 
@@ -277,7 +280,7 @@ class FattyDefender(Defender):
         self.type = 'FattyDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 2
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 18
         self.cool_down_time = 25
@@ -291,6 +294,7 @@ class KamikazeDefender(Defender):
     last_created_time = 0
     HP = 60
     ATTACK_POWER = 5
+    DEFEND_POWER = 0
     reach_model = [(0, 1), (0, 0),(0, 2)]
     filename = path('res/character/gansiduib0.png')
 
@@ -300,7 +304,7 @@ class KamikazeDefender(Defender):
         self.type = 'KamikazeDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 10
         self.cool_down_time = 10
@@ -315,6 +319,7 @@ class PharmacistDefender(Defender):
     SPECIAL_INTERVAL = 120
     HP = 100
     ATTACK_POWER = 10
+    DEFEND_POWER = 2
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, 0), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
     filename = path('res//character/yaojishib0.png')
 
@@ -324,7 +329,7 @@ class PharmacistDefender(Defender):
         self.type = 'PharmacistDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = None
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 25
         self.cool_down_time = 80
@@ -354,6 +359,7 @@ class AuraDefender(Defender):
     last_created_time = 0
     HP = 150
     ATTACK_POWER = 8
+    DEFEND_POWER = 1
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, 0), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
     filename = path('res/character/gongtoub0.png')
 
@@ -363,7 +369,7 @@ class AuraDefender(Defender):
         self.type = 'AuraDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = None
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 20
         self.cool_down_time = 60
@@ -378,7 +384,7 @@ class AuraDefender(Defender):
     @staticmethod
     def activate_special(character):
         character.attack_power = 1.2 * character.ATTACK_POWER
-        # character.hp = 1.2 * character.HP
+        character.defend_power = 1.2 * character.DEFEND_POWER
 
     def die(self):
         for defender in Defender.defenders:
@@ -389,7 +395,7 @@ class AuraDefender(Defender):
     @staticmethod
     def deactivate_special(character):
         character.attack_power = character.ATTACK_POWER
-        character.hp = character.HP
+        character.defend_power = character.DEFEND_POWER
 
 
 class BombDefender(Defender):
@@ -399,7 +405,8 @@ class BombDefender(Defender):
     last_created_time = 0
     SPECIAL_INTERVAL = 1.5  # seconds
     HP = 200
-    ATTACK_POWER = 10
+    ATTACK_POWER = 2
+    DEFEND_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
     filename = path('res/mapnum/Mapnum1_0.png')
 
@@ -409,7 +416,7 @@ class BombDefender(Defender):
         self.type = 'BombDefender'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = None
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 28
         self.cool_down_time = 120
@@ -440,6 +447,7 @@ class CivilianAttacker(Attacker):
     last_created_time = 0
     HP = 100
     ATTACK_POWER = 10
+    DEFEND_POWER = 1
     reach_model = [(0, 0), (0, 1)]
     filename = path('res/character/pingminr0.png')
 
@@ -449,7 +457,7 @@ class CivilianAttacker(Attacker):
         self.type = 'CivilianAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.speed = 0.2
         self.cost = 10
@@ -463,7 +471,8 @@ class FattyAttacker(Attacker):
     """
     last_created_time = 0
     HP = 400
-    ATTACK_POWER = 20
+    ATTACK_POWER = 5
+    DEFEND_POWER = 5
     reach_model = [(0, 0), (0, 1)]
     filename = path('res/character/pangdunr0.png')
 
@@ -473,7 +482,7 @@ class FattyAttacker(Attacker):
         self.type = 'FattyAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 4
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.speed = 0.1
         self.cost = 18
@@ -488,6 +497,7 @@ class KamikazeAttacker(Attacker):
     last_created_time = 0
     HP = 60
     ATTACK_POWER = 5
+    DEFEND_POWER = 0
     reach_model = [(0, 1), (0, 0), (0, 2)]
     filename = path('res/character/gansiduir0.png')
 
@@ -497,7 +507,7 @@ class KamikazeAttacker(Attacker):
         self.type = 'KamikazeAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 0.5
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.speed = 0.4
         self.cost = 15
@@ -513,6 +523,7 @@ class PharmacistAttacker(Attacker):
     SPECIAL_INTERVAL = 60
     HP = 150
     ATTACK_POWER = 10
+    DEFEND_POWER = 2
     reach_model = [(0, 1), (0, 0), (0, 2)]
     filename = path('res/character/yaojishir0.png')
 
@@ -522,7 +533,7 @@ class PharmacistAttacker(Attacker):
         self.type = 'PharmacistAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.speed = 0.2
         self.cost = 25
@@ -548,6 +559,7 @@ class AuraAttacker(Attacker):
     last_created_time = 0
     HP = 240
     ATTACK_POWER = 8
+    DEFEND_POWER = 1
     reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
     filename = path('res/character/gongtour0.png')
 
@@ -557,7 +569,7 @@ class AuraAttacker(Attacker):
         self.type = 'AuraAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1.5
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.speed = 0.25
         self.cost = 20
@@ -572,8 +584,8 @@ class AuraAttacker(Attacker):
 
     @staticmethod
     def activate_special(character):
-        character.attack_power = 1.5 * character.ATTACK_POWER
-        # character.hp = 1.2 * character.HP
+        character.attack_power = 1.2 * character.ATTACK_POWER
+        character.defend_power = 1.2 * character.DEFEND_POWER
 
     def die(self):
         for attacker in Attacker.attackers:
@@ -584,7 +596,7 @@ class AuraAttacker(Attacker):
     @staticmethod
     def deactivate_special(character):
         character.attack_power = character.ATTACK_POWER
-        character.hp = character.HP
+        character.defend_power = character.DEFEND
 
 
 class BombAttacker(Attacker):
@@ -593,8 +605,9 @@ class BombAttacker(Attacker):
     """
     last_created_time = 0
     HP = 210
-    ATTACK_POWER = 10
+    ATTACK_POWER = 0
     SPECIAL_ATTACK_POWER = 380
+    DEFEND_POWER = 0
     reach_model = [(0, 0), (0, 1), (0, 2)]
     special_reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
     filename = path('res/mapnum/Mapnum1_0.png')
@@ -605,7 +618,7 @@ class BombAttacker(Attacker):
         self.type = 'BombAttacker'
         self.attack_power = self.ATTACK_POWER
         self.attack_time = 1
-        self.defend_power = 0
+        self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.speed = 0.2
         self.cost = 28
