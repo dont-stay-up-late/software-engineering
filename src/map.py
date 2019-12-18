@@ -97,6 +97,18 @@ class Map:
         y=int((blockPosition[1]+0.5)*self.blockSize+self.yBegin)
         return [x,y]
 
+    # 轨的使用
+    def update_Pathway(self, coordinate, olddirection):
+        k = len(self.maps[coordinate[1]][coordinate[0]].blockDirections)
+        for i in range(k):
+            if self.maps[coordinate[1]][coordinate[0]].blockDirections[i] == olddirection:
+                if i == k - 1:
+                    self.maps[coordinate[1]][coordinate[0]].blockDirection = \
+                    self.maps[coordinate[1]][coordinate[0]].blockDirections[0]
+                else:
+                    self.maps[coordinate[1]][coordinate[0]].blockDirection = \
+                    self.maps[coordinate[1]][coordinate[0]].blockDirections[i + 1]
+
 #攻击者每次刷新都调用这个函数，重新确定移动方向
 def update_direction(attacker,map):
     # Return True if attacker die in this method.
@@ -121,3 +133,4 @@ def update_direction(attacker,map):
     #更新攻击者方向
 
     return False
+

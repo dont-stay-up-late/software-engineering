@@ -295,38 +295,41 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         coordinateSelected = [-1, -1]
                         # coordinateSelectedOld = [-1, -1]
                         directionSelectedStatus = False
-                elif modeID == 1 and directionSelectedStatus == True:
+                elif modeID == 1:
                     if x > surePos[0] and x < surePos[0] + surePic.get_width() \
                         and y > surePos[1] and y < surePos[1] + surePic.get_height():
-                        if CharID[characterSelectedID] == 0:
-                            attackers.append(CivilianAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
-                            attackersID.append(0)
-                        if CharID[characterSelectedID] == 1:
-                            attackers.append(AuraAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
-                            attackersID.append(1)
-                        if CharID[characterSelectedID] == 2:
-                            attackers.append(KamikazeAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
-                            attackersID.append(2)
-                        if CharID[characterSelectedID] == 3:
-                            attackers.append(FattyAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
-                            attackersID.append(3)
-                        if CharID[characterSelectedID] == 4:
-                            attackers.append(PharmacistAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
-                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
-                            attackersID.append(4)
-                        attackerPicOld.append(attackerPic[CharID[characterSelectedID]])
-                        attackerAttackPicOld.append(attackerAttackPic[CharID[characterSelectedID]])
-                        attackerDetectPicOld.append(attackerDetectPic[CharID[characterSelectedID]])
-                        controller.money['Attack'] -= attackerCost[characterSelectedID]
-                        attackerLastCD[characterSelectedID] = curTime
-                        characterSelectedID = -1
-                        coordinateSelected = [-1, -1]
-                        # coordinateSelectedOld = [-1, -1]
-                        directionSelectedStatus = False # This is actually necessary.
+                        if directionSelectedStatus:
+                            if CharID[characterSelectedID] == 0:
+                                attackers.append(CivilianAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                    (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                                attackersID.append(0)
+                            if CharID[characterSelectedID] == 1:
+                                attackers.append(AuraAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                    (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                                attackersID.append(1)
+                            if CharID[characterSelectedID] == 2:
+                                attackers.append(KamikazeAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                    (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                                attackersID.append(2)
+                            if CharID[characterSelectedID] == 3:
+                                attackers.append(FattyAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                    (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                                attackersID.append(3)
+                            if CharID[characterSelectedID] == 4:
+                                attackers.append(PharmacistAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                    (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                                attackersID.append(4)
+                            attackerPicOld.append(attackerPic[CharID[characterSelectedID]])
+                            attackerAttackPicOld.append(attackerAttackPic[CharID[characterSelectedID]])
+                            attackerDetectPicOld.append(attackerDetectPic[CharID[characterSelectedID]])
+                            controller.money['Attack'] -= attackerCost[characterSelectedID]
+                            attackerLastCD[characterSelectedID] = curTime
+                            characterSelectedID = -1
+                            coordinateSelected = [-1, -1]
+                            # coordinateSelectedOld = [-1, -1]
+                            directionSelectedStatus = False # This is actually necessary.
+                        elif coordinateSelected[0] >= 0 and coordinateSelected[1]>=0 and mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPathway:
+                            mapload.update_Pathway(coordinateSelected, mapload.maps[coordinateSelected[1]][coordinateSelected[0]].blockDirection)
                     if x > cancelPos[0] and x < cancelPos[0] + cancelPic.get_width() \
                         and y > cancelPos[1] and y < cancelPos[1] + cancelPic.get_height():
                         characterSelectedID = -1
@@ -573,7 +576,12 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 6))
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attackers's HP is : %d" % (attacker.hp))
-
+                # 进行轨道切换确认
+                if modeID == 1 and coordinateSelected[0] >= 0 and coordinateSelected[1]>=0 and mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPathway:
+                    characterSelectedID = -1
+                    selectmode = 0
+                    screen.blit(cancelPic, cancelPos)
+                    screen.blit(surePic, surePos)
                 # 更新左侧信息
                 if modeID == 2:
                     if selectmode == 0:
@@ -622,6 +630,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     screen.blit(surePic, surePos)
                     directionSelectedStatus = True
                 controller.update()
+
+
 
 
 
