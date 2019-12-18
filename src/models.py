@@ -166,7 +166,7 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
 
     def get_coordinate(self):
         # Returns a tuple for the coordinate of the character
-        coord = (self.position[0] - 265) // 75, (self.position[0] - 70) // 75
+        coord = (self.position[0] - 265) // 75, (self.position[1] - 70) // 75
         return coord
 
     @staticmethod
