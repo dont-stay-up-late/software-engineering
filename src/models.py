@@ -316,9 +316,9 @@ class PharmacistDefender(Defender):
     Pharmacist defender class.
     """
     last_created_time = 0
-    SPECIAL_INTERVAL = 120
+    SPECIAL_INTERVAL = 60
     HP = 100
-    ATTACK_POWER = 20
+    ATTACK_POWER = 10
     DEFEND_POWER = 2
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, 0), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
     filename = path('res//character/yaojishib0.png')

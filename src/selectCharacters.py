@@ -45,7 +45,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     #   编队框
     teamFlame = pygame.image.load(path("res/character/teamflame.png")).convert_alpha()
     teamFlamePos = (255, 520)
-    characterInfoPos = (0,150)
+    characterInfoPos = (0,100)
     # 人物框加载路径
     if modeID == 2:
         side = 'b' # single defend
