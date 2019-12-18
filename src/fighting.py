@@ -43,9 +43,12 @@ def startFight(screen, clock, modeID, mapID, CharID):
     battleMap = pygame.image.load(path("res/battle/mapdisplay.png")).convert_alpha()    #地图
     battleMapPos = (265, 70)
     giveupButton = pygame.image.load(path("res/battle/giveup.png")).convert_alpha()           #弃权
+    surePic = pygame.image.load(path("res/battle/sure.png")).convert_alpha()        #确认选择
+    surePic = pygame.transform.scale(surePic,(130,50))
+    surePos = (135, 540)
     cancelPic = pygame.image.load(path("res/battle/cancel.png")).convert_alpha()        #取消选择
-    cancelPic = pygame.transform.scale(cancelPic,(140,50))
-    cancelPos = (85, 520)
+    cancelPic = pygame.transform.scale(cancelPic,(130,50))
+    cancelPos = (135, 630)
     giveupPos = (1080, 630)
     direction = []                                                                      #选择人物朝向
     directionPos = []
@@ -56,10 +59,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
     for i in range(4):
         direction.append(pygame.image.load(path("res/battle/arrow"+str(i)+".png")).convert_alpha())
         direction[i] = pygame.transform.scale(direction[i],(50,50))
-    directionPos.append((130,350))
-    directionPos.append((85, 400))
-    directionPos.append((130, 450))
-    directionPos.append((175, 400))
+    directionPos.append((45, 545))
+    directionPos.append((10, 585))
+    directionPos.append((45, 625))
+    directionPos.append((80, 585))
 
     # 不同角色的路径关键词缀
     stringOfCharacters = ["pingmin","gongtou","gansidui","pangdun","yaojishi"]
@@ -113,8 +116,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
     characterSelectedID = -1
     # 选取的坐标编号（取整数），[-1，-1]为未选取
     coordinateSelected = [-1, -1]
-    # 上次选取的坐标编号，用于回退
-    coordinateSelectedOld = [-1, -1]
+    # 上次选取的坐标编号，用于回退, 改进后不再需要
+    # coordinateSelectedOld = [-1, -1]
     # 选取的方向，-1或者False表示未选取，0-3依次为上左下右
     directionSelected = [-1]
     directionSelectedStatus = False
@@ -176,8 +179,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
 
     selectmode = 0  # 区分目前的选择模式
     # 角色信息
-    charactersInfomation = []
-    
+    defendersInfomation = []
+    attackersInfomation = []
+    blocksInfomation = []
+    for i in range(5):
+        defendersInfomation.append(pygame.image.load(path("res/fightinginfo/" + stringOfCharacters[i] + "b.png")).convert_alpha())
+        attackersInfomation.append(pygame.image.load(path("res/fightinginfo/" + stringOfCharacters[i] + "r.png")).convert_alpha())
+    charactersInfomationPos = (0, 0)
+
+    for i in range(7):
+        blocksInfomation.append(pygame.image.load(path("res/fightinginfo/" + str(i) + ".png")).convert_alpha())
+    blocksInfomationPos = (0, 400)
 
     while True:
         for event in pygame.event.get():
@@ -205,8 +217,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             else:
                                 characterSelectedID = i
                             coordinateSelected = [-1, -1]
-                            coordinateSelectedOld = [-1, -1]
+                            # coordinateSelectedOld = [-1, -1]
                             directionSelectedStatus = False
+                            selectmode = 0
 
                 # 选取地图中的格子
                 if x > mapload.xBegin and x < mapload.xBegin + mapload.rowNumber * mapload.blockSize \
@@ -215,15 +228,32 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     coordinateSelected = mapload.positionToBlock([x,y])
                     #if True:
                     if modeID == 2: # Defending
-                        if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canPlantOn and mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPlantOn == False:
-                            coordinateSelectedOld = coordinateSelected
+                        if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPlantOn == False:
+                            if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canPlantOn:
+                                pass
+                            else:
+                                selectmode = 1
+                                characterSelectedID = -1
+                                # 只能查看地图上防守方角色信息，避免重合
                         else:
-                            coordinateSelected = coordinateSelectedOld
+                            selectmode = 1
+                            characterSelectedID = -1
+                            directionSelectedStatus = False
+                            for defender in defenders:
+                                if defender.position[0] == mapload.blockToPosition(coordinateSelected)[0] and defender.position[1] == mapload.blockToPosition(coordinateSelected)[1]:
+                                    characterSelectedID = defendersID[defenders.index(defender)]
+                                    break
+
                     else: # Attacking
                         if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isBornPoint:
-                            coordinateSelectedOld = coordinateSelected
+                            pass
                         else:
-                            coordinateSelected = coordinateSelectedOld
+                            selectmode = 1
+                            characterSelectedID = -1
+                            for defender in defenders:
+                                if defender.position[0] == mapload.blockToPosition(coordinateSelected)[0] and defender.position[1] == mapload.blockToPosition(coordinateSelected)[1]:
+                                    characterSelectedID = defendersID[defenders.index(defender)]
+                                    break
 
                 # 在防守模式下，选择朝向后放置防守角色
                 if modeID == 2:
@@ -256,9 +286,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             defenderLastCD[characterSelectedID] = curTime
                             characterSelectedID = -1
                             coordinateSelected = [-1, -1]
-                            coordinateSelectedOld = [-1, -1]
+                            # coordinateSelectedOld = [-1, -1]
                             directionSelectedStatus = False
-                elif modeID == 1 and coordinateSelected[0] != -1:
+                elif modeID == 1 and coordinateSelected[0] != -1 and selectmode == 0:
                     if CharID[characterSelectedID] == 0:
                         attackers.append(CivilianAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
                             (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
@@ -286,7 +316,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     attackerLastCD[characterSelectedID] = curTime
                     characterSelectedID = -1
                     coordinateSelected = [-1, -1]
-                    coordinateSelectedOld = [-1, -1]
+                    # coordinateSelectedOld = [-1, -1]
                     directionSelectedStatus = False # This is actually unnecessary.
 
             if event.type == COUNT:
@@ -529,19 +559,50 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attackers's HP is : %d" % (attacker.hp))
 
-                # 更新朝向按键
-                if modeID == 2 and characterSelectedID >= 0 and coordinateSelected[0] >= 0 and coordinateSelected[1]>=0:
+                # 更新左侧信息
+                if modeID == 2:
+                    if selectmode == 0:
+                        if characterSelectedID >= 0:
+                            screen.blit(selectcharacter, characterPos[characterSelectedID])
+                    if characterSelectedID >= 0:
+                        screen.blit(defendersInfomation[characterSelectedID],charactersInfomationPos)
+                else:
+                    if selectmode == 0:
+                        if characterSelectedID >= 0:
+                            screen.blit(selectcharacter, characterPos[characterSelectedID])
+                            screen.blit(attackersInfomation[characterSelectedID], charactersInfomationPos)
+                    else:
+                        if characterSelectedID >= 0:
+                            screen.blit(defendersInfomation[characterSelectedID],charactersInfomationPos)
+                if coordinateSelected[0] >= 0 and coordinateSelected[1] >= 0:
+                    if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isHome:
+                        screen.blit(blocksInfomation[4], blocksInfomationPos)
+                    elif mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isBornPoint:
+                        screen.blit(blocksInfomation[5], blocksInfomationPos)
+                    elif mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPathway:
+                        screen.blit(blocksInfomation[6], blocksInfomationPos)
+                    elif mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canZombieOn:
+                        if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canPlantOn:
+                            screen.blit(blocksInfomation[0], blocksInfomationPos)
+                        else:
+                            screen.blit(blocksInfomation[1], blocksInfomationPos)
+                    else:
+                        if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canPlantOn:
+                            screen.blit(blocksInfomation[2], blocksInfomationPos)
+                        else:
+                            screen.blit(blocksInfomation[3], blocksInfomationPos)
+                    screen.blit(selectblock, (mapload.blockToPosition([coordinateSelected[0], coordinateSelected[1]])[0] - 37.5,mapload.blockToPosition([coordinateSelected[0], coordinateSelected[1]])[1] - 37.5))
+
+
+                if modeID == 2 and characterSelectedID >= 0 and coordinateSelected[0] >= 0 and coordinateSelected[1]>=0 and selectmode == 0:
                     for i in range(4):
                         screen.blit(direction[i], directionPos[i])
                     screen.blit(cancelPic, cancelPos)
                     directionSelectedStatus = True
 
-                # 选择框
-                if characterSelectedID >= 0:
-                    screen.blit(selectcharacter, characterPos[characterSelectedID])
-                if coordinateSelected[0] >= 0 and coordinateSelected[1] >= 0:
-                    screen.blit(selectblock, (mapload.blockToPosition([coordinateSelected[0],coordinateSelected[1]])[0]-37.5,mapload.blockToPosition([coordinateSelected[0],coordinateSelected[1]])[1]-37.5))
                 controller.update()
+
+
 
         # 更新画面
         pygame.display.update()
