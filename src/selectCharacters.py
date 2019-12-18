@@ -18,6 +18,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     characterPic = []    #当前人物栏的人物状态图
     loadpathNotLocked = []  #未上锁人物图路径
     loadpathLocked = [] #上锁人物图路径
+    charInfoList = []   # 人物信息
     charactersInTeam = [1, 1, 1, 1, 1]    #人物状态，是否编入队伍，是为0,否为1
     modeIntroAddress = path("res/pic/modeintro" + str(modeID) + ".png")
 
@@ -61,11 +62,32 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathLocked.append(path("res/character/pangdun{}s.png".format(side)))
     loadpathLocked.append(path("res/character/yaojishi{}s.png".format(side)))
 
+    charInfoList.append(pygame.image.load(path("res/charinfo/pingmin{}.png".format(side))).convert_alpha())
+    charInfoList.append(pygame.image.load(path("res/charinfo/gongtou{}.png".format(side))).convert_alpha())
+    charInfoList.append(pygame.image.load(path("res/charinfo/gansidui{}.png".format(side))).convert_alpha())
+    charInfoList.append(pygame.image.load(path("res/charinfo/pangdun{}.png".format(side))).convert_alpha())
+    charInfoList.append(pygame.image.load(path("res/charinfo/yaojishi{}.png".format(side))).convert_alpha())
+
     for i in range(0, totalNum):
         characterPic0.append(pygame.image.load(loadpathNotLocked[i]).convert_alpha())
         characterPic.append(pygame.image.load(loadpathNotLocked[i]).convert_alpha())
         characterFlamePos.append((255 + i * 100, 250))
     while True:
+        x, y = pygame.mouse.get_pos()
+        # 根据鼠标悬停显示对应的角色信息
+        # 不悬停则不显示
+        infoflag = 0
+        for i in range (0, totalNum):
+            if x > characterFlamePos[i][0] and x < characterFlamePos[i][0] + characterFlame.get_width() \
+                and y > characterFlamePos[i][1] and y < characterFlamePos[i][1] + characterFlame.get_height():
+                Charinfo = charInfoList[i]
+                infoflag = 1
+        for i in range (0, chooseNum):
+            if x > 255 + 100 * i and x < 255 + 100 * i + characterFlame.get_width() \
+                and y > 520 and y < 520 + characterFlame.get_height():
+                Charinfo = charInfoList[CharID[i]]
+                infoflag = 1
+
         for event in pygame.event.get():
             x, y = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
@@ -98,8 +120,8 @@ def selectCharacters(screen, clock, modeID, mapID):
                     if x > characterFlamePos[i][0] and x < characterFlamePos[i][0] + characterFlame.get_width() \
                             and y > characterFlamePos[i][1] and y < characterFlamePos[i][1] + characterFlame.get_height():
                         charactersInTeam[i] = -charactersInTeam[i]
-                        Charinfo = pygame.image.load(path("res/charinfo/Charinfo.png")).convert_alpha()
-                        infoflag = 1
+                        # Charinfo = charInfoList[i]
+                        # infoflag = 1
                         if charactersInTeam[i] == 1:
                             characterPic[i] = pygame.image.load(loadpathNotLocked[i]).convert_alpha()
                             CharID.remove(i)
@@ -113,7 +135,7 @@ def selectCharacters(screen, clock, modeID, mapID):
                     if x > 255 + 100 * i and x < 255 + 100 * i + characterFlame.get_width() \
                             and y > 520 and y < 520 + characterFlame.get_height():
                         charactersInTeam[CharID[i]] = - charactersInTeam[CharID[i]]
-                        Charinfo = pygame.image.load(path("res/charinfo/Charinfo.png")).convert_alpha()
+                        # Charinfo = pygame.image.load(path("res/charinfo/Charinfo.png")).convert_alpha()
                         if charactersInTeam[CharID[i]] == 1:
                             characterPic[CharID[i]] = pygame.image.load(loadpathNotLocked[CharID[i]]).convert_alpha()
                             del CharID[i]
@@ -135,8 +157,6 @@ def selectCharacters(screen, clock, modeID, mapID):
             screen.blit(characterPic[i], characterFlamePos[i])
         for i in range(0, chooseNum):
             screen.blit(characterPic0[CharID[i]], (255 + 100 * i, 520))
-        # 说明文字
-        # screen.blit(font.render("用上下左右键来控制", True, (166, 100, 30)), (300, 50))
         # 更新画面
         pygame.display.update()
         # 帧率
