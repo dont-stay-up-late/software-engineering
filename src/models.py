@@ -596,7 +596,7 @@ class AuraAttacker(Attacker):
     @staticmethod
     def deactivate_special(character):
         character.attack_power = character.ATTACK_POWER
-        character.defend_power = character.DEFEND
+        character.defend_power = character.DEFEND_POWER
 
 
 class BombAttacker(Attacker):
