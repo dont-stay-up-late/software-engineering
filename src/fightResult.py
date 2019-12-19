@@ -3,13 +3,16 @@ from pygame.locals import *
 from path import path
 from models import *
 from map import *
+from bgm import *
 
 def endFight(screen, clock, modeID, flag_mapinfo, isWin, attackers, defenders, mapload, defendersID, attackersID, attackerPicOld, attackerDetectPicOld, attackerAttackPicOld):
     resultPad = pygame.image.load(path("res/battle/fightResultPad.png")).convert_alpha()
     if isWin:
         title = pygame.image.load(path("res/battle/victory.png")).convert_alpha()
+        winBgm()
     else:
         title = pygame.image.load(path("res/battle/lose.png")).convert_alpha()
+        loseBgm()
     tryAgainButton = pygame.image.load(path("res/battle/tryAgain.png")).convert_alpha()
     returnHomeButton = pygame.image.load(path("res/battle/backToMenu.png")).convert_alpha()
 
