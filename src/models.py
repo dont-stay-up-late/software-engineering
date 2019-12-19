@@ -19,7 +19,6 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         (1, 0),  # Right
     ]
 
-    last_created_time = 0
     HP = 0
     ATTACK_POWER = 0
     reach_model = None
@@ -43,7 +42,6 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         self.active = True
         self.attacked_flag = False
         self.attacking_flag = False
-        self.last_created_time = time.time()
 
     def init_image(self, filename, width, height, columns):
         # https://www.cnblogs.com/msxh/p/5013555.html
@@ -259,6 +257,7 @@ class CivilianDefender(Defender):
         self.cost = 10
         self.cool_down_time = 15
         self.init_image(self.filename, 75, 75, 1)
+        CivilianDefender.last_created_time = time.time()
 
 
 class FattyDefender(Defender):
@@ -285,6 +284,7 @@ class FattyDefender(Defender):
         self.cost = 18
         self.cool_down_time = 25
         self.init_image(self.filename, 75, 75, 1)
+        FattyDefender.last_created_time = time.time()
 
 
 class KamikazeDefender(Defender):
@@ -311,6 +311,7 @@ class KamikazeDefender(Defender):
         self.cost = 10
         self.cool_down_time = 10
         self.init_image(self.filename, 75, 75, 1)
+        KamikazeDefender.last_created_time = time.time()
 
 
 class PharmacistDefender(Defender):
@@ -339,6 +340,7 @@ class PharmacistDefender(Defender):
         self.cool_down_time = 80
         self.last_special_time = time.time()
         self.init_image(self.filename, 75, 75, 1)
+        PharmacistDefender.last_created_time = time.time()
 
     def update(self):
         if time.time() - self.last_special_time >= self.SPECIAL_INTERVAL:
@@ -380,6 +382,7 @@ class AuraDefender(Defender):
         self.cost = 20
         self.cool_down_time = 60
         self.init_image(self.filename, 75, 75, 1)
+        AuraDefender.last_created_time = time.time()
 
     def update(self):
         for defender in Defender.defenders:
@@ -430,6 +433,7 @@ class BombDefender(Defender):
         self.cool_down_time = 120
         self.created_time = time.time()
         self.init_image(self.filename, 75, 75, 1)
+        BombDefender.last_created_time = time.time()
 
     def update(self):
         if time.time() - self.created_time >= self.SPECIAL_INTERVAL:
@@ -473,6 +477,7 @@ class CivilianAttacker(Attacker):
         self.cost = 10
         self.cool_down_time = 10
         self.init_image(self.filename, 75, 75, 1)
+        CivilianAttacker.last_created_time = time.time()
 
 
 class FattyAttacker(Attacker):
@@ -500,6 +505,7 @@ class FattyAttacker(Attacker):
         self.cost = 18
         self.cool_down_time = 25
         self.init_image(self.filename, 75, 75, 1)
+        FattyAttacker.last_created_time = time.time()
 
 
 class KamikazeAttacker(Attacker):
@@ -527,6 +533,7 @@ class KamikazeAttacker(Attacker):
         self.cost = 15
         self.cool_down_time = 10
         self.init_image(self.filename, 75, 75, 1)
+        KamikazeAttacker.last_created_time = time.time()
 
 
 class PharmacistAttacker(Attacker):
@@ -556,6 +563,7 @@ class PharmacistAttacker(Attacker):
         self.cool_down_time = 80
         self.last_special_time = time.time()
         self.init_image(self.filename, 75, 75, 1)
+        PharmacistAttacker.last_created_time = time.time()
 
     def attacked(self, loss, attacker):
         if time.time() - self.last_special_time >= self.SPECIAL_INTERVAL:
@@ -593,6 +601,7 @@ class AuraAttacker(Attacker):
         self.cost = 20
         self.cool_down_time = 30
         self.init_image(self.filename, 75, 75, 1)
+        AuraAttacker.last_created_time = time.time()
 
     def update(self):
         for attacker in Attacker.attackers:
@@ -644,6 +653,7 @@ class BombAttacker(Attacker):
         self.cost = 28
         self.cool_down_time = 90
         self.init_image(self.filename, 75, 75, 1)
+        BombAttacker.last_created_time = time.time()
 
     def special(self, character):
         character.attacked(self.SPECIAL_ATTACK_POWER, self)
@@ -656,30 +666,5 @@ class BombAttacker(Attacker):
         super().die()
 
 
-# Do we still need this class?
-class Bullet(Sprite):
-    """
-    Class for bullets.
-    """
-
-    def __init__(self, character, reach_model, bullet_image, effect_type):
-        super().__init__()
-        self.position = character.position
-        self.direction = character.direction
-        self.attack_power = character.attack_power
-        self.reach_model = reach_model
-        self.bullet_image = bullet_image  # This can actually be a quite complex data structure... I'm not sure how
-        # this should be structured but it should definitely be confirmed by the time the UI team writes the
-        # init_image() method :)
-        self.effect_type = effect_type  # For pharmacists, it increases hp of the same side.
-        self.speed = 4  # Spacefiller; actual speed depend on tile size
-        self.init_image()
-
-    def init_image(self):
-        pass
-
-    def update(self):
-        pass
-
-    def hit(self):
-        pass
+class EquipmentAttacker():
+    attack_time = 1

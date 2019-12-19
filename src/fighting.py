@@ -12,6 +12,7 @@ from levelAttack import *
 from defeated import *
 from fightResult import endFight
 from bgm import playBgm
+from equipments import *
 
 # modeID为游戏模式编号，mapID为地图编号, charID为选用的角色的列表编号
 def startFight(screen, clock, modeID, mapID, CharID):
@@ -75,6 +76,18 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 道具
     tools = []
     toolsPos = []
+    if modeID == 1:
+        equipments = [
+            DopingEquipment,
+            IndifferentEquipment,
+            SignalEquipment
+        ]
+    elif modeID == 2:
+        equipments = [
+            AmbulanceEquipment,
+            CanonEquipment,
+            ListEquipment
+        ]
     if modeID == 1:
         tools.append(pygame.image.load(path("res/tools/incitant.png")).convert_alpha())
         tools.append(pygame.image.load(path("res/tools/bombing.png")).convert_alpha())
@@ -377,11 +390,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         # coordinateSelectedOld = [-1, -1]
                         directionSelectedStatus = False
 
-                # 选择道具
+                # TODO: 选择道具
                 for i in range(3):
                     if x > toolsPos[i][0] and x < toolsPos[i][0] + tools[i].get_width() \
                         and y > toolsPos[i][1] and y < toolsPos[i][1] + tools[i].get_height():
                         toolselectID = i
+                        equipment = equipments[i]
+                        if equipment == AmbulanceEquipment:
+                            # Wait for defender
+                            pass
+                        else:
+                            _ = equipment(controller)
                         break
             if event.type == COUNT:
                 counts = counts + 1
@@ -544,11 +563,12 @@ def startFight(screen, clock, modeID, mapID, CharID):
 
                 # 更新道具图
                 for i in range(3):
-                    screen.blit(tools[i], toolsPos[i])
-                if toolselectID >= 0:
-                    screen.blit(toolselected, toolsPos[toolselectID])
-                    screen.blit(surePic, toolssurePos)
-                    screen.blit(cancelPic, toolscancelPos)
+                    if equipments[i].count > 0:
+                        screen.blit(tools[i], toolsPos[i])
+                # if toolselectID >= 0:
+                #     screen.blit(toolselected, toolsPos[toolselectID])
+                #     screen.blit(surePic, toolssurePos)
+                #     screen.blit(cancelPic, toolscancelPos)
 
 
                 for i in range(0, characterNum):
