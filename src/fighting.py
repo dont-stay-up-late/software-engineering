@@ -675,6 +675,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 screen.blit(font.render(str(defenderCost[characterSelectedID]), True, (112, 76, 29)),(80, 192))
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
+                                screen.blit(font.render(str(PharmacistDefender.SPECIAL_INTERVAL) + "/" + str(PharmacistDefender.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
                     else:
                         # 选择的是地图中的防守方
                         if characterSelectedID >= 0:
@@ -687,8 +688,15 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     screen.blit(font.render(str(defender.speed), True, (112, 76, 29)),(80, 162))
                                     screen.blit(font.render(str(1 / defender.attack_time), True, (112, 76, 29)),(210, 162))
                                     screen.blit(font.render(str(defender.cost), True, (112, 76, 29)),(80, 192))
-                                    CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - ( curTime - defenderLastCD[characterSelectedID]) / 1000)))
-                                    screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s", True,(112, 76, 29)), (130, 222))
+                                    for kk in range(characterNum):
+                                        if CharID[kk] == characterSelectedID:
+                                            CDLEFT = max(0, int(math.ceil(defenderNeededCD[kk] - ( curTime - defenderLastCD[kk]) / 1000)))
+                                            screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[kk]) + "s", True,(112, 76, 29)), (130, 222))
+                                            break
+
+                                    if characterSelectedID == 4:
+                                        CDLEFT = max(0, int(math.ceil(PharmacistDefender.SPECIAL_INTERVAL) - (time.time() - defender.last_special_time)))
+                                        screen.blit(font.render(str(CDLEFT) + "/" + str(PharmacistDefender.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
                                     break
 
                 else:
@@ -743,6 +751,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 screen.blit(font.render(str(defenderCost[characterSelectedID]), True, (112, 76, 29)),(80, 192))
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
+                                screen.blit(font.render(str(PharmacistAttacker.SPECIAL_INTERVAL) + "/" + str(PharmacistAttacker.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
                     else:
                         # 选择的是地图中的防守方
                         if characterSelectedID >= 0:
@@ -755,9 +764,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     screen.blit(font.render(str(defender.speed), True, (112, 76, 29)),(80, 162))
                                     screen.blit(font.render(str(1 / defender.attack_time), True, (112, 76, 29)),(210, 162))
                                     screen.blit(font.render(str(defender.cost), True, (112, 76, 29)),(80, 192))
-                                    CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - ( curTime - defenderLastCD[characterSelectedID]) / 1000)))
-                                    screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s", True,(112, 76, 29)), (130, 222))
-                                    break
+                                    for kk in range(characterNum):
+                                        if CharID[kk] == characterSelectedID:
+                                            CDLEFT = max(0, int(math.ceil(defenderNeededCD[kk] - (curTime - defenderLastCD[kk]) / 1000)))
+                                            screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[kk]) + "s", True,(112, 76, 29)), (130, 222))
+                                            break
+
+                                        if characterSelectedID == 4:
+                                            CDLEFT = max(0, int(math.ceil(PharmacistDefender.SPECIAL_INTERVAL) - (time.time() - defender.last_special_time)))
+                                            screen.blit(font.render(str(CDLEFT) + "/" + str(PharmacistDefender.SPECIAL_INTERVAL),True, (112, 76, 29)), (130, 370))
+                                        break
+
                 if coordinateSelected[0] >= 0 and coordinateSelected[1] >= 0:
                     if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isHome:
                         screen.blit(blocksInfomation[4], blocksInfomationPos)

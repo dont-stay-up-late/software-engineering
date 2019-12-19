@@ -337,7 +337,7 @@ class PharmacistDefender(Defender):
         self.hp = self.HP
         self.cost = 25
         self.cool_down_time = 80
-        self.last_special_time = 0
+        self.last_special_time = time.time()
         self.init_image(self.filename, 75, 75, 1)
 
     def update(self):
@@ -554,7 +554,7 @@ class PharmacistAttacker(Attacker):
         self.speed = 0.2
         self.cost = 25
         self.cool_down_time = 80
-        self.last_special_time = 0
+        self.last_special_time = time.time()
         self.init_image(self.filename, 75, 75, 1)
 
     def attacked(self, loss, attacker):
