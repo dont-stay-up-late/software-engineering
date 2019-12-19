@@ -243,7 +243,9 @@ class CivilianDefender(Defender):
     HP = 100
     ATTACK_POWER = 15
     DEFEND_POWER = 1
-    reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 0), (1, 0), (1, 1)]
+    reach_model = [(-1, 0), (-1, 1), (0, 1), (0, 2), (0, 3), (0, 4), (0, 0), (1, 0), (1, 1)]
+    SPEED = 0
+    ATTACK_SPEED = 2.0
     filename = path('res/character/pingminb0.png')
 
     def __init__(self, controller, position, direction):
@@ -267,7 +269,9 @@ class FattyDefender(Defender):
     HP = 300
     ATTACK_POWER = 25
     DEFEND_POWER = 5
-    reach_model = [(0, 0)]
+    reach_model = [(0, 0),(0, 1)]
+    SPEED = 0
+    ATTACK_SPEED = 0.5
     filename = path('res/character/pangdunb0.png')
 
     def __init__(self, controller, position, direction):
@@ -292,6 +296,8 @@ class KamikazeDefender(Defender):
     ATTACK_POWER = 7
     DEFEND_POWER = 0
     reach_model = [(0, 1), (0, 0),(0, 2)]
+    SPEED = 0
+    ATTACK_SPEED = 4.0
     filename = path('res/character/gansiduib0.png')
 
     def __init__(self, controller, position, direction):
@@ -317,6 +323,8 @@ class PharmacistDefender(Defender):
     ATTACK_POWER = 10
     DEFEND_POWER = 2
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, 0), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    SPEED = 0
+    ATTACK_SPEED = 1.0
     filename = path('res//character/yaojishib0.png')
 
     def __init__(self, controller, position, direction):
@@ -357,6 +365,8 @@ class AuraDefender(Defender):
     ATTACK_POWER = 12
     DEFEND_POWER = 1
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, 0), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
+    SPEED = 0
+    ATTACK_SPEED = 1.0
     filename = path('res/character/gongtoub0.png')
 
     def __init__(self, controller, position, direction):
@@ -404,6 +414,8 @@ class BombDefender(Defender):
     ATTACK_POWER = 20
     DEFEND_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
+    SPEED = 0
+    ATTACK_SPEED = 0.5
     filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
@@ -445,6 +457,8 @@ class CivilianAttacker(Attacker):
     ATTACK_POWER = 15
     DEFEND_POWER = 1
     reach_model = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (-1, 0), (1, 0), (-1, 1), (1, 1)]
+    SPEED = 1.0
+    ATTACK_SPEED = 2.0
     filename = path('res/character/pingminr0.png')
 
     def __init__(self, controller, position, direction):
@@ -470,6 +484,8 @@ class FattyAttacker(Attacker):
     ATTACK_POWER = 25
     DEFEND_POWER = 5
     reach_model = [(0, 0), (0, 1)]
+    SPEED = 0.5
+    ATTACK_SPEED = 0.5
     filename = path('res/character/pangdunr0.png')
 
     def __init__(self, controller, position, direction):
@@ -495,6 +511,8 @@ class KamikazeAttacker(Attacker):
     ATTACK_POWER = 7
     DEFEND_POWER = 0
     reach_model = [(0, 1), (0, 0), (0, 2)]
+    SPEED = 2.0
+    ATTACK_SPEED = 4.0
     filename = path('res/character/gansiduir0.png')
 
     def __init__(self, controller, position, direction):
@@ -520,7 +538,9 @@ class PharmacistAttacker(Attacker):
     HP = 150
     ATTACK_POWER = 15
     DEFEND_POWER = 2
-    reach_model = [(0, 1), (0, 0), (0, 2)]
+    reach_model = [(0, 1), (0, 0), (0, -1), (1, 0),(-1, 0), (1, 1),(1, -1),(-1, 1),(-1,-1)]
+    SPEED = 1.0
+    ATTACK_SPEED = 1.0
     filename = path('res/character/yaojishir0.png')
 
     def __init__(self, controller, position, direction):
@@ -556,7 +576,9 @@ class AuraAttacker(Attacker):
     HP = 240
     ATTACK_POWER = 10
     DEFEND_POWER = 1
-    reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
+    reach_model = [(-1, -1), (-1, 0), (-1, 1), (-1, 2), (0, 0), (0, -1), (0, 1), (0, 2), (1, -1), (1, 0), (1, 1), (1, 2)]
+    SPEED = 1.25
+    ATTACK_SPEED = 1.0
     filename = path('res/character/gongtour0.png')
 
     def __init__(self, controller, position, direction):
@@ -604,6 +626,8 @@ class BombAttacker(Attacker):
     ATTACK_POWER = 15
     SPECIAL_ATTACK_POWER = 380
     DEFEND_POWER = 0
+    SPEED = 1.0
+    ATTACK_SPEED = 1.0
     reach_model = [(0, 0), (0, 1), (0, 2)]
     special_reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
     filename = path('res/mapnum/Mapnum1_0.png')

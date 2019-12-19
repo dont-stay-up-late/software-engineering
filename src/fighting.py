@@ -108,8 +108,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 防守方人物所需要的冷却
     defenderNeededCD =[]
     # 按人物编号所依次需要的费用和冷却
-    defenderCostOfAll = [10,20,15,18,20]
-    defenderCdOfAll = [15,80,15,25,60]
+    defenderCostOfAll = [10,20,10,18,25]
+    defenderCdOfAll = [15,60,10,25,80]
     # 对应进攻方人物最后放置的时间，单位为ms，下标为已选择的人物的编号
     attackerLastCD = []
     # 进攻方人物所需要的费用
@@ -117,8 +117,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 进攻方人物所需要的冷却
     attackerNeededCD =[]
     # 按人物编号所依次需要的费用和冷却
-    attackerCostOfAll = [10,20,15,18,20]
-    attackerCdOfAll = [15,80,15,25,60]
+    attackerCostOfAll = [10,20,15,18,25]
+    attackerCdOfAll = [10,30,10,25,80]
     # 选取的角色编号（为CharID列表中的下标，如果为-1，表示未选取）
     characterSelectedID = -1
     # 选取的坐标编号（取整数），[-1，-1]为未选取
@@ -624,6 +624,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if characterSelectedID >= 0:
                             screen.blit(selectcharacter, characterPos[characterSelectedID])
                             screen.blit(defendersInfomation[CharID[characterSelectedID]], charactersInfomationPos)
+                            # 更新数值
+                            screen.blit(font.render(str(timeLeft), True, (0, 0, 0)), (415, 20))
                     else:
                         if characterSelectedID >= 0:
                             screen.blit(defendersInfomation[characterSelectedID], charactersInfomationPos)
