@@ -518,32 +518,35 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         x = defender.position[0] - 0.5 * mapload.blockSize
                         y = defender.position[1] - 0.5 * mapload.blockSize
                         k = defenders.index(defender)
+                        hpPicIndex = min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)
+                        if hpPicIndex < 0:
+                            hpPicIndex = 0
                         if defender.attacking_flag == False:
                             if counts % 20 <= 9:
                                 if defender.direction == 1:
                                     screen.blit(defenderPicLeft[defendersID[k]], (x - 2 + 10, y + 10))
                                 else:
                                     screen.blit(defenderPic[defendersID[k]], (x - 2 + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 2, y - 6))
+                                screen.blit(hpPic[hpPicIndex], (x + 2, y - 6))
                             else:
                                 if defender.direction == 1:
                                     screen.blit(defenderPicLeft[defendersID[k]], (x + 2 + 10, y + 10))
                                 else:
                                     screen.blit(defenderPic[defendersID[k]], (x + 2 + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 6, y - 6))
+                                screen.blit(hpPic[hpPicIndex], (x + 6, y - 6))
                         else:
                             if counts % (defender.attack_time * 40)  < defender.attack_time * 40 / 2:
                                 if defender.direction == 1:
                                     screen.blit(defenderDetectPicLeft[defendersID[k]], (x + 10, y + 10))
                                 else:
                                     screen.blit(defenderDetectPic[defendersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 4, y - 6))
+                                screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
                             else:
                                 if defender.direction == 1:
                                     screen.blit(defenderAttackPicLeft[defendersID[k]], (x + 10, y + 10))
                                 else:
                                     screen.blit(defenderAttackPic[defendersID[k]], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)], (x + 4, y - 6))
+                                screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
 
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attacks[%d]'s HP is : %d" % (i, attackers[i].hp))
@@ -552,6 +555,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         x = attacker.position[0] - 0.5 * mapload.blockSize
                         y = attacker.position[1] - 0.5 * mapload.blockSize
                         k = attackers.index(attacker)
+                        hpPicIndex = min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)
+                        if hpPicIndex < 0:
+                            hpPicIndex = 0
                         if attacker.attacking_flag == False:
                             if counts % 20 <= 12:
                                 if attacker.direction == 1:
@@ -562,7 +568,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     attackerPicOld[k] = attackerPic[attackersID[k]]
                                 else:
                                     screen.blit(attackerPicOld[k], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 6))
+                                screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
                             else:
                                 if attacker.direction == 1:
                                     screen.blit(attackerPicLeft[attackersID[k]], (x + 10, y - 4 + 10))
@@ -572,7 +578,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     attackerPicOld[k] = attackerPic[attackersID[k]]
                                 else:
                                     screen.blit(attackerPicOld[k], (x + 10, y - 4 + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 9))
+                                screen.blit(hpPic[hpPicIndex], (x + 4, y - 9))
                         else:
                             if counts % (attacker.attack_time * 40) < attacker.attack_time * 40 / 2:
                                 if attacker.direction == 1:
@@ -583,7 +589,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
                                 else:
                                     screen.blit(attackerDetectPicOld[k], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 6))
+                                screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
                             else:
                                 if attacker.direction == 1:
                                     screen.blit(attackerAttackPicLeft[attackersID[k]], (x + 10, y + 10))
@@ -593,7 +599,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
                                 else:
                                     screen.blit(attackerAttackPicOld[k], (x + 10, y + 10))
-                                screen.blit(hpPic[min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)], (x + 4, y - 6))
+                                screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attackers's HP is : %d" % (attacker.hp))
                 # 进行轨道切换确认
