@@ -2,6 +2,7 @@ import pygame
 import sys
 from pygame.locals import *
 from path import path
+from bgm import playBgm
 
 # 选择角色
 # modeID为游戏模式编号，mapID为地图编号
@@ -9,6 +10,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     background = (255, 255, 255)
     breakflag = 0
     infoflag = 0
+    playBgm(1)
     # 编队
     CharID = []     #存储选中的角色编号，传入到战斗界面
     totalNum = 5    #可选中角色总数

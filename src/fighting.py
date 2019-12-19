@@ -10,9 +10,11 @@ from levelDefend import *
 from levelAttack import *
 from defeated import *
 from fightResult import endFight
+from bgm import playBgm
 
 # modeID为游戏模式编号，mapID为地图编号, charID为选用的角色的列表编号
 def startFight(screen, clock, modeID, mapID, CharID):
+    playBgm(2)
     #背景图
     background = pygame.image.load(path("res/bg/bg_fighting.png")).convert_alpha()
     font = pygame.font.Font("C:/Windows/Fonts/simsun.ttc", 30)
