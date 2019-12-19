@@ -438,6 +438,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         k = attackers.index(attacker)
                         attackers.remove(attacker)
                         attacker.die()
+                        del attackerPicOld[k]
+                        del attackerDetectPicOld[k]
+                        del attackerAttackPicOld[k]
                         del attackersID[k]
                         if mapload.fortress_HP <= 0:
                             if modeID == 2:
@@ -457,6 +460,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     if attacker not in Attacker.attackers:
                         k = attackers.index(attacker)
                         attackers.remove(attacker)
+                        del attackerPicOld[k]
+                        del attackerDetectPicOld[k]
+                        del attackerAttackPicOld[k]
                         del attackersID[k]
                 for defender in defenders:
                     if defender not in Defender.defenders:
@@ -469,6 +475,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         # 角色死亡，将角色及对应编号移出列表
                         k = attackers.index(attacker)
                         attackers.remove(attacker)
+                        del attackerPicOld[k]
+                        del attackerDetectPicOld[k]
+                        del attackerAttackPicOld[k]
                         attacker.die()
                         del attackersID[k]
                 # 防守方死亡

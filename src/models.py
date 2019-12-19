@@ -316,7 +316,7 @@ class PharmacistDefender(Defender):
     Pharmacist defender class.
     """
     last_created_time = 0
-    SPECIAL_INTERVAL = 60
+    SPECIAL_INTERVAL = 15
     HP = 100
     ATTACK_POWER = 10
     DEFEND_POWER = 2
@@ -520,7 +520,7 @@ class PharmacistAttacker(Attacker):
     Pharmacist attacker class.
     """
     last_created_time = 0
-    SPECIAL_INTERVAL = 60
+    SPECIAL_INTERVAL = 8
     HP = 150
     ATTACK_POWER = 15
     DEFEND_POWER = 2
