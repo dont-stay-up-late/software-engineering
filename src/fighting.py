@@ -616,8 +616,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     if selectmode == 0:
                         if characterSelectedID >= 0:
                             screen.blit(selectcharacter, characterPos[characterSelectedID])
-                    if characterSelectedID >= 0:
-                        screen.blit(defendersInfomation[CharID[characterSelectedID]],charactersInfomationPos)
+                            screen.blit(defendersInfomation[CharID[characterSelectedID]], charactersInfomationPos)
+                    else:
+                        if characterSelectedID >= 0:
+                            screen.blit(defendersInfomation[characterSelectedID], charactersInfomationPos)
                 else:
                     if selectmode == 0:
                         if characterSelectedID >= 0:
@@ -625,7 +627,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             screen.blit(attackersInfomation[CharID[characterSelectedID]], charactersInfomationPos)
                     else:
                         if characterSelectedID >= 0:
-                            screen.blit(defendersInfomation[CharID[characterSelectedID]],charactersInfomationPos)
+                            screen.blit(defendersInfomation[characterSelectedID],charactersInfomationPos)
                 if coordinateSelected[0] >= 0 and coordinateSelected[1] >= 0:
                     if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isHome:
                         screen.blit(blocksInfomation[4], blocksInfomationPos)
