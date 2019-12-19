@@ -83,17 +83,15 @@ class DopingEquipment(AttackerEquipment):
 class SignalEquipment(AttackerEquipment):
     count = 1
 
-    @staticmethod
-    def hide_mouse():
-        pygame.mouse.set_visible(True)
+    on = False
 
     @staticmethod
-    def show_mouse():
-        pygame.mouse.set_visible(False)
+    def turn_off():
+        SignalEquipment.on = False
 
     def __init__(self, game_controller):
         super().__init__()
         SignalEquipment.count -= 1
-        self.hide_mouse()
-        timer = Timer(5, self.show_mouse)
+        SignalEquipment.on = True
+        timer = Timer(5, SignalEquipment.turn_off)
         timer.start()

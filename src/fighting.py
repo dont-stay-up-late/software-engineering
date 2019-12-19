@@ -88,6 +88,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
             CanonEquipment,
             ListEquipment
         ]
+    canDefenderAttack = True # This can be modified by signal tool
     if modeID == 1:
         tools.append(pygame.image.load(path("res/tools/incitant.png")).convert_alpha())
         tools.append(pygame.image.load(path("res/tools/bombing.png")).convert_alpha())
@@ -482,8 +483,13 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             break
 
                 # 防守方攻击，攻击方死亡判定，每10帧攻击一次
+                if SignalEquipment.on:
+                    canDefenderAttack = False
+                else:
+                    canDefenderAttack = True
                 for i in range(len(defenders)):
-                    defenders[i].attack()
+                    if canDefenderAttack:
+                        defenders[i].attack()
 
                 # 攻击方移动，攻击，防守方死亡判定
                 for i, attacker in enumerate(attackers):
