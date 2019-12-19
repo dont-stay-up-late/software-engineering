@@ -30,7 +30,7 @@ class AmbulanceEquipment(DefenderEquipment):
 
 class ListEquipment(DefenderEquipment):
     count = 1
-    def __init__(self, game_controller):
+    def __init__(self, game_controller, last_cds):
         super().__init__()
         ListEquipment.count -= 1
         if time.time() - CivilianDefender.last_created_time < 15:
@@ -43,6 +43,8 @@ class ListEquipment(DefenderEquipment):
             PharmacistDefender.last_created_time += 5
         if time.time() - AuraDefender.last_created_time < 80:
             AuraDefender.last_created_time += 5
+        for i in range(len(last_cds)):
+            last_cds[i] -= 5000
 
 
 class CanonEquipment(DefenderEquipment):

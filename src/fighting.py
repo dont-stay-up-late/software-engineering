@@ -399,6 +399,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if equipment == AmbulanceEquipment:
                             # Wait for defender
                             pass
+                        elif equipment == ListEquipment:
+                            _ = equipment(controller, defenderLastCD)
                         else:
                             _ = equipment(controller)
                         break
