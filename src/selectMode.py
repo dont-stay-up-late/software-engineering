@@ -3,10 +3,12 @@ import sys
 from pygame.locals import *
 from selectMap import *
 from path import path
+from bgm import playBgm
 # 模式选择
 def selectMode(screen, clock):
     background = (255, 255, 255)
     breakflag = 0
+    playBgm(1)
     # 图片及位置
     background = pygame.image.load(path("res/bg/bg_mode.png")).convert()
     title = pygame.image.load(path("res/pic/title.png")).convert_alpha()
