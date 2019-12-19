@@ -3,13 +3,14 @@ import sys
 from pygame.locals import *
 from selectMode import *
 from path import path
-
+from bgm import playBgm
 
 # 主菜单初始化
 def initialMenu(screen, clock):
     background = (255, 255, 255)
     breakflag = 0
-
+    playBgm(0)
+    
     # 图片及位置
     background = pygame.image.load(path("res/bg/bg_main.png")).convert()    #背景图
     title = pygame.image.load(path("res/pic/title.png")).convert_alpha()    #标题
