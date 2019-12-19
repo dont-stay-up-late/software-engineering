@@ -16,7 +16,7 @@ def bgmPath(bgm):
 def playBgm(bgm=-1):
     global bgmNow
 
-    if bgmOpen==False or bgm==4:
+    if bgmOpen==False or bgm==-1:
         bgmNow=-1
         pygame.mixer.music.stop()
         return
@@ -30,13 +30,17 @@ def playBgm(bgm=-1):
 
 #游戏结束时胜利或失败调用这两个函数
 def winBgm():
+    global bgmNow
     if bgmOpen:
+        bgmNow=-1
         pygame.mixer.music.load(bgmPath(bgmNames[4]))
         pygame.mixer.music.play(-1)
     return
 
 def loseBgm():
+    global bgmNow
     if bgmOpen:
+        bgmNow=-1
         pygame.mixer.music.load(bgmPath(bgmNames[5]))
         pygame.mixer.music.play(-1)
     return
