@@ -4,6 +4,7 @@ from path import path
 from models import *
 from map import *
 from bgm import *
+from equipments import *
 
 def endFight(screen, clock, modeID, flag_mapinfo, isWin, attackers, defenders, mapload, defendersID, attackersID, attackerPicOld, attackerDetectPicOld, attackerAttackPicOld):
     resultPad = pygame.image.load(path("res/battle/fightResultPad.png")).convert_alpha()
@@ -26,6 +27,13 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin, attackers, defenders, m
     returnHomeButtonPos = returnHomeButtonPos0
 
     breakflag = 0
+
+    AmbulanceEquipment.count = 1
+    ListEquipment.count = 1
+    CanonEquipment.count = 1
+    IndifferentEquipment.count = 1
+    DopingEquipment.count = 1
+    SignalEquipment.count = 1
 
     while True:
 
