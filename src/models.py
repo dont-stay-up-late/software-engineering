@@ -448,7 +448,7 @@ class CivilianAttacker(Attacker):
     HP = 100
     ATTACK_POWER = 15
     DEFEND_POWER = 1
-    reach_model = [(0, 0), (0, 1)]
+    reach_model = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (-1, 0), (1, 0), (-1, 1), (1, 1)]
     filename = path('res/character/pingminr0.png')
 
     def __init__(self, controller, position, direction):
