@@ -72,6 +72,24 @@ def startFight(screen, clock, modeID, mapID, CharID):
     directionPos.append((10, 585))
     directionPos.append((45, 625))
     directionPos.append((80, 585))
+    # 道具
+    tools = []
+    toolsPos = []
+    if modeID == 1:
+        tools.append(pygame.image.load(path("res/tools/incitant.png")).convert_alpha())
+        tools.append(pygame.image.load(path("res/tools/bombing.png")).convert_alpha())
+        tools.append(pygame.image.load(path("res/tools/subwoofer.png")).convert_alpha())
+    elif modeID == 2:
+        tools.append(pygame.image.load(path("res/tools/ambulance.png")).convert_alpha())
+        tools.append(pygame.image.load(path("res/tools/cannonry.png")).convert_alpha())
+        tools.append(pygame.image.load(path("res/tools/urgentlist.png")).convert_alpha())
+    for i in range(3):
+        toolsPos.append((1030, 90 + i * 110))
+    # 选择的道具ID
+    toolselectID = -1
+    toolselected = pygame.image.load(path("res/tools/selected.png")).convert_alpha()
+    toolssurePos = (1085, 440)
+    toolscancelPos = (1085, 500)
     # 不同角色的路径关键词缀
     stringOfCharacters = ["pingmin","gongtou","gansidui","pangdun","yaojishi"]
     characterFlame = pygame.image.load(path("res/battle/charflame.png")).convert_alpha()
@@ -359,6 +377,12 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         # coordinateSelectedOld = [-1, -1]
                         directionSelectedStatus = False
 
+                # 选择道具
+                for i in range(3):
+                    if x > toolsPos[i][0] and x < toolsPos[i][0] + tools[i].get_width() \
+                        and y > toolsPos[i][1] and y < toolsPos[i][1] + tools[i].get_height():
+                        toolselectID = i
+                        break
             if event.type == COUNT:
                 counts = counts + 1
                 # clock
@@ -517,6 +541,15 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 screen.blit(font.render(str(timeLeft), True, (0, 0, 0)), (415, 20))
                 screen.blit(font.render(str(mapload.fortress_HP), True, (0, 0, 0)), (665, 20))
                 screen.blit(font.render(str(int(controller.money[controller.player_side])), True, (0, 0, 0)), (915, 20))
+
+                # 更新道具图
+                for i in range(3):
+                    screen.blit(tools[i], toolsPos[i])
+                if toolselectID >= 0:
+                    screen.blit(toolselected, toolsPos[toolselectID])
+                    screen.blit(surePic, toolssurePos)
+                    screen.blit(cancelPic, toolscancelPos)
+
 
                 for i in range(0, characterNum):
                     screen.blit(characterFlame, characterPos[i])
