@@ -89,6 +89,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
             ListEquipment
         ]
     canDefenderAttack = True # This can be modified by signal tool
+    selectingAmbulanceTarget = False # Used by ambulance tool
     if modeID == 1:
         tools.append(pygame.image.load(path("res/tools/incitant.png")).convert_alpha())
         tools.append(pygame.image.load(path("res/tools/bombing.png")).convert_alpha())
@@ -263,13 +264,36 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         # coordinateSelectedOld = [-1, -1]
                         directionSelectedStatus = False
                         selectmode = 0
+                        selectingAmbulanceTarget = False
+                        toolselectID = -1
 
                 # 选取地图中的格子
                 if x > mapload.xBegin and x < mapload.xBegin + mapload.rowNumber * mapload.blockSize \
                     and y > mapload.yBegin and y < mapload.yBegin + mapload.columnNumber * mapload.blockSize:
                     coordinateSelected = mapload.positionToBlock([x,y])
+
+                    # Selecting ambulance target...
+                    skip = False
+                    if selectingAmbulanceTarget:
+                        # Judge whether there is a defender on the block
+                        target = None
+                        target_k = None
+                        for defender in defenders:
+                            if defender.get_coordinate()[0] == coordinateSelected[0] and defender.get_coordinate()[1] == coordinateSelected[1]:
+                                target = defender
+                                break
+                        if target is not None:
+                            controller.money['Defend'] += target.cost // 2
+                            target.die()
+                            defenders.remove(target)
+                            selectingAmbulanceTarget = False
+                            skip = True
+                            coordinateSelected = [-1, -1]
+                            toolselectID = -1
+
                     #if True:
-                    if modeID == 2: # Defending
+                    if not skip and modeID == 2: # Defending
+                        toolselectID = -1
                         if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPlantOn == False:
                             if selectmode == 1:
                                 selectmode = 0
@@ -284,7 +308,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     characterSelectedID = defendersID[defenders.index(defender)]
                                     break
 
-                    else: # Attacking
+                    elif not skip and modeID == 1: # Attacking
+                        toolselectID = -1
                         if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPlantOn == False:
                             if selectmode == 1:
                                 selectmode = 0
@@ -391,15 +416,15 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         # coordinateSelectedOld = [-1, -1]
                         directionSelectedStatus = False
 
-                # TODO: 选择道具
+                # 使用道具
                 for i in range(3):
                     if x > toolsPos[i][0] and x < toolsPos[i][0] + tools[i].get_width() \
                         and y > toolsPos[i][1] and y < toolsPos[i][1] + tools[i].get_height():
+                        characterSelectedID = -1
                         toolselectID = i
                         equipment = equipments[i]
                         if equipment == AmbulanceEquipment:
-                            # Wait for defender
-                            pass
+                            selectingAmbulanceTarget = True
                         elif equipment == ListEquipment:
                             _ = equipment(controller, defenderLastCD)
                         else:
@@ -573,10 +598,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 for i in range(3):
                     if equipments[i].count > 0:
                         screen.blit(tools[i], toolsPos[i])
-                # if toolselectID >= 0:
-                #     screen.blit(toolselected, toolsPos[toolselectID])
-                #     screen.blit(surePic, toolssurePos)
-                #     screen.blit(cancelPic, toolscancelPos)
+                if modeID == 2 and toolselectID == 0:
+                    screen.blit(toolselected, toolsPos[toolselectID])
+                    # screen.blit(surePic, toolssurePos)
+                    # screen.blit(cancelPic, toolscancelPos)
 
 
                 for i in range(0, characterNum):

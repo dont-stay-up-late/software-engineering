@@ -24,8 +24,6 @@ class AmbulanceEquipment(DefenderEquipment):
     count = 1
     def __init__(self, defender, game_controller):
         super().__init__()
-        game_controller.money['Defend'] += defender.cost // 2
-        defender.die()
 
 
 class ListEquipment(DefenderEquipment):
