@@ -20,13 +20,16 @@ class AttackerEquipment(Equipment, metaclass=ABCMeta):
 
 
 class AmbulanceEquipment(DefenderEquipment):
+    count = 3
     def __init__(self, defender, game_controller):
         super().__init__()
         game_controller.money['Defend'] += defender.cost // 2
         defender.die()
 
 
+# TODO: Modify this one since track doesn't support disabling/enabling.
 class GlueEquipment(DefenderEquipment):
+    count = 3
     def __init__(self, track, game_controller):
         super().__init__()
         track.disable()
@@ -35,6 +38,7 @@ class GlueEquipment(DefenderEquipment):
 
 
 class CanonEquipment(DefenderEquipment):
+    count = 3
     def __init__(self, game_controller):
         chosen = choices(models.Attacker.attackers, k=2)
         for attacker in chosen:
@@ -42,6 +46,7 @@ class CanonEquipment(DefenderEquipment):
 
 
 class IndifferentEquipment(AttackerEquipment):
+    count = 3
     def __init__(self, game_controller):
         for attacker in models.Attacker.attackers:
             attacker.attacked(40, None)
@@ -50,6 +55,7 @@ class IndifferentEquipment(AttackerEquipment):
 
 
 class DopingEquipment(AttackerEquipment):
+    count = 3
     doped = set()
     def __init__(self, game_controller):
         for attacker in models.Attacker.attackers:
@@ -58,7 +64,10 @@ class DopingEquipment(AttackerEquipment):
                 self.doped.add(attacker)
 
 
+# TODO: This equipment needs modification since there is no multi player mode now.
 class SignalEquipment(AttackerEquipment):
+    count = 3
+
     @staticmethod
     def hide_mouse():
         pygame.mouse.set_visible(True)
