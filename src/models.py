@@ -450,6 +450,46 @@ class BombDefender(Defender):
         character.attacked(self.hp, self)
 
 
+class ScientistDefender(Defender):
+    """
+    Scientist defender class.
+    """
+    last_created_time = 0
+    SPECIAL_INTERVAL = 60  # seconds
+    HP = 150
+    ATTACK_POWER = 15
+    DEFEND_POWER = 0
+    reach_model = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (-1, 0), (-1, 1), (-1, 2), (1, 0), (1, 1), (1, 2)]
+    special_reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
+    SPEED = 0
+    ATTACK_SPEED = 0.5
+    filename = path('res/mapnum/Mapnum1_0.png')
+
+    def __init__(self, controller, position, direction):
+        self.controller = controller
+        super().__init__(controller, position, direction)
+        self.type = 'ScientistDefender'
+        self.attack_power = self.ATTACK_POWER
+        self.attack_time = 1
+        self.defend_power = self.DEFEND_POWER
+        self.hp = self.HP
+        self.cost = 25
+        self.cool_down_time = 50
+        self.created_time = time.time()
+        self.init_image(self.filename, 75, 75, 1)
+        BombDefender.last_created_time = time.time()
+        self.last_special_time = 0
+    
+    def update(self):
+        if time.time() - self.last_special_time >= self.SPECIAL_INTERVAL:
+            for defender in Defender.defenders:
+                if self.reachable(self, defender, self.special_reach_model):
+                    self.hp += defender.hp * 2
+                    self.attack_power += defender.attack_power * 2
+                    defender.die()
+            self.last_special_time = time.time()
+
+
 # The following are attackers.
 
 class CivilianAttacker(Attacker):
@@ -664,6 +704,52 @@ class BombAttacker(Attacker):
             if CharacterModel.reachable(self, defender, self.special_reach_model):
                 self.special(defender)
         super().die()
+
+
+class ScientistAttacker(Defender):
+    """
+    Scientist attacker class.
+    """
+    last_created_time = 0
+    SPECIAL_INTERVAL = 60  # seconds
+    HP = 180
+    ATTACK_POWER = 60
+    DEFEND_POWER = 0
+    reach_model = [(0, 0), (0, 1), (0, 2)]
+    special_reach_model = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9)]
+    SPEED = 0.2
+    ATTACK_SPEED = 0.5
+    filename = path('res/mapnum/Mapnum1_0.png')
+
+    def __init__(self, controller, position, direction):
+        self.controller = controller
+        super().__init__(controller, position, direction)
+        self.type = 'ScientistAttacker'
+        self.attack_power = self.ATTACK_POWER
+        self.attack_time = 1
+        self.defend_power = self.DEFEND_POWER
+        self.hp = self.HP
+        self.speed = self.SPEED
+        self.cost = 25
+        self.cool_down_time = 50
+        self.created_time = time.time()
+        self.init_image(self.filename, 75, 75, 1)
+        BombDefender.last_created_time = time.time()
+        self.last_special_time = 0
+    
+    def update(self):
+        if time.time() - self.last_special_time >= self.SPECIAL_INTERVAL:
+            count = 0
+            for defender in Defender.defenders:
+                if self.reachable(self, defender, self.special_reach_model):
+                    defender.die()
+                    count += 1
+            self.attack_power *= 1.5 * count + 1
+            self.speed *= 2 * count + 1
+            self.attack_power = min(self.attack_power, 10 * self.ATTACK_POWER)
+            self.speed = min(self.speed, 10 * self.SPEED)
+            self.reach_model = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)]
+            self.last_special_time = time.time()
 
 
 class EquipmentAttacker():
