@@ -84,7 +84,8 @@ def initialMenu(screen, clock):
 
                 if x > handbookPos0[0] and x < handbookPos0[0] + handbookButton.get_width() \
                         and y > handbookPos0[1] and y < handbookPos0[1] + handbookButton.get_height():
-                    print('game handbook!')
+                    from handbook import handbook
+                    handbook(screen, clock)
                     # here to the handbook function
 
                 if x > helpPos0[0] and x < helpPos0[0] + helpButton.get_width() \
