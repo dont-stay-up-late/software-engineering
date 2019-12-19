@@ -54,6 +54,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
     giveupPos = (1080, 630)
     direction = []                                                                      #选择人物朝向
     directionPos = []
+    directionPic = []                               #地图中的人物朝向
+    directionPic.append(pygame.image.load(path("res/battle/up.png")).convert_alpha())
+    directionPic.append(pygame.image.load(path("res/battle/left.png")).convert_alpha())
+    directionPic.append(pygame.image.load(path("res/battle/down.png")).convert_alpha())
+    directionPic.append(pygame.image.load(path("res/battle/right.png")).convert_alpha())
     # 选择框
     selectblock = pygame.image.load(path("res/battle/selectflameblock.png")).convert_alpha()
     selectcharacter = pygame.image.load(path("res/battle/selectflamechar.png")).convert_alpha()
@@ -61,11 +66,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
     for i in range(4):
         direction.append(pygame.image.load(path("res/battle/arrow"+str(i)+".png")).convert_alpha())
         direction[i] = pygame.transform.scale(direction[i],(50,50))
+        directionPic[i] = pygame.transform.scale(directionPic[i],(75,75))
     directionPos.append((45, 545))
     directionPos.append((10, 585))
     directionPos.append((45, 625))
     directionPos.append((80, 585))
-
     # 不同角色的路径关键词缀
     stringOfCharacters = ["pingmin","gongtou","gansidui","pangdun","yaojishi"]
     characterFlame = pygame.image.load(path("res/battle/charflame.png")).convert_alpha()
@@ -521,6 +526,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         x = defender.position[0] - 0.5 * mapload.blockSize
                         y = defender.position[1] - 0.5 * mapload.blockSize
                         k = defenders.index(defender)
+                        screen.blit(directionPic[defender.direction], (x, y))
                         hpPicIndex = min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)
                         if hpPicIndex < 0:
                             hpPicIndex = 0
@@ -558,6 +564,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         x = attacker.position[0] - 0.5 * mapload.blockSize
                         y = attacker.position[1] - 0.5 * mapload.blockSize
                         k = attackers.index(attacker)
+                        screen.blit(directionPic[attacker.direction], (x, y))
                         hpPicIndex = min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)
                         if hpPicIndex < 0:
                             hpPicIndex = 0
