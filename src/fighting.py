@@ -782,6 +782,13 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         screen.blit(blocksInfomation[5], blocksInfomationPos)
                     elif mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPathway:
                         screen.blit(blocksInfomation[6], blocksInfomationPos)
+                        kk = len(mapload.Pathways)
+                        for mm in range(kk):
+                            if mapload.Pathways[mm][0] == coordinateSelected[1] and mapload.Pathways[mm][1] == coordinateSelected[0]:
+                                CDLEFT = max(0, int(math.ceil(mapload.PathwayCD - (timePast-  mapload.PathwaysShiftTime[mm]))))
+                                screen.blit(font.render(str(CDLEFT) + "/" + str(mapload.PathwayCD), True,(112, 76, 29)), (192, 464))
+                                break
+
                     elif mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canZombieOn:
                         if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].canPlantOn:
                             screen.blit(blocksInfomation[0], blocksInfomationPos)
