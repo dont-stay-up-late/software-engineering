@@ -22,7 +22,7 @@ class AttackerEquipment(Equipment, metaclass=ABCMeta):
 class AmbulanceEquipment(DefenderEquipment):
     def __init__(self, defender, game_controller):
         super().__init__()
-        game_controller.defender_money += defender.cost // 2
+        game_controller.money['Defend'] += defender.cost // 2
         defender.die()
 
 
