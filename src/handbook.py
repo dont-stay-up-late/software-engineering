@@ -2,8 +2,10 @@ import pygame
 import sys
 from pygame.locals import *
 from path import path
+from bgm import playBgm
 
 def handbook(screen, clock):
+    playBgm(3)
     breakflag = 0
     showSurvivorOrZombie = 0    # 0 for survivor and 1 for zombie
     charID = 0      # from 0 to totalNum-1
@@ -107,11 +109,13 @@ def handbook(screen, clock):
                 if x > backPos[0] and x < backPos[0] + backButton.get_width() \
                         and y > backPos[1] and y < backPos[1] + backButton.get_height():
                     breakflag = 1
+                    playBgm(0)
                     # here to come back
 
                 if x > homePos[0] and x < homePos[0] + homeButton.get_width() \
                         and y > homePos[1] and y < homePos[1] + homeButton.get_height():
                     breakflag = 1
+                    playBgm(0)
                     # here to come back home
 
                 # touch logic
