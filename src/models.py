@@ -490,6 +490,45 @@ class ScientistDefender(Defender):
             self.last_special_time = time.time()
 
 
+class BullyDefender(Defender):
+    """
+    Bully defender class.
+    """
+    last_created_time = 0
+    HP = 90
+    ATTACK_POWER = 15
+    DEFEND_POWER = 0
+    reach_model = [(0, 0), (0, 1), (0, 2), (-1, 0), (-1, 1), (1, 0), (1, 1)]
+    SPEED = 0
+    ATTACK_SPEED = 2
+    filename = path('res/mapnum/Mapnum1_0.png')
+    special_targets = set()
+
+    def __init__(self, controller, position, direction):
+        self.controller = controller
+        super().__init__(controller, position, direction)
+        self.type = 'ScientistDefender'
+        self.attack_power = self.ATTACK_POWER
+        self.attack_time = 2
+        self.defend_power = self.DEFEND_POWER
+        self.hp = self.HP
+        self.cost = 19
+        self.cool_down_time = 28
+        self.created_time = time.time()
+        self.init_image(self.filename, 75, 75, 1)
+        BombDefender.last_created_time = time.time()
+        self.last_special_time = 0
+    
+    def update(self):
+        for attacker in Attacker.attackers:
+            if self.reachable(self, attacker, self.reach_model):
+                BullyDefender.special_targets.add((attacker, time.time()))
+        for attacker, apply_time in BullyDefender.special_targets:
+            if attacker in Attacker.attackers and time.time() - apply_time <= 3:
+                attacker.hp -= 15 / 90 # 90 frames in 3 secs
+        
+
+
 # The following are attackers.
 
 class CivilianAttacker(Attacker):
@@ -752,5 +791,41 @@ class ScientistAttacker(Defender):
             self.last_special_time = time.time()
 
 
+class BullyAttacker(Defender):
+    """
+    Bully attacker class.
+    """
+    last_created_time = 0
+    HP = 125
+    ATTACK_POWER = 20
+    DEFEND_POWER = 0
+    reach_model = [(0, 0), (0, -1), (0, 1), (1, 0), (-1, 0)]
+    SPEED = 0
+    ATTACK_SPEED = 1.5
+    filename = path('res/mapnum/Mapnum1_0.png')
+    special_targets = set()
+
+    def __init__(self, controller, position, direction):
+        self.controller = controller
+        super().__init__(controller, position, direction)
+        self.type = 'ScientistDefender'
+        self.attack_power = self.ATTACK_POWER
+        self.attack_time = 1.5
+        self.defend_power = self.DEFEND_POWER
+        self.hp = self.HP
+        self.cost = 19
+        self.cool_down_time = 18
+        self.created_time = time.time()
+        self.init_image(self.filename, 75, 75, 1)
+        BombDefender.last_created_time = time.time()
+        self.last_special_time = 0
+    
+    def update(self):
+        for defender in Defender.defenders:
+            if self.reachable(self, defender, self.reach_model):
+                BullyDefender.special_targets.add((defender, time.time()))
+        for defender, apply_time in BullyDefender.special_targets:
+            if defender in Defender.defenders and time.time() - apply_time <= 3:
+                defender.hp -= 15 / 90 # 90 frames in 3 secs
 class EquipmentAttacker():
     attack_time = 1
