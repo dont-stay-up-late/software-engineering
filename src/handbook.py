@@ -2,10 +2,8 @@ import pygame
 import sys
 from pygame.locals import *
 from path import path
-from bgm import playBgm
 
 def handbook(screen, clock):
-    playBgm(3)
     breakflag = 0
     showSurvivorOrZombie = 0    # 0 for survivor and 1 for zombie
     charID = 0      # from 0 to totalNum-1
@@ -14,6 +12,8 @@ def handbook(screen, clock):
     characterPicr = [] # 存储僵尸图片的列表
     characterStoryb = []
     characterStoryr = []
+    characterInfob = []
+    characterInfor = []
 
     background = pygame.image.load(path("res/bg/bg_main.png")).convert()    #背景图
     title = pygame.image.load(path("res/pic/handbookTitle.png")).convert_alpha()    #标题
@@ -40,6 +40,7 @@ def handbook(screen, clock):
     charbgPos = (150, 350)
     charPos = charbgPos
     storyPos = (440, 250)
+    infoPos = (1020, 100)
 
     side = 'b'
     characterPicb.append(pygame.image.load(path("res/character/pingmin{}.png").format(side)))
@@ -54,8 +55,6 @@ def handbook(screen, clock):
     characterPicr.append(pygame.image.load(path("res/character/pangdun{}.png").format(side)))
     characterPicr.append(pygame.image.load(path("res/character/yaojishi{}.png").format(side)))
 
-    
-    
     side = 'b'
     characterStoryb.append(pygame.image.load(path("res/characterStory/pingmin{}.png").format(side)))
     characterStoryb.append(pygame.image.load(path("res/characterStory/gongtou{}.png").format(side)))
@@ -69,7 +68,18 @@ def handbook(screen, clock):
     characterStoryr.append(pygame.image.load(path("res/characterStory/pangdun{}.png").format(side)))
     characterStoryr.append(pygame.image.load(path("res/characterStory/yaojishi{}.png").format(side)))
 
-    
+    side = 'b'
+    characterInfob.append(pygame.image.load(path("res/charinfo/pingmin{}.png").format(side)))
+    characterInfob.append(pygame.image.load(path("res/charinfo/gongtou{}.png").format(side)))
+    characterInfob.append(pygame.image.load(path("res/charinfo/gansidui{}.png").format(side)))
+    characterInfob.append(pygame.image.load(path("res/charinfo/pangdun{}.png").format(side)))
+    characterInfob.append(pygame.image.load(path("res/charinfo/yaojishi{}.png").format(side)))
+    side = 'r'
+    characterInfor.append(pygame.image.load(path("res/charinfo/pingmin{}.png").format(side)))
+    characterInfor.append(pygame.image.load(path("res/charinfo/gongtou{}.png").format(side)))
+    characterInfor.append(pygame.image.load(path("res/charinfo/gansidui{}.png").format(side)))
+    characterInfor.append(pygame.image.load(path("res/charinfo/pangdun{}.png").format(side)))
+    characterInfor.append(pygame.image.load(path("res/charinfo/yaojishi{}.png").format(side)))
     
     while True:
         for event in pygame.event.get():
@@ -109,13 +119,11 @@ def handbook(screen, clock):
                 if x > backPos[0] and x < backPos[0] + backButton.get_width() \
                         and y > backPos[1] and y < backPos[1] + backButton.get_height():
                     breakflag = 1
-                    playBgm(0)
                     # here to come back
 
                 if x > homePos[0] and x < homePos[0] + homeButton.get_width() \
                         and y > homePos[1] and y < homePos[1] + homeButton.get_height():
                     breakflag = 1
-                    playBgm(0)
                     # here to come back home
 
                 # touch logic
@@ -143,12 +151,15 @@ def handbook(screen, clock):
         if showSurvivorOrZombie == 0:
             CharList = characterPicb
             StoryList = characterStoryb
+            InfoList = characterInfob
         else:
             CharList = characterPicr
             StoryList = characterStoryr
+            InfoList = characterInfor
         
         charPic = CharList[charID]
         storyPic = StoryList[charID]
+        infoPic = InfoList[charID]
 
         # 填充背景和内容
         screen.blit(background, (0, 0))
@@ -162,6 +173,7 @@ def handbook(screen, clock):
         screen.blit(rightButton, rightPos)
         screen.blit(charPic, charPos)
         screen.blit(storyPic, storyPos)
+        screen.blit(infoPic, infoPos)
 
         # 更新画面
         pygame.display.update()
