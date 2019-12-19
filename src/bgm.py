@@ -5,7 +5,7 @@ pygame.mixer.init()
 
 bgmNow=-1
 bgmNames=['main','select','fighting','handbook','win','lose']
-bgmOpen=True
+bgmOpen=False
 
 def bgmPath(bgm):
     return path("res/bgm/"+ bgm +"bgm.mp3")
