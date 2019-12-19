@@ -139,14 +139,10 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
         self.active = False
         # All targets in range are no longer attacked
         if isinstance(self, Defender):
-            for attacker in Attacker.attackers:
-                if CharacterModel.reachable(self, attacker, self.reach_model):
-                    attacker.attacked_flag = False
             self.attacking_flag = False
+            self.attacked_flag = False
         else:
-            for defender in Defender.defenders:
-                if CharacterModel.reachable(self, defender, self.reach_model):
-                    defender.attacked_flag = False
+            self.attacked_flag = False
             self.attacking_flag = False
         if isinstance(self, Attacker):
             # Money reward for defender

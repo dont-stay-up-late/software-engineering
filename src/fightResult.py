@@ -62,6 +62,10 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin, attackers, defenders, m
                         del attackerDetectPicOld[k]
                         del attackerAttackPicOld[k]
                         del attackersID[k]
+                    for defender in Defender.defenders:
+                        defender.die()
+                    for attacker in Attacker.attackers:
+                        attacker.die()
                     selectCharacters(screen, clock, modeID, flag_mapinfo)
                     breakflag = 1
                     # here to start the game function
@@ -71,9 +75,7 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin, attackers, defenders, m
                     from initialMenu import initialMenu
                     for defender in defenders:
                         k = defenders.index(defender)
-                        mapload.maps[mapload.positionToBlock([defender.position[0], defender.position[1]])[1]][
-                            mapload.positionToBlock([defender.position[0], defender.position[1]])[
-                                0]].isPlantOn = False
+                        mapload.maps[mapload.positionToBlock([defender.position[0], defender.position[1]])[1]][mapload.positionToBlock([defender.position[0], defender.position[1]])[0]].isPlantOn = False
                         defenders.remove(defender)
                         defender.die()
                         del defendersID[k]
@@ -85,6 +87,10 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin, attackers, defenders, m
                         del attackerDetectPicOld[k]
                         del attackerAttackPicOld[k]
                         del attackersID[k]
+                    for defender in Defender.defenders:
+                        defender.die()
+                    for attacker in Attacker.attackers:
+                        attacker.die()
                     initialMenu(screen, clock)
                     # here to get back to home
 
