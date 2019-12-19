@@ -142,12 +142,12 @@ class CharacterModel(Sprite, metaclass=ABCMeta):
             for attacker in Attacker.attackers:
                 if CharacterModel.reachable(self, attacker, self.reach_model):
                     attacker.attacked_flag = False
-                    attacker.attacking_flag = False
+            self.attacking_flag = False
         else:
             for defender in Defender.defenders:
                 if CharacterModel.reachable(self, defender, self.reach_model):
                     defender.attacked_flag = False
-                    defender.attacking_flag = False
+            self.attacking_flag = False
         if isinstance(self, Attacker):
             # Money reward for defender
             # Currently the amount is set to half of the cost of the character itself. This could be adjusted.
