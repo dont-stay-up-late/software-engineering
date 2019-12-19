@@ -1,8 +1,10 @@
 import pygame,sys,time
 from pygame.locals import *
 from path import path
+from models import *
+from map import *
 
-def endFight(screen, clock, modeID, flag_mapinfo, isWin):
+def endFight(screen, clock, modeID, flag_mapinfo, isWin, attackers, defenders, mapload, defendersID, attackersID, attackerPicOld, attackerDetectPicOld, attackerAttackPicOld):
     resultPad = pygame.image.load(path("res/battle/fightResultPad.png")).convert_alpha()
     if isWin:
         title = pygame.image.load(path("res/battle/victory.png")).convert_alpha()
@@ -46,6 +48,20 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin):
                 if x > tryAgainButtonPos0[0] and x < tryAgainButtonPos0[0] + tryAgainButton.get_width() \
                         and y > tryAgainButtonPos0[1] and y < tryAgainButtonPos0[1] + tryAgainButton.get_height():
                     from selectCharacters import selectCharacters
+                    for defender in defenders:
+                        k = defenders.index(defender)
+                        mapload.maps[mapload.positionToBlock([defender.position[0], defender.position[1]])[1]][mapload.positionToBlock([defender.position[0], defender.position[1]])[0]].isPlantOn = False
+                        defenders.remove(defender)
+                        defender.die()
+                        del defendersID[k]
+                    for attacker in attackers:
+                        k = attackers.index(attacker)
+                        attackers.remove(attacker)
+                        attacker.die()
+                        del attackerPicOld[k]
+                        del attackerDetectPicOld[k]
+                        del attackerAttackPicOld[k]
+                        del attackersID[k]
                     selectCharacters(screen, clock, modeID, flag_mapinfo)
                     breakflag = 1
                     # here to start the game function
@@ -53,6 +69,22 @@ def endFight(screen, clock, modeID, flag_mapinfo, isWin):
                 if x > returnHomeButtonPos0[0] and x < returnHomeButtonPos0[0] + returnHomeButton.get_width() \
                         and y > returnHomeButtonPos0[1] and y < returnHomeButtonPos0[1] + returnHomeButton.get_height():
                     from initialMenu import initialMenu
+                    for defender in defenders:
+                        k = defenders.index(defender)
+                        mapload.maps[mapload.positionToBlock([defender.position[0], defender.position[1]])[1]][
+                            mapload.positionToBlock([defender.position[0], defender.position[1]])[
+                                0]].isPlantOn = False
+                        defenders.remove(defender)
+                        defender.die()
+                        del defendersID[k]
+                    for attacker in attackers:
+                        k = attackers.index(attacker)
+                        attackers.remove(attacker)
+                        attacker.die()
+                        del attackerPicOld[k]
+                        del attackerDetectPicOld[k]
+                        del attackerAttackPicOld[k]
+                        del attackersID[k]
                     initialMenu(screen, clock)
                     # here to get back to home
 

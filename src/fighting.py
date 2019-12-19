@@ -203,7 +203,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 #   放弃，失败
                 if x > giveupPos[0] and x < giveupPos[0] + giveupButton.get_width() \
                     and y > giveupPos[1] and y < giveupPos[1] + giveupButton.get_height():
-                    endFight(screen, clock, modeID, mapID, False)
+                    endFight(screen, clock, modeID, mapID, False, attackers, defenders, mapload, defendersID, attackersID, attackerPicOld, attackerDetectPicOld, attackerAttackPicOld)
                     breakflag = 1
 
                 for i in range(characterNum):
@@ -361,9 +361,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 #   对防守模式而言，时间耗尽即可获胜；对进攻方，则表示失败
                 if timeLeft <= 0:
                     if modeID == 2:
-                        endFight(screen, clock, modeID, mapID, True)
+                        endFight(screen, clock, modeID, mapID, True, attackers, defenders, mapload, defendersID, attackersID, attackerPicOld, attackerDetectPicOld, attackerAttackPicOld)
                     else:
-                        endFight(screen, clock, modeID, mapID, False)
+                        endFight(screen, clock, modeID, mapID, False, attackers, defenders, mapload, defendersID, attackersID, attackerPicOld, attackerDetectPicOld, attackerAttackPicOld)
                     breakflag = 1
 
                 if modeID == 2 and attackerOrder < len(attackerPlan[0]):
@@ -420,6 +420,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             defenders.append(PharmacistDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
                             defendersID.append(4)
+                        mapload.maps[defenderPlan[3][defenderOrder]][defenderPlan[2][defenderOrder]].isPlantOn = True
                         defenderOrder += 1
                         if defenderOrder >= len(defenderPlan[0]):
                             break
@@ -444,9 +445,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         del attackersID[k]
                         if mapload.fortress_HP <= 0:
                             if modeID == 2:
-                                endFight(screen, clock, modeID, mapID, False)
+                                endFight(screen, clock, modeID, mapID, False, attackers, defenders, mapload, defendersID, attackersID, attackerPicOld, attackerDetectPicOld, attackerAttackPicOld)
                             else:
-                                endFight(screen, clock, modeID, mapID, True)
+                                endFight(screen, clock, modeID, mapID, True, attackers, defenders, mapload, defendersID, attackersID, attackerPicOld, attackerDetectPicOld, attackerAttackPicOld)
                             breakflag = 1
 
                     attacker.attack()
@@ -457,7 +458,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     defender.update()
                 # 同步双方列表
                 for attacker in attackers:
-                    if attacker not in Attacker.attackers:
+                     if attacker not in Attacker.attackers:
                         k = attackers.index(attacker)
                         attackers.remove(attacker)
                         del attackerPicOld[k]
