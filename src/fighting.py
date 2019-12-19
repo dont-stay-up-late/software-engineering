@@ -220,14 +220,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         and y > characterPos[i][1] and y < characterPos[i][1] + characterUnlockedPic[i].get_height():
                         # if (modeID == 2 and controller.money['Defend'] >= defenderCost[i] and (curTime - defenderLastCD[i])/1000 >= defenderNeededCD[i]) \
                         #    or (modeID == 1 and controller.money['Attack'] >= attackerCost[i] and (curTime - attackerLastCD[i]) / 1000 >= attackerNeededCD[i]):
+                        if selectmode == 1:
+                            characterSelectedID = i
+                        else:
                             if characterSelectedID == i:
                                 characterSelectedID = -1
                             else:
                                 characterSelectedID = i
-                            coordinateSelected = [-1, -1]
-                            # coordinateSelectedOld = [-1, -1]
-                            directionSelectedStatus = False
-                            selectmode = 0
+                        coordinateSelected = [-1, -1]
+                        # coordinateSelectedOld = [-1, -1]
+                        directionSelectedStatus = False
+                        selectmode = 0
 
                 # 选取地图中的格子
                 if x > mapload.xBegin and x < mapload.xBegin + mapload.rowNumber * mapload.blockSize \
@@ -626,6 +629,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             screen.blit(selectcharacter, characterPos[characterSelectedID])
                             screen.blit(defendersInfomation[CharID[characterSelectedID]], charactersInfomationPos)
                             # 更新数值
+                            # 选择的人物卡
                             if CharID[characterSelectedID] == 0:
                                 screen.blit(font.render(str(CivilianDefender.HP) + "/" + str(CivilianDefender.HP), True, (112, 76, 29)), (80, 102))
                                 screen.blit(font.render(str(CivilianDefender.ATTACK_POWER), True, (112, 76, 29)), (80, 132))
@@ -645,7 +649,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                             elif CharID[characterSelectedID] == 2:
-                                screen.blit(font.render(str(KamikazeDefender.HP) + "/" + str(AuraDefender.HP), True, (112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(KamikazeDefender.HP) + "/" + str(KamikazeDefender.HP), True, (112, 76, 29)), (80, 102))
                                 screen.blit(font.render(str(KamikazeDefender.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
                                 screen.blit(font.render(str(KamikazeDefender.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
                                 screen.blit(font.render(str(KamikazeDefender.SPEED), True, (112, 76, 29)), (80, 162))
@@ -654,7 +658,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                             elif CharID[characterSelectedID] == 3:
-                                screen.blit(font.render(str(FattyDefender.HP) + "/" + str(AuraDefender.HP), True, (112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(FattyDefender.HP) + "/" + str(FattyDefender.HP), True, (112, 76, 29)), (80, 102))
                                 screen.blit(font.render(str(FattyDefender.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
                                 screen.blit(font.render(str(FattyDefender.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
                                 screen.blit(font.render(str(FattyDefender.SPEED), True, (112, 76, 29)), (80, 162))
@@ -663,7 +667,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                             elif CharID[characterSelectedID] == 4:
-                                screen.blit(font.render(str(PharmacistDefender.HP) + "/" + str(AuraDefender.HP), True, (112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(PharmacistDefender.HP) + "/" + str(PharmacistDefender.HP), True, (112, 76, 29)), (80, 102))
                                 screen.blit(font.render(str(PharmacistDefender.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
                                 screen.blit(font.render(str(PharmacistDefender.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
                                 screen.blit(font.render(str(PharmacistDefender.SPEED), True, (112, 76, 29)), (80, 162))
@@ -672,11 +676,24 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                     else:
+                        # 选择的是地图中的防守方
                         if characterSelectedID >= 0:
                             screen.blit(defendersInfomation[characterSelectedID], charactersInfomationPos)
+                            for defender in defenders:
+                                if defender.get_coordinate()[0] == coordinateSelected[0] and defender.get_coordinate()[1] == coordinateSelected[1]:
+                                    screen.blit(font.render(str(int(defender.hp)) + "/" + str(defender.HP), True,(112, 76, 29)), (80, 102))
+                                    screen.blit(font.render(str(defender.attack_power), True, (112, 76, 29)),(80, 132))
+                                    screen.blit(font.render(str(defender.defend_power), True, (112, 76, 29)),(210, 132))
+                                    screen.blit(font.render(str(defender.speed), True, (112, 76, 29)),(80, 162))
+                                    screen.blit(font.render(str(1 / defender.attack_time), True, (112, 76, 29)),(210, 162))
+                                    screen.blit(font.render(str(defender.cost), True, (112, 76, 29)),(80, 192))
+                                    CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - ( curTime - defenderLastCD[characterSelectedID]) / 1000)))
+                                    screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s", True,(112, 76, 29)), (130, 222))
+                                    break
 
                 else:
                     if selectmode == 0:
+                        #选择的是人物卡
                         if characterSelectedID >= 0:
                             screen.blit(selectcharacter, characterPos[characterSelectedID])
                             screen.blit(attackersInfomation[CharID[characterSelectedID]], charactersInfomationPos)
@@ -700,7 +717,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                             elif CharID[characterSelectedID] == 2:
-                                screen.blit(font.render(str(KamikazeAttacker.HP) + "/" + str(AuraDefender.HP), True,(112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(KamikazeAttacker.HP) + "/" + str(KamikazeDefender.HP), True,(112, 76, 29)), (80, 102))
                                 screen.blit(font.render(str(KamikazeAttacker.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
                                 screen.blit(font.render(str(KamikazeAttacker.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
                                 screen.blit(font.render(str(KamikazeAttacker.SPEED), True, (112, 76, 29)), (80, 162))
@@ -709,7 +726,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                             elif CharID[characterSelectedID] == 3:
-                                screen.blit(font.render(str(FattyAttacker.HP) + "/" + str(AuraDefender.HP), True,(112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(FattyAttacker.HP) + "/" + str(FattyDefender.HP), True,(112, 76, 29)), (80, 102))
                                 screen.blit(font.render(str(FattyAttacker.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
                                 screen.blit(font.render(str(FattyAttacker.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
                                 screen.blit(font.render(str(FattyAttacker.SPEED), True, (112, 76, 29)), (80, 162))
@@ -718,7 +735,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                             elif CharID[characterSelectedID] == 4:
-                                screen.blit(font.render(str(PharmacistAttacker.HP) + "/" + str(AuraDefender.HP), True,(112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(PharmacistAttacker.HP) + "/" + str(PharmacistDefender.HP), True,(112, 76, 29)), (80, 102))
                                 screen.blit(font.render(str(PharmacistAttacker.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
                                 screen.blit(font.render(str(PharmacistAttacker.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
                                 screen.blit(font.render(str(PharmacistAttacker.SPEED), True, (112, 76, 29)), (80, 162))
@@ -727,8 +744,20 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                     else:
+                        # 选择的是地图中的防守方
                         if characterSelectedID >= 0:
                             screen.blit(defendersInfomation[characterSelectedID],charactersInfomationPos)
+                            for defender in defenders:
+                                if defender.get_coordinate()[0] == coordinateSelected[0] and defender.get_coordinate()[1] == coordinateSelected[1]:
+                                    screen.blit(font.render(str(int(defender.hp)) + "/" + str(defender.HP), True,(112, 76, 29)), (80, 102))
+                                    screen.blit(font.render(str(defender.attack_power), True, (112, 76, 29)),(80, 132))
+                                    screen.blit(font.render(str(defender.defend_power), True, (112, 76, 29)),(210, 132))
+                                    screen.blit(font.render(str(defender.speed), True, (112, 76, 29)),(80, 162))
+                                    screen.blit(font.render(str(1 / defender.attack_time), True, (112, 76, 29)),(210, 162))
+                                    screen.blit(font.render(str(defender.cost), True, (112, 76, 29)),(80, 192))
+                                    CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - ( curTime - defenderLastCD[characterSelectedID]) / 1000)))
+                                    screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s", True,(112, 76, 29)), (130, 222))
+                                    break
                 if coordinateSelected[0] >= 0 and coordinateSelected[1] >= 0:
                     if mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isHome:
                         screen.blit(blocksInfomation[4], blocksInfomationPos)
