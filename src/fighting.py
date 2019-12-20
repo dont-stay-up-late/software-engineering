@@ -106,11 +106,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
     toolssurePos = (1085, 440)
     toolscancelPos = (1085, 500)
     # 不同角色的路径关键词缀
-    stringOfCharacters = ["pingmin","gongtou","gansidui","pangdun","yaojishi", "bomb"]
+    stringOfCharacters = ["pingmin","gongtou","gansidui","pangdun","yaojishi", "bomb", "scientist"]
     characterFlame = pygame.image.load(path("res/battle/charflame.png")).convert_alpha()
     # 人物框
     characterNum = len(CharID)    # 选取的人物数量
-    totolNum = 6   #人物总数
+    totolNum = 7   #人物总数
     characterPos = []
     # 上锁图与未上锁图
     characterUnlockedPic = []
@@ -143,8 +143,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 防守方人物所需要的冷却
     defenderNeededCD =[]
     # 按人物编号所依次需要的费用和冷却
-    defenderCostOfAll = [10,20,10,18,25,28]
-    defenderCdOfAll = [15,60,10,25,80,120]
+    defenderCostOfAll = [10,20,10,18,25,28, 25]
+    defenderCdOfAll = [15,60,10,25,80,120, 50]
     # 对应进攻方人物最后放置的时间，单位为ms，下标为已选择的人物的编号
     attackerLastCD = []
     # 进攻方人物所需要的费用
@@ -152,8 +152,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 进攻方人物所需要的冷却
     attackerNeededCD =[]
     # 按人物编号所依次需要的费用和冷却
-    attackerCostOfAll = [10,20,15,18,25,28]
-    attackerCdOfAll = [10,30,10,25,80,90]
+    attackerCostOfAll = [10,20,15,18,25,28,25]
+    attackerCdOfAll = [10,30,10,25,80,90,50]
     # 选取的角色编号（为CharID列表中的下标，如果为-1，表示未选取）
     characterSelectedID = -1
     # 选取的坐标编号（取整数），[-1，-1]为未选取
@@ -361,6 +361,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 defenders.append(BombDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
                                                                 (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
                                 defendersID.append(5)
+                            if CharID[characterSelectedID] == 6:
+                                defenders.append(ScientistDefender(controller, [(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                                            (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
+                                defendersID.append(6)
                                 # bombbborn.append(time.time())
                                 # bombbcoordinate.append((coordinateSelected[0]*mapload.blockSize+mapload.xBegin,coordinateSelected[1]*mapload.blockSize+mapload.yBegin))
 
@@ -406,6 +410,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 attackers.append(BombAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
                                     (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                                 attackersID.append(5)
+                            if CharID[characterSelectedID] == 6:
+                                attackers.append(ScientistAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                    (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                                attackersID.append(6)
 
                             attackerPicOld.append(attackerPic[CharID[characterSelectedID]])
                             attackerAttackPicOld.append(attackerAttackPic[CharID[characterSelectedID]])
@@ -495,6 +503,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             attackers.append(BombAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder] - 1][1] + 0.5) * mapload.blockSize + mapload.xBegin, (mapload.bornPoints[ \
                                                                                   attackerPlan[2][attackerOrder] - 1][0] + 0.5) * mapload.blockSize + mapload.yBegin],0))
                             attackersID.append(5)
+                        elif attackerPlan[1][attackerOrder] == 6:
+                            attackers.append(ScientistAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder] - 1][1] + 0.5) * mapload.blockSize + mapload.xBegin, (mapload.bornPoints[ \
+                                                                                  attackerPlan[2][attackerOrder] - 1][0] + 0.5) * mapload.blockSize + mapload.yBegin],0))
+                            attackersID.append(6)
                         attackerPicOld.append(attackerPic[attackerPlan[1][attackerOrder]])
                         attackerAttackPicOld.append(attackerAttackPic[attackerPlan[1][attackerOrder]])
                         attackerDetectPicOld.append(attackerDetectPic[attackerPlan[1][attackerOrder]])
@@ -530,6 +542,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             defenders.append(BombDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
                                 (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
                             defendersID.append(5)
+
+                        elif defenderPlan[1][defenderOrder] == 6:
+                            defenders.append(ScientistDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
+                                                                            (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin],defenderPlan[4][defenderOrder]))
+                            defendersID.append(6)
                             # bombbborn.append(time.time())
                             # bombbcoordinate.append((defenderPlan[2][defenderOrder] * mapload.blockSize + mapload.xBegin, defenderPlan[3][defenderOrder] * mapload.blockSize + mapload.yBegin))
                         mapload.maps[defenderPlan[3][defenderOrder]][defenderPlan[2][defenderOrder]].isPlantOn = True
@@ -932,6 +949,16 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 screen.blit(font.render(str(defenderCost[characterSelectedID]), True, (112, 76, 29)),(80, 192))
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
+                            elif CharID[characterSelectedID] == 6:
+                                screen.blit(font.render(str(ScientistDefender.HP) + "/" + str(ScientistDefender.HP), True, (112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(ScientistDefender.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
+                                screen.blit(font.render(str(ScientistDefender.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
+                                screen.blit(font.render(str(ScientistDefender.SPEED), True, (112, 76, 29)), (80, 162))
+                                screen.blit(font.render(str(ScientistDefender.ATTACK_SPEED), True, (112, 76, 29)),(210, 162))
+                                screen.blit(font.render(str(defenderCost[characterSelectedID]), True, (112, 76, 29)),(80, 192))
+                                CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
+                                screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
+                                screen.blit(font.render(str(ScientistDefender.SPECIAL_INTERVAL) + "/" + str(ScientistDefender.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
                     else:
                         # 选择的是地图中的防守方
                         if characterSelectedID >= 0:
@@ -953,6 +980,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                     if characterSelectedID == 4:
                                         CDLEFT = max(0, int(math.ceil(PharmacistDefender.SPECIAL_INTERVAL) - (time.time() - defender.last_special_time)))
                                         screen.blit(font.render(str(CDLEFT) + "/" + str(PharmacistDefender.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
+                                    break
+
+                                    if characterSelectedID == 6:
+                                        CDLEFT = max(0, int(math.ceil(ScientistDefender.SPECIAL_INTERVAL) - (time.time() - defender.last_special_time)))
+                                        screen.blit(font.render(str(CDLEFT) + "/" + str(ScientistDefender.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
                                     break
 
                 else:
@@ -1017,6 +1049,16 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 screen.blit(font.render(str(defenderCost[characterSelectedID]), True, (112, 76, 29)),(80, 192))
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
+                            elif CharID[characterSelectedID] == 6:
+                                screen.blit(font.render(str(ScientistAttacker.HP) + "/" + str(ScientistDefender.HP), True,(112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(ScientistAttacker.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
+                                screen.blit(font.render(str(ScientistAttacker.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
+                                screen.blit(font.render(str(ScientistAttacker.SPEED), True, (112, 76, 29)), (80, 162))
+                                screen.blit(font.render(str(ScientistAttacker.ATTACK_SPEED), True, (112, 76, 29)),(210, 162))
+                                screen.blit(font.render(str(defenderCost[characterSelectedID]), True, (112, 76, 29)),(80, 192))
+                                CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
+                                screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
+                                screen.blit(font.render(str(ScientistAttacker.SPECIAL_INTERVAL) + "/" + str(ScientistAttacker.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
 
 
                     else:
@@ -1040,6 +1082,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                         if characterSelectedID == 4:
                                             CDLEFT = max(0, int(math.ceil(PharmacistDefender.SPECIAL_INTERVAL) - (time.time() - defender.last_special_time)))
                                             screen.blit(font.render(str(CDLEFT) + "/" + str(PharmacistDefender.SPECIAL_INTERVAL),True, (112, 76, 29)), (130, 370))
+                                        break
+
+                                        if characterSelectedID == 6:
+                                            CDLEFT = max(0, int(math.ceil(ScientistDefender.SPECIAL_INTERVAL) - (time.time() - defender.last_special_time)))
+                                            screen.blit(font.render(str(CDLEFT) + "/" + str(ScientistDefender.SPECIAL_INTERVAL),True, (112, 76, 29)), (130, 370))
                                         break
 
                 if coordinateSelected[0] >= 0 and coordinateSelected[1] >= 0:

@@ -780,14 +780,14 @@ class BombAttacker(Attacker):
         super().die()
 
 
-class ScientistAttacker(Defender):
+class ScientistAttacker(Attacker):
     """
     Scientist attacker class.
     """
     last_created_time = 0
-    SPECIAL_INTERVAL = 60  # seconds
+    SPECIAL_INTERVAL = 10  # seconds
     HP = 180
-    ATTACK_POWER = 60
+    ATTACK_POWER = 30
     DEFEND_POWER = 0
     reach_model = [(0, 0), (0, 1), (0, 2)]
     special_reach_model = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9)]
