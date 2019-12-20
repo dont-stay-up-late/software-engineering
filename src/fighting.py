@@ -64,7 +64,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
     cancelPic = pygame.image.load(path("res/battle/cancel.png")).convert_alpha()        #取消选择
     cancelPic = pygame.transform.scale(cancelPic,(130,50))
     cancelPos = (120, 630)
-    giveupPos = (1080, 630)
+    giveupPos = (1080, 590)
     direction = []                                                                      #选择人物朝向
     directionPos = []
     directionPic = []                               #地图中的人物朝向
