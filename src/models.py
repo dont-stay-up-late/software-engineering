@@ -500,7 +500,7 @@ class BullyDefender(Defender):
     DEFEND_POWER = 0
     reach_model = [(0, 0), (0, 1), (0, 2), (-1, 0), (-1, 1), (1, 0), (1, 1)]
     SPEED = 0
-    ATTACK_SPEED = 2
+    ATTACK_SPEED = 0.5
     filename = path('res/mapnum/Mapnum1_0.png')
     special_targets = set()
 
@@ -533,12 +533,12 @@ class IdiotDefender(Defender):
     Idiot defender class.
     """
     last_created_time = 0
-    HP = 55
+    HP = 155
     ATTACK_POWER = 25
     DEFEND_POWER = 0
     reach_model = [(0, 0), (0, 1), (0, 2), (0, 3), (-1, 0), (-1, 1), (-1, 2), (1, 0), (1, 1), (1, 2)]
     SPEED = 0
-    ATTACK_SPEED = 3
+    ATTACK_SPEED = 0.4
     filename = path('res/mapnum/Mapnum1_0.png')
     special_targets = set()
 
@@ -547,7 +547,7 @@ class IdiotDefender(Defender):
         super().__init__(controller, position, direction)
         self.type = 'ScientistDefender'
         self.attack_power = self.ATTACK_POWER
-        self.attack_time = 3
+        self.attack_time = 2.5
         self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 22
@@ -826,7 +826,7 @@ class ScientistAttacker(Attacker):
             self.last_special_time = time.time()
 
 
-class BullyAttacker(Defender):
+class BullyAttacker(Attacker):
     """
     Bully attacker class.
     """
@@ -835,8 +835,8 @@ class BullyAttacker(Defender):
     ATTACK_POWER = 20
     DEFEND_POWER = 0
     reach_model = [(0, 0), (0, -1), (0, 1), (1, 0), (-1, 0)]
-    SPEED = 0
-    ATTACK_SPEED = 1.5
+    SPEED = 2.0
+    ATTACK_SPEED = 0.8
     filename = path('res/mapnum/Mapnum1_0.png')
     special_targets = set()
 
@@ -845,11 +845,12 @@ class BullyAttacker(Defender):
         super().__init__(controller, position, direction)
         self.type = 'ScientistDefender'
         self.attack_power = self.ATTACK_POWER
-        self.attack_time = 1.5
+        self.attack_time = 1.25
         self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 19
         self.cool_down_time = 18
+        self.speed = 0.4
         self.created_time = time.time()
         self.init_image(self.filename, 75, 75, 1)
         BombDefender.last_created_time = time.time()
@@ -864,7 +865,7 @@ class BullyAttacker(Defender):
                 defender.hp -= 15 / 90 # 90 frames in 3 secs
 
 
-class IdiotAttacker(Defender):
+class IdiotAttacker(Attacker):
     """
     Idiot attacker class.
     """
@@ -874,7 +875,7 @@ class IdiotAttacker(Defender):
     DEFEND_POWER = 0
     reach_model = [(0, -2), (0, -1), (0, 0), (0, -1), (0, -2)]
     SPEED = 0.5
-    ATTACK_SPEED = 1.5
+    ATTACK_SPEED = 0.8
     filename = path('res/mapnum/Mapnum1_0.png')
     special_targets = set()
 
@@ -883,9 +884,10 @@ class IdiotAttacker(Defender):
         super().__init__(controller, position, direction)
         self.type = 'ScientistDefender'
         self.attack_power = self.ATTACK_POWER
-        self.attack_time = 1.5
+        self.attack_time = 1.25
         self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
+        self.speed = 0.1
         self.cost = 22
         self.cool_down_time = 25
         self.created_time = time.time()
