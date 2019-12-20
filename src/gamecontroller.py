@@ -32,7 +32,7 @@ class GameController(object):
         self.level = level
         self.map = map
         self.money = {'Attack': 30, 'Defend': 30}
-        self.money_restore_rate = {'Attack': 0.2, 'Defend': 0.2}
+        self.money_restore_rate = {'Attack': 0.1, 'Defend': 0.1}
         self.fortress_HP = map.fortress_HP
         self.item_used_total_count = {'Attack': 0, 'Defend': 0}
         # Cooldown time for different kinds of characters; in turn, for civilian, fatty, kamikaze, pharmacist, aura and bomb characters
