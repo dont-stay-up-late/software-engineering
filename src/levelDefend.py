@@ -12,7 +12,9 @@ def attackerload(i):
     attacktime = []  # 加载出生时间
     attackerID = []  # 加载角色ID
     attackerborn = []  # 加载出生点
-    attackerpath = []  # 加载进攻路径
+    attackerpathtime = []  # 切换轨道的时间
+    attackerpathx = []    #切换轨道的位置
+    attackerpathy = []
     count = 0
     while True:
         a = fileP.readline()
@@ -23,12 +25,21 @@ def attackerload(i):
         attacktime.append(int(a_array[0]))
         attackerID.append(int(a_array[1]))
         attackerborn.append(int(a_array[2]))
-        attackerpath.append(int(a_array[3]))
 
+    while True:
+        a = fileP.readline()
+        a = a.strip()
+        if a == "*":
+            break
+        a_array = a.split(" ")
+        attackerpathtime.append(int(a_array[0]))
+        attackerpathx.append(int(a_array[1]))
+        attackerpathy.append(int(a_array[2]))
 
     fileP.close()
-    attackerload = (attacktime, attackerID, attackerborn, attackerpath)
-    return attackerload
+    attackerload1 = (attacktime, attackerID, attackerborn)
+    attackerload2 = (attackerpathtime, attackerpathx, attackerpathy)
+    return (attackerload1,attackerload2)
 
 
 
