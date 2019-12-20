@@ -13,7 +13,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     playBgm(1)
     # 编队
     CharID = []     #存储选中的角色编号，传入到战斗界面
-    totalNum = 7    #可选中角色总数
+    totalNum = 9    #可选中角色总数
     chooseNum = 0   #选中的角色数量
     characterFlamePos = []   #人物框的位置
     characterPic0 = []   #未上锁的人物图片
@@ -21,7 +21,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathNotLocked = []  #未上锁人物图路径
     loadpathLocked = [] #上锁人物图路径
     charInfoList = []   # 人物信息
-    charactersInTeam = [1, 1, 1, 1, 1, 1, 1]    #人物状态，是否编入队伍，是为0,否为1
+    charactersInTeam = [1, 1, 1, 1, 1, 1, 1, 1, 1]    #人物状态，是否编入队伍，是为0,否为1
     modeIntroAddress = path("res/pic/modeintro" + str(modeID) + ".png")
 
     # 图片及位置
@@ -60,6 +60,8 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathNotLocked.append(path("res/character/yaojishi{}.png".format(side)))
     loadpathNotLocked.append(path("res/character/bomb{}.png".format(side)))
     loadpathNotLocked.append(path("res/character/scientist{}.png".format(side)))
+    loadpathNotLocked.append(path("res/character/bully{}.png".format(side)))
+    loadpathNotLocked.append(path("res/character/fully{}.png".format(side)))
     loadpathLocked.append(path("res/character/pingmin{}s.png".format(side)))
     loadpathLocked.append(path("res/character/gongtou{}s.png".format(side)))
     loadpathLocked.append(path("res/character/gansidui{}s.png".format(side)))
@@ -67,6 +69,8 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathLocked.append(path("res/character/yaojishi{}s.png".format(side)))
     loadpathLocked.append(path("res/character/bomb{}s.png".format(side)))
     loadpathLocked.append(path("res/character/scientist{}s.png".format(side)))
+    loadpathLocked.append(path("res/character/bully{}s.png".format(side)))
+    loadpathLocked.append(path("res/character/fully{}s.png".format(side)))
 
     charInfoList.append(pygame.image.load(path("res/charinfo/pingmin{}.png".format(side))).convert_alpha())
     charInfoList.append(pygame.image.load(path("res/charinfo/gongtou{}.png".format(side))).convert_alpha())
@@ -75,6 +79,8 @@ def selectCharacters(screen, clock, modeID, mapID):
     charInfoList.append(pygame.image.load(path("res/charinfo/yaojishi{}.png".format(side))).convert_alpha())
     charInfoList.append(pygame.image.load(path("res/charinfo/bomb{}.png".format(side))).convert_alpha())
     charInfoList.append(pygame.image.load(path("res/charinfo/scientist{}.png".format(side))).convert_alpha())
+    charInfoList.append(pygame.image.load(path("res/charinfo/bully{}.png".format(side))).convert_alpha())
+    charInfoList.append(pygame.image.load(path("res/charinfo/fully{}.png".format(side))).convert_alpha())
 
     for i in range(0, totalNum):
         characterPic0.append(pygame.image.load(loadpathNotLocked[i]).convert_alpha())
@@ -135,9 +141,12 @@ def selectCharacters(screen, clock, modeID, mapID):
                             CharID.remove(i)
                             chooseNum = chooseNum - 1
                         else:
-                            characterPic[i] = pygame.image.load(loadpathLocked[i]).convert_alpha()
-                            CharID.append(i)
-                            chooseNum = chooseNum + 1
+                            if chooseNum <= 7:
+                                characterPic[i] = pygame.image.load(loadpathLocked[i]).convert_alpha()
+                                CharID.append(i)
+                                chooseNum = chooseNum + 1
+                            else:
+                                charactersInTeam[i] = 1
 
                 for i in range (0, chooseNum):
                     if x > 255 + 100 * i and x < 255 + 100 * i + characterFlame.get_width() \
