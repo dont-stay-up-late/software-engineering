@@ -549,6 +549,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if attackerOrder >= len(attackerPlan[0]):
                             break
                         #if attackerorder >= len(attackerplan[0]):
+                if modeID == 2 and PathwayOrder < len(attackerPlan2[0]):
                     # 根据时间调整轨道
                     while attackerPlan2[0][PathwayOrder] <= timePast:
 
@@ -1034,9 +1035,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             for defender in defenders:
                                 if defender.get_coordinate()[0] == coordinateSelected[0] and defender.get_coordinate()[1] == coordinateSelected[1]:
                                     screen.blit(font.render(str(int(defender.hp)) + "/" + str(defender.HP), True,(112, 76, 29)), (80, 102))
-                                    screen.blit(font.render(str(defender.attack_power), True, (112, 76, 29)),(80, 132))
-                                    screen.blit(font.render(str(defender.defend_power), True, (112, 76, 29)),(210, 132))
-                                    screen.blit(font.render(str(defender.speed), True, (112, 76, 29)),(80, 162))
+                                    screen.blit(font.render(str(int(defender.attack_power)), True, (112, 76, 29)),(80, 132))
+                                    screen.blit(font.render(str(int(defender.defend_power)), True, (112, 76, 29)),(210, 132))
+                                    screen.blit(font.render(str(int(defender.speed)), True, (112, 76, 29)),(80, 162))
                                     screen.blit(font.render(str(1 / defender.attack_time), True, (112, 76, 29)),(210, 162))
                                     screen.blit(font.render(str(defender.cost), True, (112, 76, 29)),(80, 192))
                                     for kk in range(characterNum):
@@ -1151,9 +1152,9 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             for defender in defenders:
                                 if defender.get_coordinate()[0] == coordinateSelected[0] and defender.get_coordinate()[1] == coordinateSelected[1]:
                                     screen.blit(font.render(str(int(defender.hp)) + "/" + str(defender.HP), True,(112, 76, 29)), (80, 102))
-                                    screen.blit(font.render(str(defender.attack_power), True, (112, 76, 29)),(80, 132))
-                                    screen.blit(font.render(str(defender.defend_power), True, (112, 76, 29)),(210, 132))
-                                    screen.blit(font.render(str(defender.speed), True, (112, 76, 29)),(80, 162))
+                                    screen.blit(font.render(str(int(defender.attack_power)), True, (112, 76, 29)),(80, 132))
+                                    screen.blit(font.render(str(int(defender.defend_power)), True, (112, 76, 29)),(210, 132))
+                                    screen.blit(font.render(str(int(defender.speed)), True, (112, 76, 29)),(80, 162))
                                     screen.blit(font.render(str(1 / defender.attack_time), True, (112, 76, 29)),(210, 162))
                                     screen.blit(font.render(str(defender.cost), True, (112, 76, 29)),(80, 192))
                                     for kk in range(characterNum):
