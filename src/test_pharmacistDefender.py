@@ -24,9 +24,10 @@ class TestPharmacistDefender(TestCase):
         kamikaze = KamikazeDefender(self.controller, [100, 175], 0)
         aura_attacker = AuraAttacker(self.controller, [100, 250], 0)
         aura_attacker.speed = 0
-        aura_attacker.attack()
-        aura_attacker.attack()
-        self.assertEqual(kamikaze.hp, -20)
+        for _ in range(10000):
+            aura_attacker.attack()
+        self.assertEqual(kamikaze.hp, -2440)
+        pharmacist.last_special_time = 0
         pharmacist.update()
-        self.assertEqual(kamikaze.hp, 40)
+        self.assertEqual(kamikaze.hp, 60)
         

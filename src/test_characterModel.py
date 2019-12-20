@@ -24,8 +24,8 @@ class TestCharacterModel(TestCase):
         defender = CivilianDefender(self.controller, (100, 25), 2)
         attacker.attack()
         defender.attack()
-        self.assertAlmostEqual(attacker.hp, 230)
-        self.assertAlmostEqual(defender.hp, 70)
+        self.assertAlmostEqual(attacker.hp, 239.3)
+        self.assertAlmostEqual(defender.hp, 99.775)
 
     def test_die(self):
         attacker = AuraAttacker(self.controller, (100, 100), 0)

@@ -27,4 +27,4 @@ class TestBombDefender(TestCase):
         sleep(1.5)
         bomb.update()
         self.assertNotIn(opponent1, Attacker.attackers)
-        self.assertAlmostEqual(opponent2.hp, 200)
+        self.assertAlmostEqual(opponent2.hp, 205)

@@ -21,4 +21,4 @@ class TestAttacker(TestCase):
     def test_move(self):
         attacker = CivilianAttacker(self.controller, [100, 100], 1)
         attacker.move()
-        self.assertEqual(attacker.position, [98, 100])
+        self.assertEqual(attacker.position, [99, 100])

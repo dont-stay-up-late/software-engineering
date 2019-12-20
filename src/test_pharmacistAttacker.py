@@ -23,4 +23,4 @@ class TestPharmacistAttacker(TestCase):
         pharmacist = PharmacistAttacker(self.controller, [100, 100], 3)
         opponent = KamikazeDefender(self.controller, [100, 175], 1)
         opponent.attack()
-        self.assertNotIn(opponent, Defender.defenders)
+        self.assertIn(opponent, Defender.defenders)

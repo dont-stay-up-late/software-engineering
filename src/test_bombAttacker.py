@@ -26,4 +26,4 @@ class TestBombAttacker(TestCase):
             opponent.attack()
         if bomb.hp <= 0:
             bomb.die()
-        self.assertAlmostEqual(opponent.hp, -340)
+        self.assertAlmostEqual(opponent.hp, 60)
