@@ -7,7 +7,7 @@ def handbook(screen, clock):
     breakflag = 0
     showSurvivorOrZombie = 0    # 0 for survivor and 1 for zombie
     charID = 0      # from 0 to totalNum-1
-    totalNum = 5    #可选中角色总数
+    totalNum = 7    #可选中角色总数
     characterPicb = [] # 存储人类的列表
     characterPicr = [] # 存储僵尸图片的列表
     characterStoryb = []
@@ -48,12 +48,16 @@ def handbook(screen, clock):
     characterPicb.append(pygame.image.load(path("res/character/gansidui{}.png").format(side)))
     characterPicb.append(pygame.image.load(path("res/character/pangdun{}.png").format(side)))
     characterPicb.append(pygame.image.load(path("res/character/yaojishi{}.png").format(side)))
+    characterPicb.append(pygame.image.load(path("res/character/bomb{}.png").format(side)))
+    characterPicb.append(pygame.image.load(path("res/character/scientist{}.png").format(side)))
     side = 'r'
     characterPicr.append(pygame.image.load(path("res/character/pingmin{}.png").format(side)))
     characterPicr.append(pygame.image.load(path("res/character/gongtou{}.png").format(side)))
     characterPicr.append(pygame.image.load(path("res/character/gansidui{}.png").format(side)))
     characterPicr.append(pygame.image.load(path("res/character/pangdun{}.png").format(side)))
     characterPicr.append(pygame.image.load(path("res/character/yaojishi{}.png").format(side)))
+    characterPicr.append(pygame.image.load(path("res/character/bomb{}.png").format(side)))
+    characterPicr.append(pygame.image.load(path("res/character/scientist{}.png").format(side)))
 
     side = 'b'
     characterStoryb.append(pygame.image.load(path("res/characterStory/pingmin{}.png").format(side)))
@@ -61,12 +65,16 @@ def handbook(screen, clock):
     characterStoryb.append(pygame.image.load(path("res/characterStory/gansidui{}.png").format(side)))
     characterStoryb.append(pygame.image.load(path("res/characterStory/pangdun{}.png").format(side)))
     characterStoryb.append(pygame.image.load(path("res/characterStory/yaojishi{}.png").format(side)))
+    characterStoryb.append(pygame.image.load(path("res/characterStory/bomb{}.png").format(side)))
+    characterStoryb.append(pygame.image.load(path("res/characterStory/scientist{}.png").format(side)))
     side = 'r'
     characterStoryr.append(pygame.image.load(path("res/characterStory/pingmin{}.png").format(side)))
     characterStoryr.append(pygame.image.load(path("res/characterStory/gongtou{}.png").format(side)))
     characterStoryr.append(pygame.image.load(path("res/characterStory/gansidui{}.png").format(side)))
     characterStoryr.append(pygame.image.load(path("res/characterStory/pangdun{}.png").format(side)))
     characterStoryr.append(pygame.image.load(path("res/characterStory/yaojishi{}.png").format(side)))
+    characterStoryr.append(pygame.image.load(path("res/characterStory/bomb{}.png").format(side)))
+    characterStoryr.append(pygame.image.load(path("res/characterStory/scientist{}.png").format(side)))
 
     side = 'b'
     characterInfob.append(pygame.image.load(path("res/charinfo/pingmin{}.png").format(side)))
@@ -74,12 +82,16 @@ def handbook(screen, clock):
     characterInfob.append(pygame.image.load(path("res/charinfo/gansidui{}.png").format(side)))
     characterInfob.append(pygame.image.load(path("res/charinfo/pangdun{}.png").format(side)))
     characterInfob.append(pygame.image.load(path("res/charinfo/yaojishi{}.png").format(side)))
+    characterInfob.append(pygame.image.load(path("res/charinfo/bomb{}.png").format(side)))
+    characterInfob.append(pygame.image.load(path("res/charinfo/scientist{}.png").format(side)))
     side = 'r'
     characterInfor.append(pygame.image.load(path("res/charinfo/pingmin{}.png").format(side)))
     characterInfor.append(pygame.image.load(path("res/charinfo/gongtou{}.png").format(side)))
     characterInfor.append(pygame.image.load(path("res/charinfo/gansidui{}.png").format(side)))
     characterInfor.append(pygame.image.load(path("res/charinfo/pangdun{}.png").format(side)))
     characterInfor.append(pygame.image.load(path("res/charinfo/yaojishi{}.png").format(side)))
+    characterInfor.append(pygame.image.load(path("res/charinfo/bomb{}.png").format(side)))
+    characterInfor.append(pygame.image.load(path("res/charinfo/scientist{}.png").format(side)))
     
     while True:
         for event in pygame.event.get():
