@@ -561,6 +561,16 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 if modeID == 1 and defenderOrder < len(defenderPlan[0]):
                     # 根据时间依次出怪
                     while defenderPlan[0][defenderOrder] <= timePast:
+                        # x = defenderPlan[2][defenderOrder]
+                        # y = defenderPlan[3][defenderOrder]
+                        # flag = False
+                        # for defender in defenders:
+                        #     if defender.position == [x, y]:
+                        #         flag = True
+                        #         break
+                        # if flag:
+                        #     defenderOrder += 1
+                        #     continue
                         if defenderPlan[1][defenderOrder] == 0:
                             defenders.append(CivilianDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))

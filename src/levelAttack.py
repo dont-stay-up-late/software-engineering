@@ -23,8 +23,8 @@ def defenderload(i):
         a_array = a.split(" ")
         defendtime.append(int(a_array[0]))
         defenderID.append(int(a_array[1]))
-        defenderbornx.append(int(a_array[2]))
-        defenderborny.append(int(a_array[3]))
+        defenderbornx.append(int(a_array[3]))
+        defenderborny.append(int(a_array[2]))
         defenderdir.append(int(a_array[4]))
 
 
