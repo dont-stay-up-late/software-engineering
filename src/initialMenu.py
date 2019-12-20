@@ -4,6 +4,8 @@ from pygame.locals import *
 from selectMode import *
 from path import path
 from bgm import playBgm
+from help import help
+from settings import *
 
 # 主菜单初始化
 def initialMenu(screen, clock):
@@ -92,11 +94,13 @@ def initialMenu(screen, clock):
                 if x > helpPos0[0] and x < helpPos0[0] + helpButton.get_width() \
                         and y > helpPos0[1] and y < helpPos0[1] + helpButton.get_height():
                     print('game help!')
+                    help(screen, clock)
                     # here to start the help function
 
                 if x > settingPos0[0] and x < settingPos0[0] + settingButton.get_width() \
                         and y > settingPos0[1] and y < settingPos0[1] + settingButton.get_height():
                     print('game setting!')
+                    settings(screen, clock, True)
                     # here to the setting function
 
                 elif x > quitPos0[0] and x < quitPos0[0] + quitButton.get_width() \
