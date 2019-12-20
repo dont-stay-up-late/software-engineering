@@ -470,7 +470,7 @@ class ScientistDefender(Defender):
         super().__init__(controller, position, direction)
         self.type = 'ScientistDefender'
         self.attack_power = self.ATTACK_POWER
-        self.attack_time = 1
+        self.attack_time = 2
         self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 25
@@ -791,8 +791,8 @@ class ScientistAttacker(Attacker):
     DEFEND_POWER = 0
     reach_model = [(0, 0), (0, 1), (0, 2)]
     special_reach_model = [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (0, 7), (0, 8), (0, 9)]
-    SPEED = 0.2
-    ATTACK_SPEED = 0.5
+    SPEED = 1.0
+    ATTACK_SPEED = 1.0
     filename = path('res/mapnum/Mapnum1_0.png')
 
     def __init__(self, controller, position, direction):
@@ -803,7 +803,7 @@ class ScientistAttacker(Attacker):
         self.attack_time = 1
         self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
-        self.speed = self.SPEED
+        self.speed = self.SPEED / 5
         self.cost = 25
         self.cool_down_time = 50
         self.created_time = time.time()
