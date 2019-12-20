@@ -110,7 +110,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
         tools.append(pygame.image.load(path("res/tools/cannonry.png")).convert_alpha())
         tools.append(pygame.image.load(path("res/tools/urgentlist.png")).convert_alpha())
     for i in range(3):
-        toolsPos.append((1030, 90 + i * 110))
+        toolsPos.append((1095, 120 + i * 120))
     # 选择的道具ID
     toolselectID = -1
     toolselected = pygame.image.load(path("res/tools/selected.png")).convert_alpha()
