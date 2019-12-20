@@ -37,7 +37,7 @@ class Map:
         self.rowNumber = n      # 列数
         self.columnNumber = m   # 行数
         self.fortress_HP = 3   #初始生命，先设成3
-        self.time_limit = 180   #时间限制，以秒为单位
+        self.time_limit = 240   #时间限制，以秒为单位
         self.PathwayCD = 5   #切换轨道的冷却时间
 
         self.maps = []  # 二维列表，里面放格子
