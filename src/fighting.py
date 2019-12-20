@@ -516,14 +516,14 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         if attackerOrder >= len(attackerPlan[0]):
                             break
                         #if attackerorder >= len(attackerplan[0]):
-                # 根据时间调整轨道
-                while attackerPlan2[0][PathwayOrder] <= timePast:
+                    # 根据时间调整轨道
+                    while attackerPlan2[0][PathwayOrder] <= timePast:
 
-                    mapload.update_Pathway((attackerPlan2[2][PathwayOrder],attackerPlan2[1][PathwayOrder]),mapload.maps[attackerPlan2[1][PathwayOrder]][attackerPlan2[2][PathwayOrder]].blockDirection)
-                    PathwayOrder += 1
-                    if PathwayOrder >= len(attackerPlan2[0]):
-                        break
-                    # if attackerorder >= len(attackerplan[0]):
+                        mapload.update_Pathway((attackerPlan2[2][PathwayOrder],attackerPlan2[1][PathwayOrder]),mapload.maps[attackerPlan2[1][PathwayOrder]][attackerPlan2[2][PathwayOrder]].blockDirection)
+                        PathwayOrder += 1
+                        if PathwayOrder >= len(attackerPlan2[0]):
+                            break
+                        # if attackerorder >= len(attackerplan[0]):
                 if modeID == 1 and defenderOrder < len(defenderPlan[0]):
                     # 根据时间依次出怪
                     while defenderPlan[0][defenderOrder] <= timePast:
