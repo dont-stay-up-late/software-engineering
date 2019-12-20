@@ -586,16 +586,13 @@ def startFight(screen, clock, modeID, mapID, CharID):
                     if defender not in Defender.defenders:
                         k = defenders.index(defender)
                         defenders.remove(defender)
+                        mapload.maps[mapload.positionToBlock([defender.position[0], defender.position[1]])[1]][mapload.positionToBlock([defender.position[0], defender.position[1]])[0]].isPlantOn = False
                         del defendersID[k]
                 # 攻击方死亡
                 for attacker in attackers:
                     if attacker.hp <= 0:
                         # 角色死亡，将角色及对应编号移出列表
-
                         k = attackers.index(attacker)
-                        if attackersID[k] == 5:
-                            bombrdie.append(time.time())
-                            bombrcoordinate.append(attacker.position)
                         attackers.remove(attacker)
                         del attackerPicOld[k]
                         del attackerDetectPicOld[k]
