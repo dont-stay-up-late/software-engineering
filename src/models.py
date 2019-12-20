@@ -426,7 +426,7 @@ class BombDefender(Defender):
         super().__init__(controller, position, direction)
         self.type = 'BombDefender'
         self.attack_power = self.ATTACK_POWER
-        self.attack_time = 10000
+        self.attack_time = 0.025
         self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 28
@@ -442,7 +442,7 @@ class BombDefender(Defender):
 
     def die(self):
         for attacker in Attacker.attackers:
-            if CharacterModel.reachable(self, attacker, self.reach_model) and attacker.active:
+            if CharacterModel.reachable(self, attacker, self.reach_model):
                 self.special(attacker)
         super().die()
 
@@ -760,7 +760,7 @@ class BombAttacker(Attacker):
         super().__init__(controller, position, direction)
         self.type = 'BombAttacker'
         self.attack_power = self.ATTACK_POWER
-        self.attack_time = 1
+        self.attack_time = 0.025
         self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.speed = 0.2
