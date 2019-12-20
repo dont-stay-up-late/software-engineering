@@ -30,11 +30,20 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 读取进攻计划文档并存储在对应的元组中
     attackerOrder = 0
     PathwayOrder = 0
-    attackerPlan = attackerload(mapID)[0]
-    attackerPlan2 = attackerload(mapID)[1]
+    attackerPlan = None
+    attackerPlan2 = None
+    try:
+        attackerPlan = attackerload(mapID)[0]
+        attackerPlan2 = attackerload(mapID)[1]
+    except:
+        pass
     # 读取防守计划文档并存储在对应的元组中
     defenderOrder = 0
-    defenderPlan = defenderload(mapID)
+    defenderPlan = None
+    try:
+        defenderPlan = defenderload(mapID)
+    except:
+        pass
     # 初始化界面
     infoPic = pygame.image.load(path("res/battle/information.png")).convert_alpha()     #信息
     infoPos = (0, 0)
