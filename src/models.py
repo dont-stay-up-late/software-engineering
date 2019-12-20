@@ -478,7 +478,7 @@ class ScientistDefender(Defender):
         self.created_time = time.time()
         self.init_image(self.filename, 75, 75, 1)
         BombDefender.last_created_time = time.time()
-        self.last_special_time = 0
+        self.last_special_time = time.time()
     
     def update(self):
         if time.time() - self.last_special_time >= self.SPECIAL_INTERVAL:
