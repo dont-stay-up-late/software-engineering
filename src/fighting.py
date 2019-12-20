@@ -521,7 +521,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
 
                     mapload.update_Pathway((attackerPlan2[2][PathwayOrder],attackerPlan2[1][PathwayOrder]),mapload.maps[attackerPlan2[1][PathwayOrder]][attackerPlan2[2][PathwayOrder]].blockDirection)
                     PathwayOrder += 1
-                    if attackerOrder >= len(attackerPlan[0]):
+                    if PathwayOrder >= len(attackerPlan2[0]):
                         break
                     # if attackerorder >= len(attackerplan[0]):
                 if modeID == 1 and defenderOrder < len(defenderPlan[0]):
