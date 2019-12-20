@@ -106,7 +106,7 @@ def initialMenu(screen, clock):
 
                 elif x > quitPos0[0] and x < quitPos0[0] + quitButton.get_width() \
                         and y > quitPos0[1] and y < quitPos0[1] + quitButton.get_height():
-                    print('game ended!')
+                    # print('game ended!')
                     sys.exit()
         # 填充背景和内容
         screen.blit(background, (0, 0))

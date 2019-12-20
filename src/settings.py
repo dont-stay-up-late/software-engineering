@@ -2,10 +2,7 @@ import pygame
 import sys
 from pygame.locals import *
 from path import path
-<<<<<<< HEAD
-=======
 from bgm import *
->>>>>>> 307b02751487ce55d451659ff57d63f03c61d5e0
 
 def settings(screen, clock, isBgmOn):       
     # isBgmOn是一个bool量用来告诉函数是否播放背景音乐
@@ -99,15 +96,18 @@ def settings(screen, clock, isBgmOn):
                     and y > bgmOnPos0[1] and y < bgmOnPos0[1] + onButton.get_height():
                     # here to turn on bgm
                     # 这里要加上对应的逻辑
-                    bgmFlag = True
-
+                    if not bgmFlag:
+                        bgmFlag = True
+                        closeBgm
 
 
                 if x > bgmOffPos0[0] and x < bgmOffPos0[0] + offButton.get_width() \
                     and y > bgmOffPos0[1] and y < bgmOffPos0[1] + offButton.get_height():
                     # here to turn off bgm
                     #需要加上对应逻辑
-                    bgmFlag = False
+                    if bgmFlag:
+                        bgmFlag = False
+                        closeBgm
 
 
         screen.blit(background, (0, 0))
