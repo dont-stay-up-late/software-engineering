@@ -96,18 +96,18 @@ def settings(screen, clock, isBgmOn):
                     and y > bgmOnPos0[1] and y < bgmOnPos0[1] + onButton.get_height():
                     # here to turn on bgm
                     # 这里要加上对应的逻辑
-                    if not bgmFlag:
-                        bgmFlag = True
-                        closeBgm
+                    if bgmFlag:
+                        bgmFlag = False
+                        closeBgm()
 
 
                 if x > bgmOffPos0[0] and x < bgmOffPos0[0] + offButton.get_width() \
                     and y > bgmOffPos0[1] and y < bgmOffPos0[1] + offButton.get_height():
                     # here to turn off bgm
                     #需要加上对应逻辑
-                    if bgmFlag:
-                        bgmFlag = False
-                        closeBgm
+                    if not bgmFlag:
+                        bgmFlag = True
+                        closeBgm()
 
 
         screen.blit(background, (0, 0))
