@@ -91,12 +91,14 @@ def initialMenu(screen, clock):
 
                 if x > helpPos0[0] and x < helpPos0[0] + helpButton.get_width() \
                         and y > helpPos0[1] and y < helpPos0[1] + helpButton.get_height():
-                    print('game help!')
+                    from help import help
+                    help(screen, clock)
                     # here to start the help function
 
                 if x > settingPos0[0] and x < settingPos0[0] + settingButton.get_width() \
                         and y > settingPos0[1] and y < settingPos0[1] + settingButton.get_height():
-                    print('game setting!')
+                    from settings import settings
+                    screen, isBgmOn = settings(screen, clock, False)
                     # here to the setting function
 
                 elif x > quitPos0[0] and x < quitPos0[0] + quitButton.get_width() \

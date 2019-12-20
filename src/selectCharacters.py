@@ -13,7 +13,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     playBgm(1)
     # 编队
     CharID = []     #存储选中的角色编号，传入到战斗界面
-    totalNum = 5    #可选中角色总数
+    totalNum = 6    #可选中角色总数
     chooseNum = 0   #选中的角色数量
     characterFlamePos = []   #人物框的位置
     characterPic0 = []   #未上锁的人物图片
@@ -21,7 +21,7 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathNotLocked = []  #未上锁人物图路径
     loadpathLocked = [] #上锁人物图路径
     charInfoList = []   # 人物信息
-    charactersInTeam = [1, 1, 1, 1, 1]    #人物状态，是否编入队伍，是为0,否为1
+    charactersInTeam = [1, 1, 1, 1, 1, 1]    #人物状态，是否编入队伍，是为0,否为1
     modeIntroAddress = path("res/pic/modeintro" + str(modeID) + ".png")
 
     # 图片及位置
@@ -58,17 +58,20 @@ def selectCharacters(screen, clock, modeID, mapID):
     loadpathNotLocked.append(path("res/character/gansidui{}.png".format(side)))
     loadpathNotLocked.append(path("res/character/pangdun{}.png".format(side)))
     loadpathNotLocked.append(path("res/character/yaojishi{}.png".format(side)))
+    loadpathNotLocked.append(path("res/character/bomb{}.png".format(side)))
     loadpathLocked.append(path("res/character/pingmin{}s.png".format(side)))
     loadpathLocked.append(path("res/character/gongtou{}s.png".format(side)))
     loadpathLocked.append(path("res/character/gansidui{}s.png".format(side)))
     loadpathLocked.append(path("res/character/pangdun{}s.png".format(side)))
     loadpathLocked.append(path("res/character/yaojishi{}s.png".format(side)))
+    loadpathLocked.append(path("res/character/bomb{}s.png".format(side)))
 
     charInfoList.append(pygame.image.load(path("res/charinfo/pingmin{}.png".format(side))).convert_alpha())
     charInfoList.append(pygame.image.load(path("res/charinfo/gongtou{}.png".format(side))).convert_alpha())
     charInfoList.append(pygame.image.load(path("res/charinfo/gansidui{}.png".format(side))).convert_alpha())
     charInfoList.append(pygame.image.load(path("res/charinfo/pangdun{}.png".format(side))).convert_alpha())
     charInfoList.append(pygame.image.load(path("res/charinfo/yaojishi{}.png".format(side))).convert_alpha())
+    charInfoList.append(pygame.image.load(path("res/charinfo/bomb{}.png".format(side))).convert_alpha())
 
     for i in range(0, totalNum):
         characterPic0.append(pygame.image.load(loadpathNotLocked[i]).convert_alpha())

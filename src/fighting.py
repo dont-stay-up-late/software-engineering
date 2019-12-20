@@ -106,10 +106,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
     toolssurePos = (1085, 440)
     toolscancelPos = (1085, 500)
     # 不同角色的路径关键词缀
-    stringOfCharacters = ["pingmin","gongtou","gansidui","pangdun","yaojishi"]
+    stringOfCharacters = ["pingmin","gongtou","gansidui","pangdun","yaojishi", "bomb"]
     characterFlame = pygame.image.load(path("res/battle/charflame.png")).convert_alpha()
     # 人物框
-    characterNum = len(CharID)
+    characterNum = len(CharID)    # 选取的人物数量
+    totolNum = 6   #人物总数
     characterPos = []
     # 上锁图与未上锁图
     characterUnlockedPic = []
@@ -142,8 +143,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 防守方人物所需要的冷却
     defenderNeededCD =[]
     # 按人物编号所依次需要的费用和冷却
-    defenderCostOfAll = [10,20,10,18,25]
-    defenderCdOfAll = [15,60,10,25,80]
+    defenderCostOfAll = [10,20,10,18,25,28]
+    defenderCdOfAll = [15,60,10,25,80,120]
     # 对应进攻方人物最后放置的时间，单位为ms，下标为已选择的人物的编号
     attackerLastCD = []
     # 进攻方人物所需要的费用
@@ -151,8 +152,8 @@ def startFight(screen, clock, modeID, mapID, CharID):
     # 进攻方人物所需要的冷却
     attackerNeededCD =[]
     # 按人物编号所依次需要的费用和冷却
-    attackerCostOfAll = [10,20,15,18,25]
-    attackerCdOfAll = [10,30,10,25,80]
+    attackerCostOfAll = [10,20,15,18,25,28]
+    attackerCdOfAll = [10,30,10,25,80,90]
     # 选取的角色编号（为CharID列表中的下标，如果为-1，表示未选取）
     characterSelectedID = -1
     # 选取的坐标编号（取整数），[-1，-1]为未选取
@@ -181,7 +182,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
         attackerCost.append(attackerCostOfAll[CharID[i]])
         attackerNeededCD.append(attackerCdOfAll[CharID[i]])
         attackerLastCD.append(startTime - attackerNeededCD[i] * 1000)
-    for i in range(5):
+    for i in range(totolNum):
         # 进攻与防守方人物贴图,默认朝右
         defenderPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b0.png")).convert_alpha())
         defenderDetectPic.append(pygame.image.load(path("res/character/" + stringOfCharacters[i] + "b1.png")).convert_alpha())
@@ -223,7 +224,7 @@ def startFight(screen, clock, modeID, mapID, CharID):
     defendersInfomation = []
     attackersInfomation = []
     blocksInfomation = []
-    for i in range(5):
+    for i in range(totolNum):
         defendersInfomation.append(pygame.image.load(path("res/fightinginfo/" + stringOfCharacters[i] + "b.png")).convert_alpha())
         attackersInfomation.append(pygame.image.load(path("res/fightinginfo/" + stringOfCharacters[i] + "r.png")).convert_alpha())
     charactersInfomationPos = (0, 0)
@@ -232,6 +233,13 @@ def startFight(screen, clock, modeID, mapID, CharID):
         blocksInfomation.append(pygame.image.load(path("res/fightinginfo/" + str(i) + ".png")).convert_alpha())
     blocksInfomationPos = (0, 400)
 
+    # 用于描述炸弹人状态的量
+    # bombbborn = []
+    # bombbcoordinate = []
+    # bombrdie = []
+    # bombrcoordinate = []
+    bombbPic = pygame.image.load(path("res/character/bombb3.png")).convert_alpha()
+    bombrPic = pygame.image.load(path("res/character/bombr3.png")).convert_alpha()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -349,6 +357,13 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 defenders.append(PharmacistDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
                                                                 (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
                                 defendersID.append(4)
+                            if CharID[characterSelectedID] == 5:
+                                defenders.append(BombDefender(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                                                (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], i))
+                                defendersID.append(5)
+                                # bombbborn.append(time.time())
+                                # bombbcoordinate.append((coordinateSelected[0]*mapload.blockSize+mapload.xBegin,coordinateSelected[1]*mapload.blockSize+mapload.yBegin))
+
                             mapload.maps[coordinateSelected[1]][coordinateSelected[0]].isPlantOn = True
                             controller.money['Defend'] -= defenderCost[characterSelectedID]
                             defenderLastCD[characterSelectedID] = curTime
@@ -387,6 +402,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 attackers.append(PharmacistAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
                                     (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                                 attackersID.append(4)
+                            if CharID[characterSelectedID] == 5:
+                                attackers.append(BombAttacker(controller,[(coordinateSelected[0] + 0.5) * mapload.blockSize + mapload.xBegin, \
+                                    (coordinateSelected[1] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
+                                attackersID.append(5)
+
                             attackerPicOld.append(attackerPic[CharID[characterSelectedID]])
                             attackerAttackPicOld.append(attackerAttackPic[CharID[characterSelectedID]])
                             attackerDetectPicOld.append(attackerDetectPic[CharID[characterSelectedID]])
@@ -471,6 +491,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             attackers.append(PharmacistAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder]-1][1] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (mapload.bornPoints[attackerPlan[2][attackerOrder]-1][0] + 0.5) * mapload.blockSize + mapload.yBegin], 0))
                             attackersID.append(4)
+                        elif attackerPlan[1][attackerOrder] == 5:
+                            attackers.append(BombAttacker(controller, [(mapload.bornPoints[attackerPlan[2][attackerOrder] - 1][1] + 0.5) * mapload.blockSize + mapload.xBegin, (mapload.bornPoints[ \
+                                                                                  attackerPlan[2][attackerOrder] - 1][0] + 0.5) * mapload.blockSize + mapload.yBegin],0))
+                            attackersID.append(5)
                         attackerPicOld.append(attackerPic[attackerPlan[1][attackerOrder]])
                         attackerAttackPicOld.append(attackerAttackPic[attackerPlan[1][attackerOrder]])
                         attackerDetectPicOld.append(attackerDetectPic[attackerPlan[1][attackerOrder]])
@@ -502,6 +526,12 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             defenders.append(PharmacistDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
                                                                            (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
                             defendersID.append(4)
+                        elif defenderPlan[1][defenderOrder] == 5:
+                            defenders.append(BombDefender(controller, [(defenderPlan[2][defenderOrder] + 0.5) * mapload.blockSize + mapload.xBegin,
+                                (defenderPlan[3][defenderOrder] + 0.5) * mapload.blockSize + mapload.yBegin], defenderPlan[4][defenderOrder]))
+                            defendersID.append(5)
+                            # bombbborn.append(time.time())
+                            # bombbcoordinate.append((defenderPlan[2][defenderOrder] * mapload.blockSize + mapload.xBegin, defenderPlan[3][defenderOrder] * mapload.blockSize + mapload.yBegin))
                         mapload.maps[defenderPlan[3][defenderOrder]][defenderPlan[2][defenderOrder]].isPlantOn = True
                         defenderOrder += 1
                         if defenderOrder >= len(defenderPlan[0]):
@@ -561,7 +591,11 @@ def startFight(screen, clock, modeID, mapID, CharID):
                 for attacker in attackers:
                     if attacker.hp <= 0:
                         # 角色死亡，将角色及对应编号移出列表
+
                         k = attackers.index(attacker)
+                        if attackersID[k] == 5:
+                            bombrdie.append(time.time())
+                            bombrcoordinate.append(attacker.position)
                         attackers.remove(attacker)
                         del attackerPicOld[k]
                         del attackerDetectPicOld[k]
@@ -620,35 +654,58 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         hpPicIndex = min(int((defender.hp - 1) // (defender.HP * 0.1)), 9)
                         if hpPicIndex < 0:
                             hpPicIndex = 0
-                        if defender.attacking_flag == False:
-                            if counts % 20 <= 9:
-                                if defender.direction == 1:
-                                    screen.blit(defenderPicLeft[defendersID[k]], (x - 2 + 10, y + 10))
-                                else:
-                                    screen.blit(defenderPic[defendersID[k]], (x - 2 + 10, y + 10))
-                                screen.blit(hpPic[hpPicIndex], (x + 2, y - 6))
-                            else:
-                                if defender.direction == 1:
-                                    screen.blit(defenderPicLeft[defendersID[k]], (x + 2 + 10, y + 10))
-                                else:
-                                    screen.blit(defenderPic[defendersID[k]], (x + 2 + 10, y + 10))
-                                screen.blit(hpPic[hpPicIndex], (x + 6, y - 6))
-                        else:
-                            if counts % (defender.attack_time * 40)  < defender.attack_time * 40 / 2:
-                                if defender.direction == 1:
+                        if defendersID[k] == 5:     #炸弹人动画需要单独演示
+                            if defender.direction == 1:
+                                if time.time()-defender.last_created_time >= 1.0 and time.time()-defender.last_created_time <= 1.3:
+                                    screen.blit(defenderAttackPicLeft[defendersID[k]],(x+10,y+10))
+                                elif time.time()-defender.last_created_time >= 0.5 and time.time()-defender.last_created_time <= 1.0:
                                     screen.blit(defenderDetectPicLeft[defendersID[k]], (x + 10, y + 10))
-                                else:
-                                    screen.blit(defenderDetectPic[defendersID[k]], (x + 10, y + 10))
+                                elif time.time()-defender.last_created_time >= 0.0 and defender.last_created_time <= 0.5:
+                                    screen.blit(defenderPicLeft[defendersID[k]], (x + 10, y + 10))
+                                elif time.time()-defender.last_created_time >= 1.3 and time.time()-defender.last_created_time <= 1.5:
+                                    screen.blit(bombbPic, (x, y))
                                 screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
                             else:
-                                if defender.direction == 1:
-                                    screen.blit(defenderAttackPicLeft[defendersID[k]], (x + 10, y + 10))
-                                else:
-                                    screen.blit(defenderAttackPic[defendersID[k]], (x + 10, y + 10))
+                                if time.time()-defender.last_created_time >= 1.0 and time.time()-defender.last_created_time <= 1.3:
+                                    screen.blit(defenderAttackPic[defendersID[k]],(x+10,y+10))
+                                elif time.time()-defender.last_created_time >= 0.5 and time.time()-defender.last_created_time <= 1.0:
+                                    screen.blit(defenderDetectPic[defendersID[k]], (x + 10, y + 10))
+                                elif time.time()-defender.last_created_time >= 0.0 and time.time()-defender.last_created_time <= 0.5:
+                                    screen.blit(defenderPic[defendersID[k]], (x + 10, y + 10))
+                                elif time.time()-defender.last_created_time >= 1.3 and time.time()-defender.last_created_time <= 1.5:
+                                    screen.blit(bombbPic, (x + 20, y + 10))
                                 screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
 
-                        # print("The image location is : %f,%f"%(x,y))
-                        # print("The attacks[%d]'s HP is : %d" % (i, attackers[i].hp))
+                        else:
+                            if defender.attacking_flag == False:
+                                if counts % 20 <= 9:
+                                    if defender.direction == 1:
+                                        screen.blit(defenderPicLeft[defendersID[k]], (x - 2 + 10, y + 10))
+                                    else:
+                                        screen.blit(defenderPic[defendersID[k]], (x - 2 + 10, y + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 2, y - 6))
+                                else:
+                                    if defender.direction == 1:
+                                        screen.blit(defenderPicLeft[defendersID[k]], (x + 2 + 10, y + 10))
+                                    else:
+                                        screen.blit(defenderPic[defendersID[k]], (x + 2 + 10, y + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 6, y - 6))
+                            else:
+                                if counts % (defender.attack_time * 40)  < defender.attack_time * 40 / 2:
+                                    if defender.direction == 1:
+                                        screen.blit(defenderDetectPicLeft[defendersID[k]], (x + 10, y + 10))
+                                    else:
+                                        screen.blit(defenderDetectPic[defendersID[k]], (x + 10, y + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+                                else:
+                                    if defender.direction == 1:
+                                        screen.blit(defenderAttackPicLeft[defendersID[k]], (x + 10, y + 10))
+                                    else:
+                                        screen.blit(defenderAttackPic[defendersID[k]], (x + 10, y + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+
+                            # print("The image location is : %f,%f"%(x,y))
+                            # print("The attacks[%d]'s HP is : %d" % (i, attackers[i].hp))
                 # 更新进攻方图片
                 for attacker in attackers:
                         x = attacker.position[0] - 0.5 * mapload.blockSize
@@ -658,48 +715,155 @@ def startFight(screen, clock, modeID, mapID, CharID):
                         hpPicIndex = min(int((attacker.hp - 1) // (attacker.HP * 0.1)), 9)
                         if hpPicIndex < 0:
                             hpPicIndex = 0
-                        if attacker.attacking_flag == False:
-                            if counts % 20 <= 12:
+                        if attackersID == 5:
+                            if attacker.hp >= 20:
+                                if attacker.attacking_flag == False:
+                                    if counts % 20 <= 12:
+                                        if attacker.direction == 1:
+                                            screen.blit(attackerPicLeft[attackersID[k]], (x + 10, y + 10))
+                                            attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                            attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
+                                            attackerAttackPicOld[k] = attackerAttackPicLeft[attackersID[k]]
+                                        elif attacker.direction == 3:
+                                            screen.blit(attackerPic[attackersID[k]], (x + 10, y + 10))
+                                            attackerPicOld[k] = attackerPic[attackersID[k]]
+                                            attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
+                                            attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
+                                        else:
+                                            screen.blit(attackerPicOld[k], (x + 10, y + 10))
+                                        screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+                                    else:
+                                        if attacker.direction == 1:
+                                            screen.blit(attackerPicLeft[attackersID[k]], (x + 10, y - 4 + 10))
+                                            attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                            attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
+                                            attackerAttackPicOld[k] = attackerAttackPicLeft[attackersID[k]]
+                                        elif attacker.direction == 3:
+                                            screen.blit(attackerPic[attackersID[k]], (x + 10, y - 4 + 10))
+                                            attackerPicOld[k] = attackerPic[attackersID[k]]
+                                            attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
+                                            attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
+                                        else:
+                                            screen.blit(attackerPicOld[k], (x + 10, y - 4 + 10))
+                                        screen.blit(hpPic[hpPicIndex], (x + 4, y - 9))
+                                else:
+                                    if counts % (attacker.attack_time * 40) < attacker.attack_time * 40 / 2:
+                                        if attacker.direction == 1:
+                                            screen.blit(attackerDetectPicLeft[attackersID[k]], (x + 10, y + 10))
+                                            attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                            attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
+                                            attackerAttackPicOld[k] = attackerAttackPicLeft[attackersID[k]]
+                                        elif attacker.direction == 3:
+                                            screen.blit(attackerDetectPic[attackersID[k]], (x + 10, y + 10))
+                                            attackerPicOld[k] = attackerPic[attackersID[k]]
+                                            attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
+                                            attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
+                                        else:
+                                            screen.blit(attackerDetectPicOld[k], (x + 10, y + 10))
+                                        screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+                                    else:
+                                        if attacker.direction == 1:
+                                            screen.blit(attackerAttackPicLeft[attackersID[k]], (x + 10, y + 10))
+                                            attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                            attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
+                                            attackerAttackPicOld[k] = attackerAttackPicLeft[attackersID[k]]
+                                        elif attacker.direction == 3:
+                                            screen.blit(attackerAttackPic[attackersID[k]], (x + 10, y + 10))
+                                            attackerPicOld[k] = attackerPic[attackersID[k]]
+                                            attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
+                                            attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
+                                        else:
+                                            screen.blit(attackerAttackPicOld[k], (x + 10, y + 10))
+                                        screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+                            elif attacker.hp >= 15 :
                                 if attacker.direction == 1:
                                     screen.blit(attackerPicLeft[attackersID[k]], (x + 10, y + 10))
                                     attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                    attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
+                                    attackerAttackPicOld[k] = attackerAttackPicLeft[attackersID[k]]
                                 elif attacker.direction == 3:
                                     screen.blit(attackerPic[attackersID[k]], (x + 10, y + 10))
                                     attackerPicOld[k] = attackerPic[attackersID[k]]
+                                    attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
+                                    attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
                                 else:
                                     screen.blit(attackerPicOld[k], (x + 10, y + 10))
                                 screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
-                            else:
-                                if attacker.direction == 1:
-                                    screen.blit(attackerPicLeft[attackersID[k]], (x + 10, y - 4 + 10))
-                                    attackerPicOld[k] = attackerPicLeft[attackersID[k]]
-                                elif attacker.direction == 3:
-                                    screen.blit(attackerPic[attackersID[k]], (x + 10, y - 4 + 10))
-                                    attackerPicOld[k] = attackerPic[attackersID[k]]
-                                else:
-                                    screen.blit(attackerPicOld[k], (x + 10, y - 4 + 10))
-                                screen.blit(hpPic[hpPicIndex], (x + 4, y - 9))
-                        else:
-                            if counts % (attacker.attack_time * 40) < attacker.attack_time * 40 / 2:
-                                if attacker.direction == 1:
-                                    screen.blit(attackerDetectPicLeft[attackersID[k]], (x + 10, y + 10))
-                                    attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
-                                elif attacker.direction == 3:
-                                    screen.blit(attackerDetectPic[attackersID[k]], (x + 10, y + 10))
-                                    attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
-                                else:
-                                    screen.blit(attackerDetectPicOld[k], (x + 10, y + 10))
-                                screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
-                            else:
+                            elif attacker.hp >= 10:
+                                if counts % (attacker.attack_time * 40) < attacker.attack_time * 40 / 2:
+                                    if attacker.direction == 1:
+                                        screen.blit(attackerDetectPicLeft[attackersID[k]], (x + 10, y + 10))
+                                        attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                        attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
+                                        attackerAttackPicOld[k] = attackerAttackPicLeft[attackersID[k]]
+                                    elif attacker.direction == 3:
+                                        screen.blit(attackerDetectPic[attackersID[k]], (x + 10, y + 10))
+                                        attackerPicOld[k] = attackerPic[attackersID[k]]
+                                        attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
+                                        attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
+                                    else:
+                                        screen.blit(attackerDetectPicOld[k], (x + 10, y + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+                            elif attacker.hp >= 5:
                                 if attacker.direction == 1:
                                     screen.blit(attackerAttackPicLeft[attackersID[k]], (x + 10, y + 10))
+                                    attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                    attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
                                     attackerAttackPicOld[k] = attackerAttackPicLeft[attackersID[k]]
                                 elif attacker.direction == 3:
                                     screen.blit(attackerAttackPic[attackersID[k]], (x + 10, y + 10))
+                                    attackerPicOld[k] = attackerPic[attackersID[k]]
+                                    attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
                                     attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
                                 else:
                                     screen.blit(attackerAttackPicOld[k], (x + 10, y + 10))
                                 screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+                            elif attacker.hp >= 0:
+                                screen.blit(bombrPic, (x + 20 ,y + 10))
+
+                        else:
+                            if attacker.attacking_flag == False:
+                                if counts % 20 <= 12:
+                                    if attacker.direction == 1:
+                                        screen.blit(attackerPicLeft[attackersID[k]], (x + 10, y + 10))
+                                        attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                    elif attacker.direction == 3:
+                                        screen.blit(attackerPic[attackersID[k]], (x + 10, y + 10))
+                                        attackerPicOld[k] = attackerPic[attackersID[k]]
+                                    else:
+                                        screen.blit(attackerPicOld[k], (x + 10, y + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+                                else:
+                                    if attacker.direction == 1:
+                                        screen.blit(attackerPicLeft[attackersID[k]], (x + 10, y - 4 + 10))
+                                        attackerPicOld[k] = attackerPicLeft[attackersID[k]]
+                                    elif attacker.direction == 3:
+                                        screen.blit(attackerPic[attackersID[k]], (x + 10, y - 4 + 10))
+                                        attackerPicOld[k] = attackerPic[attackersID[k]]
+                                    else:
+                                        screen.blit(attackerPicOld[k], (x + 10, y - 4 + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 4, y - 9))
+                            else:
+                                if counts % (attacker.attack_time * 40) < attacker.attack_time * 40 / 2:
+                                    if attacker.direction == 1:
+                                        screen.blit(attackerDetectPicLeft[attackersID[k]], (x + 10, y + 10))
+                                        attackerDetectPicOld[k] = attackerDetectPicLeft[attackersID[k]]
+                                    elif attacker.direction == 3:
+                                        screen.blit(attackerDetectPic[attackersID[k]], (x + 10, y + 10))
+                                        attackerDetectPicOld[k] = attackerDetectPic[attackersID[k]]
+                                    else:
+                                        screen.blit(attackerDetectPicOld[k], (x + 10, y + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
+                                else:
+                                    if attacker.direction == 1:
+                                        screen.blit(attackerAttackPicLeft[attackersID[k]], (x + 10, y + 10))
+                                        attackerAttackPicOld[k] = attackerAttackPicLeft[attackersID[k]]
+                                    elif attacker.direction == 3:
+                                        screen.blit(attackerAttackPic[attackersID[k]], (x + 10, y + 10))
+                                        attackerAttackPicOld[k] = attackerAttackPic[attackersID[k]]
+                                    else:
+                                        screen.blit(attackerAttackPicOld[k], (x + 10, y + 10))
+                                    screen.blit(hpPic[hpPicIndex], (x + 4, y - 6))
                         # print("The image location is : %f,%f"%(x,y))
                         # print("The attackers's HP is : %d" % (attacker.hp))
                 # 进行轨道切换确认
@@ -762,6 +926,15 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                                 screen.blit(font.render(str(PharmacistDefender.SPECIAL_INTERVAL) + "/" + str(PharmacistDefender.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
+                            elif CharID[characterSelectedID] == 5:
+                                screen.blit(font.render(str(BombDefender.HP) + "/" + str(BombDefender.HP), True, (112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(BombDefender.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
+                                screen.blit(font.render(str(BombDefender.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
+                                screen.blit(font.render(str(BombDefender.SPEED), True, (112, 76, 29)), (80, 162))
+                                screen.blit(font.render(str(BombDefender.ATTACK_SPEED), True, (112, 76, 29)),(210, 162))
+                                screen.blit(font.render(str(defenderCost[characterSelectedID]), True, (112, 76, 29)),(80, 192))
+                                CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
+                                screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                     else:
                         # 选择的是地图中的防守方
                         if characterSelectedID >= 0:
@@ -838,6 +1011,17 @@ def startFight(screen, clock, modeID, mapID, CharID):
                                 CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
                                 screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
                                 screen.blit(font.render(str(PharmacistAttacker.SPECIAL_INTERVAL) + "/" + str(PharmacistAttacker.SPECIAL_INTERVAL), True, (112, 76, 29)), (130, 370))
+                            elif CharID[characterSelectedID] == 5:
+                                screen.blit(font.render(str(BombAttacker.HP) + "/" + str(BombDefender.HP), True,(112, 76, 29)), (80, 102))
+                                screen.blit(font.render(str(BombAttacker.ATTACK_POWER), True, (112, 76, 29)),(80, 132))
+                                screen.blit(font.render(str(BombAttacker.DEFEND_POWER), True, (112, 76, 29)),(210, 132))
+                                screen.blit(font.render(str(BombAttacker.SPEED), True, (112, 76, 29)), (80, 162))
+                                screen.blit(font.render(str(BombAttacker.ATTACK_SPEED), True, (112, 76, 29)),(210, 162))
+                                screen.blit(font.render(str(defenderCost[characterSelectedID]), True, (112, 76, 29)),(80, 192))
+                                CDLEFT = max(0, int(math.ceil(defenderNeededCD[characterSelectedID] - (curTime - defenderLastCD[characterSelectedID]) / 1000)))
+                                screen.blit(font.render(str(CDLEFT) + "/" + str(defenderNeededCD[characterSelectedID]) + "s",True, (112, 76, 29)), (130, 222))
+
+
                     else:
                         # 选择的是地图中的防守方
                         if characterSelectedID >= 0:

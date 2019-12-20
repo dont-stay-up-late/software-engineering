@@ -414,7 +414,7 @@ class BombDefender(Defender):
     last_created_time = 0
     SPECIAL_INTERVAL = 1.5  # seconds
     HP = 200
-    ATTACK_POWER = 20
+    ATTACK_POWER = 0
     DEFEND_POWER = 0
     reach_model = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]
     SPEED = 0
@@ -426,7 +426,7 @@ class BombDefender(Defender):
         super().__init__(controller, position, direction)
         self.type = 'BombDefender'
         self.attack_power = self.ATTACK_POWER
-        self.attack_time = 2
+        self.attack_time = 10000
         self.defend_power = self.DEFEND_POWER
         self.hp = self.HP
         self.cost = 28
@@ -746,12 +746,12 @@ class BombAttacker(Attacker):
     """
     last_created_time = 0
     HP = 210
-    ATTACK_POWER = 15
+    ATTACK_POWER = 20
     SPECIAL_ATTACK_POWER = 380
     DEFEND_POWER = 0
     SPEED = 1.0
     ATTACK_SPEED = 1.0
-    reach_model = [(0, 0), (0, 1), (0, 2)]
+    reach_model = [(0, 0)]
     special_reach_model = [(-1, 0), (0, -1), (0, 0), (0, 1), (1, 0)]
     filename = path('res/mapnum/Mapnum1_0.png')
 
