@@ -4,6 +4,8 @@ from pygame.locals import *
 from selectMode import *
 from path import path
 from bgm import playBgm
+from help import help
+from settings import *
 
 # 主菜单初始化
 def initialMenu(screen, clock):
@@ -99,6 +101,7 @@ def initialMenu(screen, clock):
                         and y > settingPos0[1] and y < settingPos0[1] + settingButton.get_height():
                     from settings import settings
                     screen, isBgmOn = settings(screen, clock, False)
+                    settings(screen, clock, True)
                     # here to the setting function
 
                 elif x > quitPos0[0] and x < quitPos0[0] + quitButton.get_width() \
