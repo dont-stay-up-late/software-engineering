@@ -305,6 +305,10 @@ def startFight(screen, clock, modeID, mapID, CharID):
                             controller.money['Defend'] += target.cost // 2
                             target.die()
                             defenders.remove(target)
+                            mapload.maps[mapload.positionToBlock([target.position[0], target.position[1]])[1]][
+                                mapload.positionToBlock([target.position[0], target.position[1]])[
+                                    0]].isPlantOn = False
+                            del defendersID[defenders.index(target)]
                             selectingAmbulanceTarget = False
                             skip = True
                             coordinateSelected = [-1, -1]
