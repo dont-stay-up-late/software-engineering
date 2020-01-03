@@ -5,14 +5,14 @@ from path import path
 #地图图片的加载初始化
 def mapDisplayInitial(map,screen):
 	#图像的名称转换，包含6种不同的状态
-	homeImageFile = path("image/home.png")
-	bornPointImageFile = path("image/born.png")
-	zeroImageFile = path("image/4.jpg")
-	oneImageFile = path("image/1.jpg")
-	twoImageFile = path("image/3.jpg")
-	threeImageFile = path("image/2.jpg")
-	sixImageFile = path("image/6.png")
-	arrowImageFile = [path("image/arrow0.png"),path("image/arrow1.png"),path("image/arrow2.png"),path("image/arrow3.png")]
+	homeImageFile = path("res/mapblock/home.png")
+	bornPointImageFile = path("res/mapblock/born.png")
+	zeroImageFile = path("res/mapblock/4.jpg")
+	oneImageFile = path("res/mapblock/1.jpg")
+	twoImageFile = path("res/mapblock/3.jpg")
+	threeImageFile = path("res/mapblock/2.jpg")
+	sixImageFile = path("res/mapblock/6.png")
+	arrowImageFile = [path("res/mapblock/arrow0.png"),path("res/mapblock/arrow1.png"),path("res/mapblock/arrow2.png"),path("res/mapblock/arrow3.png")]
 
 	#加载并转换图像
 	homeImage_init = pygame.image.load(homeImageFile).convert_alpha()
