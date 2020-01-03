@@ -36,7 +36,10 @@ def settings(screen, clock, isBgmOn):
     bgmOnPos1 = (660, 345)
     bgmOffPos0 = (727, 350)
     bgmOffPos1 = (727, 345)
-
+    fullscreenOnPos = fullscreenOnPos0
+    fullscreenOffPos = fullscreenOffPos0
+    bgmOnPos = bgmOnPos0
+    bgmOffPos = bgmOffPos0
     while True:
         for event in pygame.event.get():
             x, y = pygame.mouse.get_pos()

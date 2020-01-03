@@ -1,0 +1,1 @@
+可执行程序位于dist\main\main.exe，由于pyinstaller打包过程中bgm会报错pygame.error，所以这个可执行程序没有bgm，若要聆听bgm可以执行源码。
