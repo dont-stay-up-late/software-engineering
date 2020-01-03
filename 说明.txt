@@ -1,0 +1,4 @@
+doc为项目文档
+res为资源文件
+runexe为打包的exe文件
+src为源代码，main为主程序
